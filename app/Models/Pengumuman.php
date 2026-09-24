@@ -8,18 +8,18 @@ class Pengumuman extends Model
 {
     protected $table = 'pengumuman';
     protected $primaryKey = 'id_pengumuman';
-    public $timestamps = false;
+    public $timestamps = true;   // ✅ Migration pakai timestamps()
 
     protected $fillable = [
         'judul',
         'isi',
         'tanggal',
         'status',
-        'id_users',
-
+        'id_user',   // ✅
     ];
 
-    public function user(){
-        return $this->belongsTo(User::class, 'id_users', 'is_users');
+    public function user()
+    {
+        return $this->belongsTo(User::class, 'id_user', 'id_user');   // ✅
     }
 }

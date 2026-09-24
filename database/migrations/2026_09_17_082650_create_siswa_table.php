@@ -11,8 +11,12 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('siswa', function (Blueprint $table) {
-            $table->id();
+         Schema::create('siswa', function (Blueprint $table) {
+            $table->id('id_siswa');
+            $table->string('nisn', 10)->unique();
+            $table->string('nama_siswa', 40);
+            $table->enum('jenis_kelamin', ['Laki-Laki', 'Perempuan']);
+            $table->year('tahun_masuk')->nullable();
             $table->timestamps();
         });
     }

@@ -11,20 +11,20 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('berita', function (Blueprint $table) {
+       Schema::create('berita', function (Blueprint $table) {
             $table->uuid('id_berita')->primary();
             $table->string('judul');
             $table->text('isi');
             $table->date('tanggal');
             $table->string('gambar');
-            $table->enum('status',['Publish','Draft']);
-            $table->unsignedInteger('id_user')->nullable(); 
-            $table->foreignId('id_user')
-                ->references('id_user') 
-                ->on('id_user')
-                ->onUpdate('cascade')
-                ->onDelete('set null');
+            $table->enum('status', ['Publish', 'Draft'])->default('Draft');
+            $table->uuid('id_user')->nullable();   // ✅ UUID, bukan integer
             $table->timestamps();
+
+            $table->foreign('id_user')             // ✅ foreign key
+                  ->references('id_user')->on('users')  // ✅ on('users'), nama TABEL
+                  ->onUpdate('cascade')
+                  ->onDelete('set null');
         });
     }
 
