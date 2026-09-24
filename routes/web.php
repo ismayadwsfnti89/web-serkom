@@ -4,46 +4,36 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\SiswaController;
 use App\Http\Controllers\GuruController;
+use App\Http\Controllers\EkstrakurikulerController;
+use App\Http\Controllers\PrestasiController;
+use App\Http\Controllers\GaleriController;
+use App\Http\Controllers\BeritaController;
+use App\Http\Controllers\PengumumanController;
+use App\Http\Controllers\ProfileSekolahController;
 
 // ===== AUTH =====
 Route::get('/login', [AuthController::class, 'showLogin'])->name('login');
 Route::post('/login', [AuthController::class, 'login'])->name('login.post');
 Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
 
-// ===== PROTECTED (harus login) =====
+// ===== PROTECTED =====
 Route::middleware('auth')->group(function () {
 
-    Route::get('/', function () {
-        return redirect()->route('dashboard');
-    });
+    Route::get('/', fn() => redirect()->route('dashboard'));
+    Route::get('/dashboard', fn() => view('dashboard.index'))->name('dashboard');
 
-    Route::get('/dashboard', function () {
-        return view('dashboard.index');
-    })->name('dashboard');
-
+    // ===== CRUD YANG SUDAH JADI =====
     Route::resource('siswa', SiswaController::class);
     Route::resource('guru', GuruController::class);
-
-    // Placeholder
-    Route::prefix('ekskul')->name('ekskul.')->group(function () {
-        Route::get('/', fn() => 'Halaman Ekstrakurikuler - Coming Soon')->name('index');
-    });
-
-    Route::prefix('prestasi')->name('prestasi.')->group(function () {
-        Route::get('/', fn() => 'Halaman Prestasi - Coming Soon')->name('index');
-    });
-
-    Route::prefix('galeri')->name('galeri.')->group(function () {
-        Route::get('/', fn() => 'Halaman Galeri - Coming Soon')->name('index');
-    });
-
-    Route::prefix('berita')->name('berita.')->group(function () {
-        Route::get('/', fn() => 'Halaman Berita - Coming Soon')->name('index');
-    });
-
-    Route::prefix('pengumuman')->name('pengumuman.')->group(function () {
-        Route::get('/', fn() => 'Halaman Pengumuman - Coming Soon')->name('index');
-    });
-
-    Route::get('/profil-sekolah', fn() => 'Halaman Profil Sekolah - Coming Soon')->name('profil.edit');
+    Route::resource('ekskul', EkstrakurikulerController::class);
+    Route::resource('prestasi', PrestasiController::class);
+    Route::resource('galeri', GaleriController::class);
+    Route::resource('berita', BeritaController::class);
+    Route::resource('pengumuman', PengumumanController::class);
+    Route::get('/profil-sekolah', [ProfileSekolahController::class, 'edit'])->name('profil.edit');
+    Route::put('/profil-sekolah', [ProfileSekolahController::class, 'update'])->name('profil.update');
 });
+// ===== LANDING PAGE (publik) =====
+Route::get('/landing', function () {
+    return view('landing.index');
+})->name('landing');

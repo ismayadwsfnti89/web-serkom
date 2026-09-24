@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class Prestasi extends Model
 {
-    use HasUuids;   // ✅ karena UUID
+    use HasUuids;   
 
     protected $table = 'prestasi';
     protected $primaryKey = 'id_prestasi';

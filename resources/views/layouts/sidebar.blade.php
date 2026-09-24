@@ -84,16 +84,13 @@
         </div>
 
         <div class="menu-section">
-            <div class="menu-section-title">Akun</div>
+            <div class="menu-section-title">Lainnya</div>
             <ul class="nav flex-column">
                 <li class="nav-item">
-                    <form method="POST" action="{{ route('logout') }}">
-                        @csrf
-                        <button type="submit" class="nav-link" style="border:0;background:none;width:100%;text-align:left;">
-                            <i class="bi bi-box-arrow-right"></i>
-                            <span>Logout</span>
-                        </button>
-                    </form>
+                    <a class="nav-link" href="{{ route('landing') }}" target="_blank">
+                        <i class="bi bi-globe"></i>
+                        <span>Lihat Web</span>
+                    </a>
                 </li>
             </ul>
         </div>

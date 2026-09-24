@@ -8,7 +8,7 @@ class Pengumuman extends Model
 {
     protected $table = 'pengumuman';
     protected $primaryKey = 'id_pengumuman';
-    public $timestamps = true;   // ✅ Migration pakai timestamps()
+    public $timestamps = true;   
 
     protected $fillable = [
         'judul',

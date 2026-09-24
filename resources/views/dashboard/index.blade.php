@@ -11,6 +11,71 @@
         <p class="text-muted">Selamat datang di Web Sekolah!</p>
     </div>
 
+    {{-- Profil Sekolah Card --}}
+    @php
+        $profil = \App\Models\ProfileSekolah::first();
+    @endphp
+
+    @if($profil)
+    <div class="row g-3 mb-4">
+        <div class="col-12">
+            <div class="dashboard-card">
+                <div class="d-flex align-items-center gap-4">
+                    @if($profil->logo)
+                        <img src="{{ asset('uploads/profil/' . $profil->logo) }}"
+                             alt="Logo Sekolah"
+                             style="width: 80px; height: 80px; object-fit: contain;">
+                    @else
+                        <div class="rounded-circle bg-primary bg-opacity-10 d-flex align-items-center justify-content-center"
+                             style="width: 80px; height: 80px;">
+                            <i class="bi bi-mortarboard-fill text-primary" style="font-size: 2rem;"></i>
+                        </div>
+                    @endif
+
+                    <div class="flex-grow-1">
+                        <h4 class="mb-1">{{ $profil->nama_sekolah ?? 'Web Sekolah' }}</h4>
+                        <p class="text-muted mb-1 small">
+                            <i class="bi bi-geo-alt me-1"></i>
+                            {{ $profil->alamat ?? 'Alamat belum diisi' }}
+                        </p>
+                        <p class="text-muted mb-0 small">
+                            <i class="bi bi-person-badge me-1"></i>
+                            Kepala Sekolah: {{ $profil->kepala_sekolah ?? '-' }}
+                            <span class="mx-2">•</span>
+                            <i class="bi bi-telephone me-1"></i>
+                            {{ $profil->kontak ?? '-' }}
+                            @if($profil->npsn)
+                                <span class="mx-2">•</span>
+                                <i class="bi bi-hash me-1"></i>
+                                NPSN: {{ $profil->npsn }}
+                            @endif
+                        </p>
+                    </div>
+
+                    <a href="{{ route('profil.edit') }}" class="btn btn-outline-primary">
+                        <i class="bi bi-pencil me-2"></i>Edit Profil
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+    @else
+    <div class="row g-3 mb-4">
+        <div class="col-12">
+            <div class="alert alert-warning d-flex align-items-center justify-content-between">
+                <div>
+                    <i class="bi bi-exclamation-triangle me-2"></i>
+                    <strong>Profil sekolah belum diisi.</strong>
+                    Silakan isi data profil sekolah terlebih dahulu.
+                </div>
+                <a href="{{ route('profil.edit') }}" class="btn btn-warning btn-sm">
+                    <i class="bi bi-plus-circle me-1"></i>Isi Profil
+                </a>
+            </div>
+        </div>
+    </div>
+    @endif
+
     {{-- Stats Cards --}}
     <div class="row g-3 mb-4">
         <div class="col-md-3">
