@@ -18,11 +18,11 @@ return new class extends Migration
             $table->date('tanggal');
             $table->string('gambar');
             $table->enum('status', ['Publish', 'Draft'])->default('Draft');
-            $table->uuid('id_user')->nullable();   // ✅ UUID, bukan integer
+            $table->uuid('id_user')->nullable();   
             $table->timestamps();
 
-            $table->foreign('id_user')             // ✅ foreign key
-                  ->references('id_user')->on('users')  // ✅ on('users'), nama TABEL
+            $table->foreign('id_user')
+                  ->references('id_user')->on('users')
                   ->onUpdate('cascade')
                   ->onDelete('set null');
         });

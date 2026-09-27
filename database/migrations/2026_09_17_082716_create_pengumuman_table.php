@@ -17,7 +17,7 @@ return new class extends Migration
             $table->text('isi')->nullable();
             $table->date('tanggal')->nullable();
             $table->enum('status', ['Publish', 'Draft'])->default('Draft');
-            $table->uuid('id_user')->nullable();   // ✅ UUID, bukan unsignedBigInteger
+            $table->uuid('id_user')->nullable();   
             $table->timestamps();
 
             $table->foreign('id_user')

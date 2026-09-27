@@ -2,6 +2,11 @@
 <nav class="navbar top-navbar d-flex align-items-center">
     <div class="container-fluid d-flex align-items-center">
 
+        {{-- Toggle Sidebar (Mobile) --}}
+        <button class="btn btn-light btn-sm d-lg-none me-2" type="button" id="sidebarToggle">
+            <i class="bi bi-list"></i>
+        </button>
+
         {{-- Breadcrumb --}}
         <nav aria-label="breadcrumb" class="d-none d-lg-block">
             <ol class="breadcrumb mb-0">
@@ -24,6 +29,14 @@
         {{-- Right Actions --}}
         <div class="d-flex align-items-center gap-2">
 
+            {{-- Lihat Website --}}
+            <a href="{{ route('landing') }}" target="_blank"
+               class="btn btn-light btn-sm d-none d-md-inline-flex align-items-center"
+               title="Lihat Website">
+                <i class="bi bi-globe2 me-1"></i>
+                <span class="d-none d-lg-inline">Lihat Website</span>
+            </a>
+
             {{-- Search --}}
             <button class="btn btn-light btn-sm" type="button">
                 <i class="bi bi-search"></i>
@@ -42,6 +55,7 @@
                 </ul>
             </div>
 
+            {{-- User Dropdown --}}
             <div class="dropdown">
                 <button class="btn btn-light btn-sm d-flex align-items-center" data-bs-toggle="dropdown">
                     <img src="https://ui-avatars.com/api/?name={{ Auth::user()->nama ?? 'Admin' }}&background=6366f1&color=fff&size=32"
@@ -53,13 +67,10 @@
                     <i class="bi bi-chevron-down ms-1"></i>
                 </button>
                 <ul class="dropdown-menu dropdown-menu-end">
-                    {{-- Info User --}}
                     <li class="px-3 py-2 border-bottom">
                         <div class="fw-semibold">{{ Auth::user()->nama ?? 'Admin' }}</div>
                         <small class="text-muted">{{ Auth::user()->role ?? 'Admin' }}</small>
                     </li>
-
-                    {{-- Menu --}}
                     <li>
                         <a class="dropdown-item" href="{{ route('profil.edit') }}">
                             <i class="bi bi-building me-2"></i>Profil Sekolah

@@ -2,16 +2,12 @@
 
 namespace App\Models;
 
-use Database\Factories\UserFactory;
-use Illuminate\Database\Eloquent\Concerns\HasUuids;
-use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
-use Illuminate\Notifications\Notifiable;
+use Illuminate\Database\Eloquent\Concerns\HasUuids;   // opsional
 
 class User extends Authenticatable
 {
-    /** @use HasFactory<UserFactory> */
-    use HasFactory, Notifiable, HasUuids;   // ✅ TAMBAH HasUuids
+    // use HasUuids;  // kalau mau auto-generate UUID
 
     protected $table = 'users';
     protected $primaryKey = 'id_user';
@@ -19,21 +15,18 @@ class User extends Authenticatable
     protected $keyType = 'string';
 
     protected $fillable = [
-        'nama',
-        'username',
-        'password',
-        'role',
+        'id_user', 'nama', 'username', 'password', 'role',
     ];
 
-    protected $hidden = [
-        'password',
-        'remember_token',
-    ];
+    protected $hidden = ['password'];
 
-    protected function casts(): array
+    public function isAdmin(): bool
     {
-        return [
-            'password' => 'hashed',
-        ];
+        return $this->role === 'admin';     // ← lowercase
+    }
+
+    public function isOperator(): bool
+    {
+        return $this->role === 'operator';  // ← lowercase
     }
 }

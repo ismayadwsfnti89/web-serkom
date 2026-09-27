@@ -1,13 +1,14 @@
 {{-- Sidebar --}}
 <aside class="sidebar" id="sidebar">
+    {{-- Brand --}}
     <div class="sidebar-brand">
-        <h5>
-            <i class="bi bi-mortarboard-fill me-2"></i>
-            Web Sekolah
-        </h5>
+        <h5>Web Sekolah</h5>
     </div>
 
+    {{-- Navigation --}}
     <nav class="sidebar-nav">
+
+        {{-- ===== MENU UTAMA ===== --}}
         <div class="menu-section">
             <div class="menu-section-title">Menu Utama</div>
             <ul class="nav flex-column">
@@ -19,19 +20,50 @@
                     </a>
                 </li>
                 <li class="nav-item">
+                    <a class="nav-link {{ request()->routeIs('landing') ? 'active' : '' }}"
+                       href="{{ route('landing') }}" target="_blank">
+                        <i class="bi bi-globe2"></i>
+                        <span>Lihat Website</span>
+                        <i class="bi bi-box-arrow-up-right ms-auto small"></i>
+                    </a>
+                </li>
+            </ul>
+        </div>
+
+        {{-- ===== DATA MASTER ===== --}}
+        <div class="menu-section">
+            <div class="menu-section-title">Data Master</div>
+            <ul class="nav flex-column">
+                <li class="nav-item">
                     <a class="nav-link {{ request()->routeIs('siswa.*') ? 'active' : '' }}"
                        href="{{ route('siswa.index') }}">
                         <i class="bi bi-people"></i>
-                        <span>Siswa</span>
+                        <span>Data Siswa</span>
                     </a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link {{ request()->routeIs('guru.*') ? 'active' : '' }}"
                        href="{{ route('guru.index') }}">
                         <i class="bi bi-person-badge"></i>
-                        <span>Guru</span>
+                        <span>Data Guru</span>
                     </a>
                 </li>
+                @if(Auth::check() && Auth::user()->role === 'admin')
+                <li class="nav-item">
+                    <a class="nav-link {{ request()->routeIs('user.*') ? 'active' : '' }}"
+                       href="{{ route('user.index') }}">
+                        <i class="bi bi-person-gear"></i>
+                        <span>Manajemen User</span>
+                    </a>
+                </li>
+                @endif
+            </ul>
+        </div>
+
+        {{-- ===== KEGIATAN & PRESTASI ===== --}}
+        <div class="menu-section">
+            <div class="menu-section-title">Kegiatan & Prestasi</div>
+            <ul class="nav flex-column">
                 <li class="nav-item">
                     <a class="nav-link {{ request()->routeIs('ekskul.*') ? 'active' : '' }}"
                        href="{{ route('ekskul.index') }}">
@@ -46,18 +78,12 @@
                         <span>Prestasi</span>
                     </a>
                 </li>
-                <li class="nav-item">
-                    <a class="nav-link {{ request()->routeIs('galeri.*') ? 'active' : '' }}"
-                       href="{{ route('galeri.index') }}">
-                        <i class="bi bi-images"></i>
-                        <span>Galeri</span>
-                    </a>
-                </li>
             </ul>
         </div>
 
+        {{-- ===== KONTEN ===== --}}
         <div class="menu-section">
-            <div class="menu-section-title">Informasi</div>
+            <div class="menu-section-title">Konten</div>
             <ul class="nav flex-column">
                 <li class="nav-item">
                     <a class="nav-link {{ request()->routeIs('berita.*') ? 'active' : '' }}"
@@ -74,6 +100,20 @@
                     </a>
                 </li>
                 <li class="nav-item">
+                    <a class="nav-link {{ request()->routeIs('galeri.*') ? 'active' : '' }}"
+                       href="{{ route('galeri.index') }}">
+                        <i class="bi bi-images"></i>
+                        <span>Galeri</span>
+                    </a>
+                </li>
+            </ul>
+        </div>
+
+        {{-- ===== PENGATURAN ===== --}}
+        <div class="menu-section">
+            <div class="menu-section-title">Pengaturan</div>
+            <ul class="nav flex-column">
+                <li class="nav-item">
                     <a class="nav-link {{ request()->routeIs('profil.*') ? 'active' : '' }}"
                        href="{{ route('profil.edit') }}">
                         <i class="bi bi-building"></i>
@@ -83,16 +123,5 @@
             </ul>
         </div>
 
-        <div class="menu-section">
-            <div class="menu-section-title">Lainnya</div>
-            <ul class="nav flex-column">
-                <li class="nav-item">
-                    <a class="nav-link" href="{{ route('landing') }}" target="_blank">
-                        <i class="bi bi-globe"></i>
-                        <span>Lihat Web</span>
-                    </a>
-                </li>
-            </ul>
-        </div>
     </nav>
 </aside>
