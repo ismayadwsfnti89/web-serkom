@@ -20,8 +20,8 @@
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link {{ request()->routeIs('landing') ? 'active' : '' }}"
-                       href="{{ route('landing') }}" target="_blank">
+                    <a class="nav-link {{ request()->routeIs('beranda') ? 'active' : '' }}"
+                       href="{{ url('/') }}" target="_blank">
                         <i class="bi bi-globe2"></i>
                         <span>Lihat Website</span>
                         <i class="bi bi-box-arrow-up-right ms-auto small"></i>

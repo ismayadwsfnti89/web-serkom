@@ -4,12 +4,7 @@
         <div class="row">
             <div class="col-md-6">
                 <p class="mb-0">
-                    &copy; {{ date('Y') }} Web Sekolah. All rights reserved.
-                </p>
-            </div>
-            <div class="col-md-6 text-md-end">
-                <p class="mb-0">
-                    Built with <i class="bi bi-heart-fill text-danger"></i> for education
+                    &copy; {{ date('Y') }} Web Sekolah. 
                 </p>
             </div>
         </div>

@@ -3,11 +3,11 @@
 namespace App\Models;
 
 use Illuminate\Foundation\Auth\User as Authenticatable;
-use Illuminate\Database\Eloquent\Concerns\HasUuids;   // opsional
+use Illuminate\Database\Eloquent\Concerns\HasUuids;  
 
 class User extends Authenticatable
 {
-    // use HasUuids;  // kalau mau auto-generate UUID
+    use HasUuids;
 
     protected $table = 'users';
     protected $primaryKey = 'id_user';

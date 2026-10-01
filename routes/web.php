@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\SiswaController;
 use App\Http\Controllers\GuruController;
 use App\Http\Controllers\UserController;
@@ -13,30 +14,17 @@ use App\Http\Controllers\BeritaController;
 use App\Http\Controllers\PengumumanController;
 use App\Http\Controllers\ProfileSekolahController;
 
-// ===== LANDING PAGE (halaman utama) =====
-// Kalau sudah login → redirect ke dashboard
-// Kalau belum login → tampilkan landing page
+// ===== LANDING PAGE =====
+// ===== LANDING PAGE =====
 Route::get('/', function () {
-    if (Auth::check()) {
-        return redirect()->route('dashboard');
-    }
-    return view('landing.index');
-})->name('landing');
-
-// Alias: /landing juga bisa diakses (opsional)
-Route::get('/', function () {
-    if (Auth::check()) {
-        return redirect()->route('dashboard');
-    }
-
     return view('landing.index', [
-        'totalSiswa'   => \App\Models\Siswa::count(),
-        'totalGuru'    => \App\Models\Guru::count(),
-        'totalEkskul'  => \App\Models\Ekstrakurikuler::count(),
-        'totalPrestasi'=> \App\Models\Prestasi::count(),
-        'berita'       => \App\Models\Berita::where('status', 'Publish')->latest()->take(3)->get(),
-        'galeri'       => \App\Models\Galeri::latest()->take(8)->get(),
-        'profil'       => \App\Models\ProfileSekolah::first(),
+        'totalSiswa'    => \App\Models\Siswa::count(),
+        'totalGuru'     => \App\Models\Guru::count(),
+        'totalEkskul'   => \App\Models\Ekstrakurikuler::count(),
+        'totalPrestasi' => \App\Models\Prestasi::count(),
+        'berita'        => \App\Models\Berita::where('status', 'Publish')->latest()->take(3)->get(),
+        'galeri'        => \App\Models\Galeri::latest()->take(8)->get(),
+        'profil'        => \App\Models\ProfileSekolah::first(),
     ]);
 })->name('landing');
 
@@ -48,7 +36,8 @@ Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
 // ===== PROTECTED =====
 Route::middleware('auth')->group(function () {
 
-    Route::get('/dashboard', fn() => view('dashboard.index'))->name('dashboard');
+    // ===== DASHBOARD =====
+    Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
 
     // ===== SISWA =====
     Route::get('siswa', [SiswaController::class, 'index'])->name('siswa.index');

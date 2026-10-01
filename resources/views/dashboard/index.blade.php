@@ -3,177 +3,162 @@
 @section('title', 'Dashboard')
 
 @section('content')
-<div class="container-fluid">
+@php
+    $jam = now()->hour;
+    $sapaan = $jam < 11 ? 'Selamat pagi'
+            : ($jam < 15 ? 'Selamat siang'
+            : ($jam < 18 ? 'Selamat sore' : 'Selamat malam'));
+@endphp
 
-    {{-- Page Header --}}
-    <div class="mb-4">
-        <h1 class="h3 fw-bold text-dark">Dashboard Overview</h1>
-        <p class="text-muted">Selamat datang di Web Sekolah!</p>
-    </div>
+<div class="container-fluid p-0">
 
-    {{-- Profil Sekolah Card --}}
-    @php
-        $profil = \App\Models\ProfileSekolah::first();
-    @endphp
-
-    @if($profil)
-    <div class="row g-3 mb-4">
-        <div class="col-12">
-            <div class="dashboard-card">
-                <div class="d-flex align-items-center gap-4">
-                    @if($profil->logo)
-                        <img src="{{ asset('uploads/profil/' . $profil->logo) }}"
-                             alt="Logo Sekolah"
-                             style="width: 80px; height: 80px; object-fit: contain;">
-                    @else
-                        <div class="rounded-circle bg-primary bg-opacity-10 d-flex align-items-center justify-content-center"
-                             style="width: 80px; height: 80px;">
-                            <i class="bi bi-mortarboard-fill text-primary" style="font-size: 2rem;"></i>
-                        </div>
-                    @endif
-
-                    <div class="flex-grow-1">
-                        <h4 class="mb-1">{{ $profil->nama_sekolah ?? 'Web Sekolah' }}</h4>
-                        <p class="text-muted mb-1 small">
-                            <i class="bi bi-geo-alt me-1"></i>
-                            {{ $profil->alamat ?? 'Alamat belum diisi' }}
-                        </p>
-                        <p class="text-muted mb-0 small">
-                            <i class="bi bi-person-badge me-1"></i>
-                            Kepala Sekolah: {{ $profil->kepala_sekolah ?? '-' }}
-                            <span class="mx-2">•</span>
-                            <i class="bi bi-telephone me-1"></i>
-                            {{ $profil->kontak ?? '-' }}
-                            @if($profil->npsn)
-                                <span class="mx-2">•</span>
-                                <i class="bi bi-hash me-1"></i>
-                                NPSN: {{ $profil->npsn }}
-                            @endif
-                        </p>
-                    </div>
-
-                    <a href="{{ route('profil.edit') }}" class="btn btn-outline-primary">
-                        <i class="bi bi-pencil me-2"></i>Edit Profil
-                    </a>
-                </div>
-            </div>
+    {{-- Header --}}
+    <div class="d-flex justify-content-between align-items-start mb-4">
+        <div>
+            <h1 class="h3 fw-semibold text-dark mb-1">
+                Halo, {{ auth()->user()->nama }}
+            </h1>
+            <p class="text-muted small mb-0">
+                {{ $sapaan }}, ini ringkasan data sekolah hari ini.
+            </p>
+        </div>
+        <div class="text-end small text-muted">
+            <div class="fw-medium text-dark">{{ now()->translatedFormat('l, d F Y') }}</div>
+            <div>{{ now()->format('H:i') }} WIB</div>
         </div>
     </div>
-    @else
-    <div class="row g-3 mb-4">
-        <div class="col-12">
-            <div class="alert alert-warning d-flex align-items-center justify-content-between">
-                <div>
-                    <i class="bi bi-exclamation-triangle me-2"></i>
-                    <strong>Profil sekolah belum diisi.</strong>
-                    Silakan isi data profil sekolah terlebih dahulu.
-                </div>
-                <a href="{{ route('profil.edit') }}" class="btn btn-warning btn-sm">
-                    <i class="bi bi-plus-circle me-1"></i>Isi Profil
-                </a>
-            </div>
+
+    {{-- Alert profil --}}
+    @if(!$profilLengkap)
+        <div class="alert alert-warning d-flex align-items-center gap-2 mb-4" role="alert">
+            <i class="bi bi-exclamation-triangle-fill"></i>
+            <span class="flex-grow-1 small">Profil sekolah belum lengkap. Isi dulu supaya data tampil maksimal.</span>
+            <a href="{{ route('profil.edit') }}" class="small fw-medium text-decoration-underline">Isi sekarang</a>
         </div>
-    </div>
     @endif
 
-    {{-- Stats Cards --}}
+    {{-- Statistik --}}
     <div class="row g-3 mb-4">
-        <div class="col-md-3">
-            <div class="stats-card">
-                <div class="d-flex align-items-center">
-                    <div class="rounded-circle bg-primary bg-opacity-10 d-flex align-items-center justify-content-center me-3"
-                         style="width: 56px; height: 56px;">
-                        <i class="bi bi-people text-primary fs-4"></i>
-                    </div>
+
+        {{-- Card besar: Siswa --}}
+        <div class="col-12 col-md-6">
+            <div class="stats-card h-100">
+                <div class="d-flex justify-content-between align-items-start">
                     <div>
                         <div class="stats-card-label">Total Siswa</div>
-                        <div class="stats-card-value">{{ \App\Models\Siswa::count() }}</div>
+                        <div class="stats-card-value">{{ $totalSiswa }}</div>
                     </div>
+                    <div class="d-flex align-items-center justify-content-center rounded-3"
+                         style="width: 44px; height: 44px; background: #eff6ff; color: #2563eb;">
+                        <i class="bi bi-people-fill"></i>
+                    </div>
+                </div>
+                <div class="mt-3 small text-muted">
+                    @if($siswaBaru > 0)
+                        <span class="text-success fw-medium">+{{ $siswaBaru }}</span> siswa baru bulan ini
+                    @else
+                        Belum ada siswa baru bulan ini
+                    @endif
                 </div>
             </div>
         </div>
-        <div class="col-md-3">
-            <div class="stats-card">
-                <div class="d-flex align-items-center">
-                    <div class="rounded-circle bg-success bg-opacity-10 d-flex align-items-center justify-content-center me-3"
-                         style="width: 56px; height: 56px;">
-                        <i class="bi bi-person-badge text-success fs-4"></i>
-                    </div>
+
+        {{-- Card Guru --}}
+        <div class="col-12 col-md-3">
+            <div class="stats-card h-100">
+                <div class="d-flex justify-content-between align-items-start">
                     <div>
-                        <div class="stats-card-label">Total Guru</div>
-                        <div class="stats-card-value">{{ \App\Models\Guru::count() }}</div>
+                        <div class="stats-card-label">Guru</div>
+                        <div class="stats-card-value">{{ $totalGuru }}</div>
+                    </div>
+                    <div class="d-flex align-items-center justify-content-center rounded-3"
+                         style="width: 40px; height: 40px; background: #ecfdf5; color: #059669;">
+                        <i class="bi bi-person-badge-fill"></i>
                     </div>
                 </div>
             </div>
         </div>
-        <div class="col-md-3">
-            <div class="stats-card">
-                <div class="d-flex align-items-center">
-                    <div class="rounded-circle bg-warning bg-opacity-10 d-flex align-items-center justify-content-center me-3"
-                         style="width: 56px; height: 56px;">
-                        <i class="bi bi-trophy text-warning fs-4"></i>
-                    </div>
+
+        {{-- Card Ekstrakurikuler --}}
+        <div class="col-12 col-md-3">
+            <div class="stats-card h-100">
+                <div class="d-flex justify-content-between align-items-start">
                     <div>
                         <div class="stats-card-label">Ekstrakurikuler</div>
-                        <div class="stats-card-value">{{ \App\Models\Ekstrakurikuler::count() }}</div>
+                        <div class="stats-card-value">{{ $totalEkskul }}</div>
+                    </div>
+                    <div class="d-flex align-items-center justify-content-center rounded-3"
+                         style="width: 40px; height: 40px; background: #fffbeb; color: #d97706;">
+                        <i class="bi bi-trophy-fill"></i>
                     </div>
                 </div>
             </div>
         </div>
-        <div class="col-md-3">
-            <div class="stats-card">
-                <div class="d-flex align-items-center">
-                    <div class="rounded-circle bg-info bg-opacity-10 d-flex align-items-center justify-content-center me-3"
-                         style="width: 56px; height: 56px;">
-                        <i class="bi bi-award text-info fs-4"></i>
-                    </div>
+
+        {{-- Card Prestasi --}}
+        <div class="col-12 col-md-3">
+            <div class="stats-card h-100">
+                <div class="d-flex justify-content-between align-items-start">
                     <div>
                         <div class="stats-card-label">Prestasi</div>
-                        <div class="stats-card-value">{{ \App\Models\Prestasi::count() }}</div>
+                        <div class="stats-card-value">{{ $totalPrestasi }}</div>
+                    </div>
+                    <div class="d-flex align-items-center justify-content-center rounded-3"
+                         style="width: 40px; height: 40px; background: #f5f3ff; color: #7c3aed;">
+                        <i class="bi bi-award-fill"></i>
                     </div>
                 </div>
             </div>
         </div>
-    </div>
 
-    {{-- Quick Actions --}}
-    <div class="row g-3 mb-4">
-        <div class="col-md-6">
-            <div class="dashboard-card">
-                <h5 class="mb-3">
-                    <i class="bi bi-lightning-charge-fill text-warning me-2"></i>
-                    Aksi Cepat
-                </h5>
-                <div class="d-grid gap-2">
-                    <a href="{{ route('siswa.index') }}" class="btn btn-outline-primary">
-                        <i class="bi bi-person-plus me-2"></i>Kelola Siswa
-                    </a>
-                    <a href="{{ route('guru.index') }}" class="btn btn-outline-success">
-                        <i class="bi bi-person-badge me-2"></i>Kelola Guru
-                    </a>
-                    <a href="{{ route('ekskul.index') }}" class="btn btn-outline-warning">
-                        <i class="bi bi-trophy me-2"></i>Kelola Ekstrakurikuler
-                    </a>
-                    <a href="{{ route('prestasi.index') }}" class="btn btn-outline-info">
-                        <i class="bi bi-award me-2"></i>Kelola Prestasi
-                    </a>
+        {{-- Card Info --}}
+        <div class="col-12 col-md-3">
+            <div class="h-100 p-4 rounded-3 text-white" style="background: #1f2937;">
+                <div class="small" style="color: #9ca3af;">Info</div>
+                <div class="small mt-2 lh-base">
+                    Kelola data lewat menu di sidebar. Data otomatis tersimpan.
                 </div>
             </div>
         </div>
 
-        <div class="col-md-6">
-            <div class="dashboard-card">
-                <h5 class="mb-3">
-                    <i class="bi bi-info-circle-fill text-primary me-2"></i>
-                    Informasi
-                </h5>
-                <div class="alert alert-info mb-0">
-                    <strong>Selamat Datang!</strong><br>
-                    Ini adalah dashboard admin Web Sekolah. Gunakan menu di sidebar untuk mengelola data siswa, guru, ekstrakurikuler, dan prestasi.
+    </div>
+
+    {{-- Aksi cepat --}}
+    <div>
+        <h2 class="small fw-semibold text-dark mb-3">Aksi Cepat</h2>
+        <div class="row g-3">
+            @foreach([
+                ['label' => 'Tambah Siswa',    'desc' => 'Input data siswa baru',  'route' => 'siswa.index',    'icon' => 'bi-people',       'bg' => '#eff6ff', 'fg' => '#2563eb'],
+                ['label' => 'Tambah Guru',     'desc' => 'Input data guru baru',   'route' => 'guru.index',     'icon' => 'bi-person-badge', 'bg' => '#ecfdf5', 'fg' => '#059669'],
+                ['label' => 'Tambah Ekskul',   'desc' => 'Daftarkan ekskul baru',  'route' => 'ekskul.index',   'icon' => 'bi-trophy',       'bg' => '#fffbeb', 'fg' => '#d97706'],
+                ['label' => 'Tambah Prestasi', 'desc' => 'Catat prestasi siswa',   'route' => 'prestasi.index', 'icon' => 'bi-award',        'bg' => '#f5f3ff', 'fg' => '#7c3aed'],
+            ] as $aksi)
+                <div class="col-6 col-md-3">
+                    <a href="{{ route($aksi['route']) }}"
+                       class="d-block text-decoration-none bg-white border rounded-3 p-3 h-100 aksi-card">
+                        <div class="d-flex align-items-center justify-content-center rounded-2 mb-3"
+                             style="width: 32px; height: 32px; background: {{ $aksi['bg'] }}; color: {{ $aksi['fg'] }};">
+                            <i class="bi {{ $aksi['icon'] }}"></i>
+                        </div>
+                        <div class="small fw-medium text-dark">{{ $aksi['label'] }}</div>
+                        <div class="text-muted" style="font-size: 0.75rem;">{{ $aksi['desc'] }}</div>
+                    </a>
                 </div>
-            </div>
+            @endforeach
         </div>
     </div>
 
 </div>
+
+@push('styles')
+<style>
+    .aksi-card {
+        transition: all 0.15s ease;
+    }
+    .aksi-card:hover {
+        border-color: #cbd5e1 !important;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.06);
+    }
+</style>
+@endpush
 @endsection
