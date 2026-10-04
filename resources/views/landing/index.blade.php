@@ -61,7 +61,7 @@
 
         /* ============ HERO ============ */
         .hero {
-            background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%);
+            background: linear-gradient(135deg, #d1965e 0%, #9b5f1c 100%);
             color: #fff;
             padding: 100px 0 80px;
             position: relative;
@@ -478,33 +478,63 @@
 
         <div class="row align-items-center g-5">
             <div class="col-lg-5">
-                <img src="https://images.unsplash.com/photo-1580582932707-520aed937b7b?w=800"
-                     alt="Sekolah" class="profil-img">
+                @if(!empty($profil->foto))
+                    <img src="{{ asset('uploads/profil/' . $profil->foto) }}"
+                         alt="{{ $profil->nama_sekolah ?? 'Sekolah' }}"
+                         class="profil-img">
+                @else
+                    <img src="https://images.unsplash.com/photo-1562774053-701939374585?w=800"
+                         alt="Sekolah"
+                         class="profil-img">
+                @endif
             </div>
+
             <div class="col-lg-7">
                 <div class="profil-content">
-                    <h3>{{ $profil->nama_sekolah ?? 'Web Sekolah' }}</h3>
+                    <div class="d-flex align-items-center gap-3 mb-3">
+                        @if(!empty($profil->logo))
+                            <img src="{{ asset('uploads/profil/' . $profil->logo) }}"
+                                 alt="Logo"
+                                 style="width: 56px; height: 56px; object-fit: contain;">
+                        @endif
+                        <h3 class="mb-0">{{ $profil->nama_sekolah ?? 'Web Sekolah' }}</h3>
+                    </div>
+
                     <p>
                         {{ $profil->deskripsi ?? 'Sekolah kami berkomitmen untuk memberikan pendidikan terbaik bagi generasi penerus bangsa. Dengan tenaga pengajar profesional dan fasilitas lengkap, kami siap mencetak lulusan yang berprestasi dan berkarakter.' }}
                     </p>
-                    <ul>
-                        <li>
-                            <i class="bi bi-check-circle-fill"></i>
-                            <span>Kurikulum terbaru & relevan</span>
-                        </li>
-                        <li>
-                            <i class="bi bi-check-circle-fill"></i>
-                            <span>Tenaga pengajar berpengalaman</span>
-                        </li>
-                        <li>
-                            <i class="bi bi-check-circle-fill"></i>
-                            <span>Fasilitas modern & lengkap</span>
-                        </li>
-                        <li>
-                            <i class="bi bi-check-circle-fill"></i>
-                            <span>Berbagai prestasi tingkat nasional</span>
-                        </li>
-                    </ul>
+                    {{-- <ul>
+                        <li><i class="bi bi-check-circle-fill"></i><span>Kurikulum terbaru & relevan</span></li>
+                        <li><i class="bi bi-check-circle-fill"></i><span>Fasilitas modern & lengkap</span></li>
+                    </ul> --}}
+                    <div class="row g-3 mt-3">
+                        @if(!empty($profil->npsn))
+                            <div class="col-6 col-md-4">
+                                <small class="text-muted d-block">NPSN</small>
+                                <strong>{{ $profil->npsn }}</strong>
+                            </div>
+                        @endif
+
+                        @if(!empty($profil->kepala_sekolah))
+                            <div class="col-6 col-md-4">
+                                <small class="text-muted d-block">Kepala Sekolah</small>
+                                <strong>{{ $profil->kepala_sekolah }}</strong>
+                            </div>
+                        @endif
+
+                        @if(!empty($profil->tahun_berdiri))
+                            <div class="col-6 col-md-4">
+                                <small class="text-muted d-block">Tahun Berdiri</small>
+                                <strong>{{ $profil->tahun_berdiri }}</strong>
+                            </div>
+                        @endif
+                    </div>
+                    @if(!empty($profil->visi_misi))
+                        <div class="mt-4 p-3 rounded" style="background: #f9fafb;">
+                            <small class="text-muted d-block mb-2 fw-semibold">VISI & MISI</small>
+                            <p class="mb-0 small" style="white-space: pre-line;">{{ $profil->visi_misi }}</p>
+                        </div>
+                    @endif
                 </div>
             </div>
         </div>
@@ -539,20 +569,7 @@
                     </div>
                 </div>
             @empty
-                {{-- Dummy berita untuk tampilan awal --}}
-                <div class="col-md-6 col-lg-4">
-                    <div class="content-card">
-                        <img src="https://images.unsplash.com/photo-1503676260728-1c00da094a0b?w=600" alt="Berita">
-                        <div class="card-body">
-                            <div class="card-meta">
-                                <span><i class="bi bi-calendar3 me-1"></i>{{ date('d M Y') }}</span>
-                            </div>
-                            <h5 class="card-title">Selamat Datang di Website Sekolah</h5>
-                            <p class="card-text">Website resmi sekolah kini telah hadir dengan tampilan baru yang lebih modern dan informatif.</p>
-                            <a href="#" class="link-more">Baca Selengkapnya <i class="bi bi-arrow-right ms-1"></i></a>
-                        </div>
-                    </div>
-                </div>
+                
             @endforelse
         </div>
 
@@ -586,26 +603,7 @@
                     </div>
                 </div>
             @empty
-                {{-- Dummy galeri --}}
-                @foreach([
-                    'https://images.unsplash.com/photo-1523050854058-8df90110c9f1?w=400',
-                    'https://images.unsplash.com/photo-1541339907198-e08756dedf3f?w=400',
-                    'https://images.unsplash.com/photo-1580582932707-520aed937b7b?w=400',
-                    'https://images.unsplash.com/photo-1497633762265-9d179a990aa6?w=400',
-                    'https://images.unsplash.com/photo-1509062522246-3755977927d7?w=400',
-                    'https://images.unsplash.com/photo-1503676260728-1c00da094a0b?w=400',
-                    'https://images.unsplash.com/photo-1517486808906-6ca8b3f04846?w=400',
-                    'https://images.unsplash.com/photo-1427504494785-3a9ca7044f45?w=400',
-                ] as $url)
-                    <div class="col-6 col-md-4 col-lg-3">
-                        <div class="galeri-item">
-                            <img src="{{ $url }}" alt="Galeri">
-                            <div class="overlay">
-                                <p>Kegiatan Sekolah</p>
-                            </div>
-                        </div>
-                    </div>
-                @endforeach
+               
             @endforelse
         </div>
     </div>
@@ -641,10 +639,9 @@
                     kegiatan untuk siswa, guru, dan orang tua.
                 </p>
                 <div class="social-links mt-3">
-                    <a href="#"><i class="bi bi-facebook"></i></a>
+                    <a href="#"><i class="bi bi-email"></i></a>
                     <a href="#"><i class="bi bi-instagram"></i></a>
                     <a href="#"><i class="bi bi-youtube"></i></a>
-                    <a href="#"><i class="bi bi-twitter-x"></i></a>
                 </div>
             </div>
 
@@ -661,25 +658,23 @@
             <div class="col-lg-3 col-md-4">
                 <h5>Kontak</h5>
                 <ul>
-                    <li><i class="bi bi-geo-alt me-2"></i>{{ $profil->alamat ?? 'Jl. Pendidikan No. 1, Indonesia' }}</li>
-                    <li><i class="bi bi-telephone me-2"></i>{{ $profil->kontak ?? '(021) 1234567' }}</li>
-                    <li><i class="bi bi-envelope me-2"></i>info@sekolah.sch.id</li>
+                    <li><i class="bi bi-geo-alt me-2"></i>{{ $profil->alamat ?? 'Jl. Kalapadua No. 01 Desa Margaluyu Kec. Manonjaya Kab.Tasikmalaya Provinsi Jawa Barat' }}</li>
+                    <li><i class="bi bi-envelope me-2"></i>sdn4manonjaya@yahoo.co.id</li>
                 </ul>
             </div>
 
             <div class="col-lg-3 col-md-4">
                 <h5>Jam Operasional</h5>
                 <ul>
-                    <li>Senin - Jumat: 07.00 - 15.00</li>
-                    <li>Sabtu: 07.00 - 12.00</li>
-                    <li>Minggu: Libur</li>
+                    <li>Senin - Kamis   : 07.00 - 12.00</li>
+                    <li>Jumat           : 07.00 - 10.30 </li>
+                    <li>Sabtu - Minggu  : Libur</li>
                 </ul>
             </div>
         </div>
 
         <div class="copyright">
-            &copy; {{ date('Y') }} Web Sekolah. All rights reserved. |
-            Built with <i class="bi bi-heart-fill text-danger"></i> for education
+            &copy; {{ date('Y') }} Web Sekolah|IT Team.
         </div>
     </div>
 </footer>

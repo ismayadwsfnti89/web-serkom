@@ -76,7 +76,7 @@
     .sidebar .nav-link.active {
         color: #fff;
         background: #374151;
-        border-left-color: #6366f1;
+        border-left-color: #ecb372;
         font-weight: 600;
     }
     .sidebar .nav-link i {
@@ -107,7 +107,7 @@
         margin: 0;
     }
     .top-navbar .breadcrumb-item a {
-        color: #6366f1;
+        color: #da8b57;
         text-decoration: none;
     }
 
