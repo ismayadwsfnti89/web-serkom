@@ -14,14 +14,14 @@ class DatabaseSeeder extends Seeder
             'nama'     => 'Administrator',
             'username' => 'admin',
             'password' => Hash::make('password'),
-            'role'     => 'Admin',
+            'role'     => 'admin',
         ]);
 
         User::create([
             'nama'     => 'Operator Sekolah',
             'username' => 'operator',
             'password' => Hash::make('password'),
-            'role'     => 'Operator',
+            'role'     => 'operator',
         ]);
     }
 }

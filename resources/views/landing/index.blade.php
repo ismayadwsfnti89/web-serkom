@@ -1,419 +1,25 @@
-<!DOCTYPE html>
-<html lang="id">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Website Resmi Sekolah - Informasi, Berita, dan Kegiatan">
-    <title>Beranda - Web Sekolah</title>
+@extends('layouts.landing')
 
-    <link rel="icon" type="image/x-icon" href="{{ asset('favicon.ico') }}">
+@section('title', 'Beranda')
+@section('meta_description', 'Website Resmi ' . ($profil->nama_sekolah ?? 'Sekolah'))
 
-    <!-- Bootstrap CSS -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.13.1/font/bootstrap-icons.css" rel="stylesheet">
-
-    <style>
-        :root {
-            --primary: #6366f1;
-            --primary-dark: #4f46e5;
-            --dark: #1f2937;
-        }
-
-        * { margin: 0; padding: 0; box-sizing: border-box; }
-
-        body {
-            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
-            color: #1f2937;
-            overflow-x: hidden;
-        }
-
-        /* ============ NAVBAR ============ */
-        .landing-navbar {
-            background: #fff;
-            box-shadow: 0 1px 3px rgba(0,0,0,0.08);
-            padding: 12px 0;
-            position: sticky;
-            top: 0;
-            z-index: 1030;
-        }
-        .landing-navbar .navbar-brand {
-            font-weight: 700;
-            font-size: 1.25rem;
-            color: var(--dark);
-            display: flex;
-            align-items: center;
-            gap: 8px;
-        }
-        .landing-navbar .navbar-brand i {
-            color: var(--primary);
-            font-size: 1.5rem;
-        }
-        .landing-navbar .nav-link {
-            color: #4b5563;
-            font-weight: 500;
-            padding: 8px 16px !important;
-            transition: color 0.2s;
-        }
-        .landing-navbar .nav-link:hover,
-        .landing-navbar .nav-link.active {
-            color: var(--primary);
-        }
-
-        /* ============ HERO ============ */
-        .hero {
-            background: linear-gradient(135deg, #d1965e 0%, #9b5f1c 100%);
-            color: #fff;
-            padding: 100px 0 80px;
-            position: relative;
-            overflow: hidden;
-        }
-        .hero::before {
-            content: '';
-            position: absolute;
-            top: -50%;
-            right: -20%;
-            width: 600px;
-            height: 600px;
-            background: rgba(255,255,255,0.05);
-            border-radius: 50%;
-        }
-        .hero h1 {
-            font-size: 3rem;
-            font-weight: 800;
-            margin-bottom: 20px;
-            line-height: 1.2;
-        }
-        .hero p {
-            font-size: 1.125rem;
-            opacity: 0.95;
-            margin-bottom: 32px;
-            max-width: 600px;
-        }
-        .hero .btn-hero {
-            padding: 12px 32px;
-            font-weight: 600;
-            border-radius: 8px;
-            transition: transform 0.2s, box-shadow 0.2s;
-        }
-        .hero .btn-hero:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 8px 20px rgba(0,0,0,0.15);
-        }
-
-        /* ============ STATS ============ */
-        .stats-section {
-            margin-top: -50px;
-            position: relative;
-            z-index: 10;
-        }
-        .stat-box {
-            background: #fff;
-            border-radius: 12px;
-            padding: 24px;
-            text-align: center;
-            box-shadow: 0 4px 20px rgba(0,0,0,0.08);
-            transition: transform 0.2s;
-        }
-        .stat-box:hover {
-            transform: translateY(-4px);
-        }
-        .stat-box i {
-            font-size: 2rem;
-            color: var(--primary);
-            margin-bottom: 12px;
-        }
-        .stat-box h3 {
-            font-size: 2rem;
-            font-weight: 700;
-            color: var(--dark);
-            margin-bottom: 4px;
-        }
-        .stat-box p {
-            color: #6b7280;
-            font-size: 0.875rem;
-            margin: 0;
-        }
-
-        /* ============ SECTION ============ */
-        .section {
-            padding: 80px 0;
-        }
-        .section-title {
-            text-align: center;
-            margin-bottom: 48px;
-        }
-        .section-title h2 {
-            font-size: 2rem;
-            font-weight: 700;
-            color: var(--dark);
-            margin-bottom: 12px;
-        }
-        .section-title p {
-            color: #6b7280;
-            max-width: 600px;
-            margin: 0 auto;
-        }
-        .section-title .divider {
-            width: 60px;
-            height: 4px;
-            background: var(--primary);
-            border-radius: 2px;
-            margin: 16px auto 0;
-        }
-
-        /* ============ PROFIL ============ */
-        .profil-img {
-            width: 100%;
-            border-radius: 12px;
-            box-shadow: 0 8px 24px rgba(0,0,0,0.1);
-        }
-        .profil-content h3 {
-            font-size: 1.75rem;
-            font-weight: 700;
-            margin-bottom: 16px;
-        }
-        .profil-content p {
-            color: #4b5563;
-            line-height: 1.8;
-            margin-bottom: 16px;
-        }
-        .profil-content ul {
-            list-style: none;
-            padding: 0;
-        }
-        .profil-content ul li {
-            padding: 8px 0;
-            color: #4b5563;
-            display: flex;
-            align-items: center;
-            gap: 12px;
-        }
-        .profil-content ul li i {
-            color: var(--primary);
-            font-size: 1.25rem;
-        }
-
-        /* ============ CARD ============ */
-        .content-card {
-            background: #fff;
-            border-radius: 12px;
-            overflow: hidden;
-            box-shadow: 0 2px 12px rgba(0,0,0,0.06);
-            transition: transform 0.2s, box-shadow 0.2s;
-            height: 100%;
-        }
-        .content-card:hover {
-            transform: translateY(-4px);
-            box-shadow: 0 8px 24px rgba(0,0,0,0.12);
-        }
-        .content-card img {
-            width: 100%;
-            height: 200px;
-            object-fit: cover;
-        }
-        .content-card .card-body {
-            padding: 20px;
-        }
-        .content-card .card-meta {
-            font-size: 0.75rem;
-            color: #6b7280;
-            margin-bottom: 8px;
-            display: flex;
-            align-items: center;
-            gap: 12px;
-        }
-        .content-card .card-title {
-            font-size: 1.1rem;
-            font-weight: 700;
-            margin-bottom: 8px;
-            color: var(--dark);
-            display: -webkit-box;
-            -webkit-line-clamp: 2;
-            -webkit-box-orient: vertical;
-            overflow: hidden;
-        }
-        .content-card .card-text {
-            font-size: 0.875rem;
-            color: #6b7280;
-            display: -webkit-box;
-            -webkit-line-clamp: 3;
-            -webkit-box-orient: vertical;
-            overflow: hidden;
-            margin-bottom: 12px;
-        }
-        .content-card a.link-more {
-            color: var(--primary);
-            font-weight: 600;
-            text-decoration: none;
-            font-size: 0.875rem;
-        }
-        .content-card a.link-more:hover {
-            color: var(--primary-dark);
-        }
-
-        /* ============ GALERI ============ */
-        .galeri-item {
-            border-radius: 12px;
-            overflow: hidden;
-            position: relative;
-            aspect-ratio: 1;
-            box-shadow: 0 2px 12px rgba(0,0,0,0.06);
-            transition: transform 0.2s;
-        }
-        .galeri-item:hover {
-            transform: scale(1.03);
-        }
-        .galeri-item img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-        }
-        .galeri-item .overlay {
-            position: absolute;
-            inset: 0;
-            background: linear-gradient(to top, rgba(0,0,0,0.7), transparent 60%);
-            opacity: 0;
-            transition: opacity 0.2s;
-            display: flex;
-            align-items: flex-end;
-            padding: 16px;
-        }
-        .galeri-item:hover .overlay {
-            opacity: 1;
-        }
-        .galeri-item .overlay p {
-            color: #fff;
-            font-weight: 600;
-            margin: 0;
-            font-size: 0.9rem;
-        }
-
-        /* ============ CTA ============ */
-        .cta-section {
-            background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%);
-            color: #fff;
-            padding: 60px 0;
-            border-radius: 16px;
-            text-align: center;
-        }
-        .cta-section h2 {
-            font-size: 1.75rem;
-            font-weight: 700;
-            margin-bottom: 12px;
-        }
-        .cta-section p {
-            opacity: 0.95;
-            margin-bottom: 24px;
-        }
-
-        /* ============ FOOTER ============ */
-        .landing-footer {
-            background: #1f2937;
-            color: #d1d5db;
-            padding: 48px 0 24px;
-        }
-        .landing-footer h5 {
-            color: #fff;
-            font-weight: 700;
-            margin-bottom: 16px;
-        }
-        .landing-footer p, .landing-footer a {
-            color: #d1d5db;
-            text-decoration: none;
-            font-size: 0.9rem;
-        }
-        .landing-footer a:hover {
-            color: #fff;
-        }
-        .landing-footer ul {
-            list-style: none;
-            padding: 0;
-        }
-        .landing-footer ul li {
-            margin-bottom: 8px;
-        }
-        .landing-footer .social-links a {
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            width: 36px;
-            height: 36px;
-            background: #374151;
-            border-radius: 50%;
-            margin-right: 8px;
-            transition: background 0.2s;
-        }
-        .landing-footer .social-links a:hover {
-            background: var(--primary);
-        }
-        .landing-footer .copyright {
-            border-top: 1px solid #374151;
-            padding-top: 24px;
-            margin-top: 24px;
-            text-align: center;
-            font-size: 0.85rem;
-        }
-
-        /* ============ RESPONSIVE ============ */
-        @media (max-width: 768px) {
-            .hero h1 { font-size: 2rem; }
-            .hero { padding: 60px 0 40px; }
-            .section { padding: 48px 0; }
-            .stats-section { margin-top: 20px; }
-        }
-    </style>
-</head>
-<body>
-
-{{-- ============ NAVBAR ============ --}}
-<nav class="landing-navbar navbar navbar-expand-lg">
-    <div class="container">
-        <a class="navbar-brand" href="{{ route('landing') }}">
-            <i class="bi bi-mortarboard-fill"></i>
-            Web Sekolah
-        </a>
-
-        <button class="navbar-toggler border-0" type="button" data-bs-toggle="collapse" data-bs-target="#navLanding">
-            <i class="bi bi-list fs-3"></i>
-        </button>
-
-        <div class="collapse navbar-collapse" id="navLanding">
-            <ul class="navbar-nav ms-auto align-items-lg-center">
-                <li class="nav-item"><a class="nav-link" href="#beranda">Beranda</a></li>
-                <li class="nav-item"><a class="nav-link" href="#profil">Profil</a></li>
-                <li class="nav-item"><a class="nav-link" href="#berita">Berita</a></li>
-                <li class="nav-item"><a class="nav-link" href="#galeri">Galeri</a></li>
-                <li class="nav-item"><a class="nav-link" href="#kontak">Kontak</a></li>
-
-                {{-- Tombol Login / Dashboard --}}
-                <li class="nav-item ms-lg-3 mt-2 mt-lg-0">
-                    @auth
-                        <a href="{{ route('dashboard') }}" class="btn btn-primary w-100">
-                            <i class="bi bi-speedometer2 me-1"></i> Dashboard
-                        </a>
-                    @else
-                        <a href="{{ route('login') }}" class="btn btn-primary w-100">
-                            <i class="bi bi-box-arrow-in-right me-1"></i> Login
-                        </a>
-                    @endauth
-                </li>
-            </ul>
-        </div>
-    </div>
-</nav>
+@section('content')
 
 {{-- ============ HERO ============ --}}
 <section class="hero" id="beranda">
     <div class="container position-relative">
         <div class="row align-items-center">
             <div class="col-lg-7">
-                <span class="badge bg-white text-primary mb-3 px-3 py-2 rounded-pill">
+                <span class="badge bg-white mb-3 px-3 py-2 rounded-pill">
                     <i class="bi bi-star-fill me-1"></i> Selamat Datang
                 </span>
-                <h1>Membangun Generasi<br>Berprestasi & Berkarakter</h1>
+                <h1>
+                    Membangun Generasi<br>
+                    Berprestasi & Berkarakter
+                </h1>
                 <p>
-                    Website resmi sekolah kami — pusat informasi, berita terkini,
-                    kegiatan, dan prestasi siswa-siswi terbaik.
+                    Website resmi {{ $profil->nama_sekolah ?? 'sekolah kami' }} —
+                    pusat informasi, berita terkini, kegiatan, dan prestasi siswa-siswi terbaik.
                 </p>
                 <div class="d-flex flex-wrap gap-2">
                     <a href="#profil" class="btn btn-light btn-hero text-primary">
@@ -425,7 +31,13 @@
                 </div>
             </div>
             <div class="col-lg-5 d-none d-lg-block text-center">
-                <i class="bi bi-mortarboard-fill" style="font-size: 16rem; opacity: 0.15;"></i>
+                @if(!empty($profil->logo))
+                    <img src="{{ asset('uploads/profil/' . $profil->logo) }}"
+                         alt="Logo"
+                         style="max-width: 320px; max-height: 320px; object-fit: contain; opacity: 0.9;">
+                @else
+                    <i class="bi bi-mortarboard-fill hero-icon" style="font-size: 16rem;"></i>
+                @endif
             </div>
         </div>
     </div>
@@ -477,60 +89,61 @@
         </div>
 
         <div class="row align-items-center g-5">
+            {{-- Foto Sekolah (hanya kalau ada) --}}
             <div class="col-lg-5">
                 @if(!empty($profil->foto))
                     <img src="{{ asset('uploads/profil/' . $profil->foto) }}"
                          alt="{{ $profil->nama_sekolah ?? 'Sekolah' }}"
-                         class="profil-img">
-                @else
-                    <img src="https://images.unsplash.com/photo-1562774053-701939374585?w=800"
-                         alt="Sekolah"
                          class="profil-img">
                 @endif
             </div>
 
             <div class="col-lg-7">
                 <div class="profil-content">
+                    {{-- Logo + Nama --}}
                     <div class="d-flex align-items-center gap-3 mb-3">
                         @if(!empty($profil->logo))
                             <img src="{{ asset('uploads/profil/' . $profil->logo) }}"
                                  alt="Logo"
                                  style="width: 56px; height: 56px; object-fit: contain;">
                         @endif
-                        <h3 class="mb-0">{{ $profil->nama_sekolah ?? 'Web Sekolah' }}</h3>
+                        <h3 class="mb-0">{{ $profil->nama_sekolah ?? '' }}</h3>
                     </div>
 
-                    <p>
-                        {{ $profil->deskripsi ?? 'Sekolah kami berkomitmen untuk memberikan pendidikan terbaik bagi generasi penerus bangsa. Dengan tenaga pengajar profesional dan fasilitas lengkap, kami siap mencetak lulusan yang berprestasi dan berkarakter.' }}
-                    </p>
-                    {{-- <ul>
-                        <li><i class="bi bi-check-circle-fill"></i><span>Kurikulum terbaru & relevan</span></li>
-                        <li><i class="bi bi-check-circle-fill"></i><span>Fasilitas modern & lengkap</span></li>
-                    </ul> --}}
-                    <div class="row g-3 mt-3">
-                        @if(!empty($profil->npsn))
-                            <div class="col-6 col-md-4">
-                                <small class="text-muted d-block">NPSN</small>
-                                <strong>{{ $profil->npsn }}</strong>
-                            </div>
-                        @endif
+                    {{-- Deskripsi (hanya kalau ada) --}}
+                    @if(!empty($profil->deskripsi))
+                        <p>{{ $profil->deskripsi }}</p>
+                    @endif
 
-                        @if(!empty($profil->kepala_sekolah))
-                            <div class="col-6 col-md-4">
-                                <small class="text-muted d-block">Kepala Sekolah</small>
-                                <strong>{{ $profil->kepala_sekolah }}</strong>
-                            </div>
-                        @endif
+                    {{-- Info tambahan (hanya tampil kalau ada datanya) --}}
+                    @if(!empty($profil->npsn) || !empty($profil->kepala_sekolah) || !empty($profil->tahun_berdiri))
+                        <div class="row g-3 mt-3">
+                            @if(!empty($profil->npsn))
+                                <div class="col-6 col-md-4">
+                                    <small class="text-muted d-block">NPSN</small>
+                                    <strong>{{ $profil->npsn }}</strong>
+                                </div>
+                            @endif
 
-                        @if(!empty($profil->tahun_berdiri))
-                            <div class="col-6 col-md-4">
-                                <small class="text-muted d-block">Tahun Berdiri</small>
-                                <strong>{{ $profil->tahun_berdiri }}</strong>
-                            </div>
-                        @endif
-                    </div>
+                            @if(!empty($profil->kepala_sekolah))
+                                <div class="col-6 col-md-4">
+                                    <small class="text-muted d-block">Kepala Sekolah</small>
+                                    <strong>{{ $profil->kepala_sekolah }}</strong>
+                                </div>
+                            @endif
+
+                            @if(!empty($profil->tahun_berdiri))
+                                <div class="col-6 col-md-4">
+                                    <small class="text-muted d-block">Tahun Berdiri</small>
+                                    <strong>{{ $profil->tahun_berdiri }}</strong>
+                                </div>
+                            @endif
+                        </div>
+                    @endif
+
+                    {{-- Visi Misi (hanya kalau ada) --}}
                     @if(!empty($profil->visi_misi))
-                        <div class="mt-4 p-3 rounded" style="background: #f9fafb;">
+                        <div class="mt-4 p-3 rounded profil-info-box">
                             <small class="text-muted d-block mb-2 fw-semibold">VISI & MISI</small>
                             <p class="mb-0 small" style="white-space: pre-line;">{{ $profil->visi_misi }}</p>
                         </div>
@@ -558,7 +171,10 @@
                              alt="{{ $item->judul }}">
                         <div class="card-body">
                             <div class="card-meta">
-                                <span><i class="bi bi-calendar3 me-1"></i>{{ \Carbon\Carbon::parse($item->tanggal)->format('d M Y') }}</span>
+                                <span>
+                                    <i class="bi bi-calendar3 me-1"></i>
+                                    {{ \Carbon\Carbon::parse($item->tanggal)->format('d M Y') }}
+                                </span>
                             </div>
                             <h5 class="card-title">{{ $item->judul }}</h5>
                             <p class="card-text">{{ Str::limit(strip_tags($item->isi), 100) }}</p>
@@ -569,17 +185,12 @@
                     </div>
                 </div>
             @empty
-                
+                <div class="col-12 text-center text-muted py-5">
+                    <i class="bi bi-newspaper fs-1 d-block mb-3 opacity-25"></i>
+                    <p class="mb-0">Belum ada berita.</p>
+                </div>
             @endforelse
         </div>
-
-        @if(isset($berita) && count($berita) > 0)
-            <div class="text-center mt-5">
-                <a href="#" class="btn btn-outline-primary px-4">
-                    Lihat Semua Berita <i class="bi bi-arrow-right ms-1"></i>
-                </a>
-            </div>
-        @endif
     </div>
 </section>
 
@@ -597,13 +208,14 @@
                 <div class="col-6 col-md-4 col-lg-3">
                     <div class="galeri-item">
                         <img src="{{ asset('uploads/galeri/' . $item->file) }}" alt="{{ $item->judul }}">
-                        <div class="overlay">
-                            <p>{{ $item->judul }}</p>
-                        </div>
+                        <div class="overlay"><p>{{ $item->judul }}</p></div>
                     </div>
                 </div>
             @empty
-               
+                <div class="col-12 text-center text-muted py-5">
+                    <i class="bi bi-images fs-1 d-block mb-3 opacity-25"></i>
+                    <p class="mb-0">Belum ada foto galeri.</p>
+                </div>
             @endforelse
         </div>
     </div>
@@ -628,58 +240,4 @@
     </div>
 </section>
 
-{{-- ============ FOOTER ============ --}}
-<footer class="landing-footer" id="kontak">
-    <div class="container">
-        <div class="row g-4">
-            <div class="col-lg-4">
-                <h5><i class="bi bi-mortarboard-fill me-2"></i>Web Sekolah</h5>
-                <p>
-                    Website resmi sekolah kami. Pusat informasi, berita, dan
-                    kegiatan untuk siswa, guru, dan orang tua.
-                </p>
-                <div class="social-links mt-3">
-                    <a href="#"><i class="bi bi-email"></i></a>
-                    <a href="#"><i class="bi bi-instagram"></i></a>
-                    <a href="#"><i class="bi bi-youtube"></i></a>
-                </div>
-            </div>
-
-            <div class="col-lg-2 col-md-4">
-                <h5>Menu</h5>
-                <ul>
-                    <li><a href="#beranda">Beranda</a></li>
-                    <li><a href="#profil">Profil</a></li>
-                    <li><a href="#berita">Berita</a></li>
-                    <li><a href="#galeri">Galeri</a></li>
-                </ul>
-            </div>
-
-            <div class="col-lg-3 col-md-4">
-                <h5>Kontak</h5>
-                <ul>
-                    <li><i class="bi bi-geo-alt me-2"></i>{{ $profil->alamat ?? 'Jl. Kalapadua No. 01 Desa Margaluyu Kec. Manonjaya Kab.Tasikmalaya Provinsi Jawa Barat' }}</li>
-                    <li><i class="bi bi-envelope me-2"></i>sdn4manonjaya@yahoo.co.id</li>
-                </ul>
-            </div>
-
-            <div class="col-lg-3 col-md-4">
-                <h5>Jam Operasional</h5>
-                <ul>
-                    <li>Senin - Kamis   : 07.00 - 12.00</li>
-                    <li>Jumat           : 07.00 - 10.30 </li>
-                    <li>Sabtu - Minggu  : Libur</li>
-                </ul>
-            </div>
-        </div>
-
-        <div class="copyright">
-            &copy; {{ date('Y') }} Web Sekolah|IT Team.
-        </div>
-    </div>
-</footer>
-
-<!-- Bootstrap JS -->
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"></script>
-</body>
-</html>
+@endsection

@@ -3,7 +3,7 @@
 namespace App\Models;
 
 use Illuminate\Foundation\Auth\User as Authenticatable;
-use Illuminate\Database\Eloquent\Concerns\HasUuids;  
+use Illuminate\Database\Eloquent\Concerns\HasUuids;
 
 class User extends Authenticatable
 {
@@ -20,13 +20,21 @@ class User extends Authenticatable
 
     protected $hidden = ['password'];
 
+    /**
+     * Kasih tahu Laravel kalau primary key-nya bukan 'id'
+     */
+    public function getAuthIdentifierName()
+    {
+        return 'id_user';
+    }
+
     public function isAdmin(): bool
     {
-        return $this->role === 'admin';     // ← lowercase
+        return $this->role === 'admin';
     }
 
     public function isOperator(): bool
     {
-        return $this->role === 'operator';  // ← lowercase
+        return $this->role === 'operator';
     }
 }

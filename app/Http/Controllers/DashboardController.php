@@ -19,9 +19,7 @@ class DashboardController extends Controller
             'totalGuru'     => Guru::count(),
             'totalEkskul'   => Ekstrakurikuler::count(),
             'totalPrestasi' => Prestasi::count(),
-            'siswaBaru'     => Siswa::whereMonth('created_at', now()->month)
-                                     ->whereYear('created_at', now()->year)
-                                     ->count(),
+            'siswaBaru'     => Siswa::where('tahun_masuk', now()->year)->count(),  // ← pakai tahun_masuk
             'profilLengkap' => $profil !== null,
         ]);
     }

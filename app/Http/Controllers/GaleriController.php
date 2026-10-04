@@ -7,9 +7,21 @@ use Illuminate\Http\Request;
 
 class GaleriController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
-        $galeri = Galeri::latest()->paginate(12);
+        $query = Galeri::query();
+
+        if ($request->filled('search')) {
+            $keyword = $request->search;
+            $query->where(function ($q) use ($keyword) {
+                $q->where('judul', 'like', "%{$keyword}%")
+                  ->orWhere('kategori', 'like', "%{$keyword}%")
+                  ->orWhere('keterangan', 'like', "%{$keyword}%");
+            });
+        }
+
+        $galeri = $query->latest()->paginate(12)->withQueryString();
+
         return view('galeri.index', compact('galeri'));
     }
 
@@ -40,7 +52,7 @@ class GaleriController extends Controller
         Galeri::create($data);
 
         return redirect()->route('galeri.index')
-                         ->with('success', 'Galeri berhasil ditambahkan!');
+                         ->with('success', 'Galeri berhasil ditambahkan.');
     }
 
     public function show($id)
@@ -83,7 +95,7 @@ class GaleriController extends Controller
         $galeri->update($data);
 
         return redirect()->route('galeri.index')
-                         ->with('success', 'Galeri berhasil diperbarui!');
+                         ->with('success', 'Galeri berhasil diperbarui.');
     }
 
     public function destroy($id)
@@ -97,6 +109,6 @@ class GaleriController extends Controller
         $galeri->delete();
 
         return redirect()->route('galeri.index')
-                         ->with('success', 'Galeri berhasil dihapus!');
+                         ->with('success', 'Galeri berhasil dihapus.');
     }
 }

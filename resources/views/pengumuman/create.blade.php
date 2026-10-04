@@ -14,19 +14,19 @@
         <form action="{{ route('pengumuman.store') }}" method="POST">
             @csrf
 
-            <div class="row g-3">
+            <div class class="row g-3">
                 <div class="col-12">
                     <label class="form-label">Judul <span class="text-danger">*</span></label>
                     <input type="text" name="judul"
-                           class="form-control @error('judul') is-invalid @enderror"
-                           value="{{ old('judul') }}"
-                           placeholder="Judul pengumuman..."
-                           maxlength="50" required>
+                        class="form-control @error('judul') is-invalid @enderror"
+                        value="{{ old('judul') }}"
+                        placeholder="Contoh: Libur Semester Ganjil 2026"
+                        maxlength="50" required>
                     @error('judul')
                         <div class="invalid-feedback">{{ $message }}</div>
                     @enderror
                 </div>
-
+            </div>
                 <div class="col-md-6">
                     <label class="form-label">Tanggal <span class="text-danger">*</span></label>
                     <input type="date" name="tanggal"

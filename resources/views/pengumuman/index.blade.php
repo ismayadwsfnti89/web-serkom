@@ -22,6 +22,12 @@
         </div>
     @endif
 
+    <x-search-bar
+        :action="route('pengumuman.index')"
+        placeholder="Cari judul atau isi pengumuman..."
+        :value="request('search')"
+    />
+
     <div class="dashboard-card">
         <div class="table-responsive">
             <table class="table table-hover align-middle mb-0">
@@ -40,7 +46,7 @@
                     <tr>
                         <td>{{ $pengumuman->firstItem() + $index }}</td>
                         <td class="fw-semibold">{{ Str::limit($item->judul, 70) }}</td>
-                        <td>{{ \Carbon\Carbon::parse($item->tanggal)->format('d M Y') }}</td>
+                        <td>{{ \Carbon\Carbon::parse($item->tanggal)->locale('id')->translatedFormat('d M Y') }}</td>
                         <td>
                             @if($item->status === 'Publish')
                                 <span class="badge bg-success">Publish</span>
@@ -62,7 +68,7 @@
                             </a>
                             <form action="{{ route('pengumuman.destroy', $item->id_pengumuman) }}"
                                   method="POST" class="d-inline"
-                                  onsubmit="return confirm('Yakin hapus data ini?')">
+                                  onsubmit="return confirm('Hapus pengumuman &quot;{{ Str::limit($item->judul, 40) }}&quot;? Data yang dihapus tidak bisa dikembalikan.')">
                                 @csrf
                                 @method('DELETE')
                                 <button type="submit" class="btn btn-sm btn-outline-danger" title="Hapus">
@@ -73,9 +79,16 @@
                     </tr>
                     @empty
                     <tr>
-                        <td colspan="6" class="text-center py-4 text-muted">
-                            <i class="bi bi-megaphone fs-1 d-block mb-2"></i>
-                            Belum ada data pengumuman
+                        <td colspan="6" class="text-center py-5 text-muted">
+                            @if(request('search'))
+                                <i class="bi bi-search fs-1 d-block mb-3 opacity-50"></i>
+                                <p class="mb-1 fw-medium">Tidak ada pengumuman yang cocok</p>
+                                <p class="small mb-0">Coba kata kunci lain atau reset pencarian.</p>
+                            @else
+                                <i class="bi bi-megaphone fs-1 d-block mb-3 opacity-50"></i>
+                                <p class="mb-1 fw-medium">Belum ada data pengumuman</p>
+                                <p class="small mb-0">Mulai buat pengumuman pertama.</p>
+                            @endif
                         </td>
                     </tr>
                     @endforelse
@@ -83,9 +96,11 @@
             </table>
         </div>
 
-        <div class="mt-3">
-            {{ $pengumuman->links() }}
-        </div>
+        @if($pengumuman->hasPages())
+            <div class="mt-3">
+                {{ $pengumuman->links() }}
+            </div>
+        @endif
     </div>
 
 </div>

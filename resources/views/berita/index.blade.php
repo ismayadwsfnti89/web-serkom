@@ -22,6 +22,12 @@
         </div>
     @endif
 
+    <x-search-bar
+        :action="route('berita.index')"
+        placeholder="Cari judul atau isi berita..."
+        :value="request('search')"
+    />
+
     <div class="dashboard-card">
         <div class="table-responsive">
             <table class="table table-hover align-middle mb-0">
@@ -55,7 +61,7 @@
                             @endif
                         </td>
                         <td class="fw-semibold">{{ Str::limit($item->judul, 60) }}</td>
-                        <td>{{ \Carbon\Carbon::parse($item->tanggal)->format('d M Y') }}</td>
+                        <td>{{ \Carbon\Carbon::parse($item->tanggal)->locale('id')->translatedFormat('d M Y') }}</td>
                         <td>
                             @if($item->status === 'Publish')
                                 <span class="badge bg-success">Publish</span>
@@ -77,7 +83,7 @@
                             </a>
                             <form action="{{ route('berita.destroy', $item->id_berita) }}"
                                   method="POST" class="d-inline"
-                                  onsubmit="return confirm('Yakin hapus data ini?')">
+                                  onsubmit="return confirm('Hapus berita &quot;{{ Str::limit($item->judul, 40) }}&quot;? Data yang dihapus tidak bisa dikembalikan.')">
                                 @csrf
                                 @method('DELETE')
                                 <button type="submit" class="btn btn-sm btn-outline-danger" title="Hapus">
@@ -88,9 +94,16 @@
                     </tr>
                     @empty
                     <tr>
-                        <td colspan="7" class="text-center py-4 text-muted">
-                            <i class="bi bi-newspaper fs-1 d-block mb-2"></i>
-                            Belum ada data berita
+                        <td colspan="7" class="text-center py-5 text-muted">
+                            @if(request('search'))
+                                <i class="bi bi-search fs-1 d-block mb-3 opacity-50"></i>
+                                <p class="mb-1 fw-medium">Tidak ada berita yang cocok</p>
+                                <p class="small mb-0">Coba kata kunci lain atau reset pencarian.</p>
+                            @else
+                                <i class="bi bi-newspaper fs-1 d-block mb-3 opacity-50"></i>
+                                <p class="mb-1 fw-medium">Belum ada data berita</p>
+                                <p class="small mb-0">Mulai tulis berita pertama.</p>
+                            @endif
                         </td>
                     </tr>
                     @endforelse
@@ -98,9 +111,11 @@
             </table>
         </div>
 
-        <div class="mt-3">
-            {{ $berita->links() }}
-        </div>
+        @if($berita->hasPages())
+            <div class="mt-3">
+                {{ $berita->links() }}
+            </div>
+        @endif
     </div>
 
 </div>

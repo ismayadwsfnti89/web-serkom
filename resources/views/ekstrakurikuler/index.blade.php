@@ -22,6 +22,12 @@
         </div>
     @endif
 
+    <x-search-bar
+        :action="route('ekskul.index')"
+        placeholder="Cari nama ekskul, pembina, atau jadwal..."
+        :value="request('search')"
+    />
+
     <div class="dashboard-card">
         <div class="table-responsive">
             <table class="table table-hover align-middle mb-0">
@@ -67,7 +73,7 @@
                             </a>
                             <form action="{{ route('ekskul.destroy', $item->id_ekskul) }}"
                                   method="POST" class="d-inline"
-                                  onsubmit="return confirm('Yakin hapus data ini?')">
+                                  onsubmit="return confirm('Hapus ekstrakurikuler &quot;{{ $item->nama_ekskul }}&quot;? Data yang dihapus tidak bisa dikembalikan.')">
                                 @csrf
                                 @method('DELETE')
                                 <button type="submit" class="btn btn-sm btn-outline-danger" title="Hapus">
@@ -78,9 +84,16 @@
                     </tr>
                     @empty
                     <tr>
-                        <td colspan="6" class="text-center py-4 text-muted">
-                            <i class="bi bi-inbox fs-1 d-block mb-2"></i>
-                            Belum ada data ekstrakurikuler
+                        <td colspan="6" class="text-center py-5 text-muted">
+                            @if(request('search'))
+                                <i class="bi bi-search fs-1 d-block mb-3 opacity-50"></i>
+                                <p class="mb-1 fw-medium">Tidak ada ekstrakurikuler yang cocok</p>
+                                <p class="small mb-0">Coba kata kunci lain atau reset pencarian.</p>
+                            @else
+                                <i class="bi bi-inbox fs-1 d-block mb-3 opacity-50"></i>
+                                <p class="mb-1 fw-medium">Belum ada data ekstrakurikuler</p>
+                                <p class="small mb-0">Mulai tambahkan ekskul pertama.</p>
+                            @endif
                         </td>
                     </tr>
                     @endforelse
@@ -88,9 +101,11 @@
             </table>
         </div>
 
-        <div class="mt-3">
-            {{ $ekskul->links() }}
-        </div>
+        @if($ekskul->hasPages())
+            <div class="mt-3">
+                {{ $ekskul->links() }}
+            </div>
+        @endif
     </div>
 
 </div>

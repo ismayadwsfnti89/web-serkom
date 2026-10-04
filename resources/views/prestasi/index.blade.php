@@ -22,6 +22,12 @@
         </div>
     @endif
 
+    <x-search-bar
+        :action="route('prestasi.index')"
+        placeholder="Cari nama prestasi, tingkat, atau juara..."
+        :value="request('search')"
+    />
+
     <div class="dashboard-card">
         <div class="table-responsive">
             <table class="table table-hover align-middle mb-0">
@@ -79,7 +85,7 @@
                             </a>
                             <form action="{{ route('prestasi.destroy', $item->id_prestasi) }}"
                                   method="POST" class="d-inline"
-                                  onsubmit="return confirm('Yakin hapus data ini?')">
+                                  onsubmit="return confirm('Hapus prestasi &quot;{{ Str::limit($item->nama_prestasi, 30) }}&quot;? Data yang dihapus tidak bisa dikembalikan.')">
                                 @csrf
                                 @method('DELETE')
                                 <button type="submit" class="btn btn-sm btn-outline-danger" title="Hapus">
@@ -90,9 +96,16 @@
                     </tr>
                     @empty
                     <tr>
-                        <td colspan="7" class="text-center py-4 text-muted">
-                            <i class="bi bi-trophy fs-1 d-block mb-2"></i>
-                            Belum ada data prestasi
+                        <td colspan="7" class="text-center py-5 text-muted">
+                            @if(request('search'))
+                                <i class="bi bi-search fs-1 d-block mb-3 opacity-50"></i>
+                                <p class="mb-1 fw-medium">Tidak ada prestasi yang cocok</p>
+                                <p class="small mb-0">Coba kata kunci lain atau reset pencarian.</p>
+                            @else
+                                <i class="bi bi-trophy fs-1 d-block mb-3 opacity-50"></i>
+                                <p class="mb-1 fw-medium">Belum ada data prestasi</p>
+                                <p class="small mb-0">Mulai catat prestasi pertama.</p>
+                            @endif
                         </td>
                     </tr>
                     @endforelse
@@ -100,9 +113,11 @@
             </table>
         </div>
 
-        <div class="mt-3">
-            {{ $prestasi->links() }}
-        </div>
+        @if($prestasi->hasPages())
+            <div class="mt-3">
+                {{ $prestasi->links() }}
+            </div>
+        @endif
     </div>
 
 </div>

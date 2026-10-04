@@ -4,14 +4,27 @@ namespace App\Http\Controllers;
 
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Str;
 
 class UserController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
-        $user = User::latest()->paginate(10);
+        $query = User::query();
+
+        if ($request->filled('search')) {
+            $keyword = $request->search;
+            $query->where(function ($q) use ($keyword) {
+                $q->where('nama', 'like', "%{$keyword}%")
+                  ->orWhere('username', 'like', "%{$keyword}%")
+                  ->orWhere('role', 'like', "%{$keyword}%");
+            });
+        }
+
+        $user = $query->latest()->paginate(10)->withQueryString();
+
         return view('user.index', compact('user'));
     }
 
@@ -26,11 +39,11 @@ class UserController extends Controller
             'nama'     => 'required|string|max:255',
             'username' => 'required|string|max:255|unique:users,username',
             'password' => 'required|string|min:6',
-            'role'     => 'required|in:admin,operator',   // ← lowercase
+            'role'     => 'required|in:admin,operator',
         ]);
 
         User::create([
-            'id_user'  => Str::uuid(),                    // ← generate UUID
+            'id_user'  => Str::uuid(),
             'nama'     => $request->nama,
             'username' => $request->username,
             'password' => Hash::make($request->password),
@@ -38,7 +51,7 @@ class UserController extends Controller
         ]);
 
         return redirect()->route('user.index')
-                         ->with('success', 'User berhasil ditambahkan!');
+                         ->with('success', 'User berhasil ditambahkan.');
     }
 
     public function show($id)
@@ -61,7 +74,7 @@ class UserController extends Controller
             'nama'     => 'required|string|max:255',
             'username' => 'required|string|max:255|unique:users,username,' . $id . ',id_user',
             'password' => 'nullable|string|min:6',
-            'role'     => 'required|in:admin,operator',   // ← lowercase
+            'role'     => 'required|in:admin,operator',
         ]);
 
         $data = [
@@ -77,21 +90,21 @@ class UserController extends Controller
         $user->update($data);
 
         return redirect()->route('user.index')
-                         ->with('success', 'User berhasil diperbarui!');
+                         ->with('success', 'User berhasil diperbarui.');
     }
 
     public function destroy($id)
     {
         $user = User::findOrFail($id);
 
-        if ($user->id_user === auth()->id()) {
+        if ($user->id_user === Auth::id()) {
             return redirect()->route('user.index')
-                             ->with('error', 'Anda tidak bisa menghapus akun sendiri!');
+                             ->with('error', 'Anda tidak bisa menghapus akun sendiri.');
         }
 
         $user->delete();
 
         return redirect()->route('user.index')
-                         ->with('success', 'User berhasil dihapus!');
+                         ->with('success', 'User berhasil dihapus.');
     }
 }

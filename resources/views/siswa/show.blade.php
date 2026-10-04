@@ -25,11 +25,11 @@
     <div class="dashboard-card">
         <div class="row align-items-center">
             <div class="col-md-3 text-center">
-                <img src="https://ui-avatars.com/api/?name={{ urlencode($siswa->nama_siswa) }}&background=6366f1&color=fff&size=150"
-                     alt="{{ $siswa->nama_siswa }}"
-                     class="rounded-circle mb-3"
-                     width="150"
-                     height="150">
+                <img src="https://ui-avatars.com/api/?name={{ urlencode($siswa->nama_siswa) }}&background=b91c1c&color=fff&size=150"
+                    alt="{{ $siswa->nama_siswa }}"
+                    class="rounded-circle mb-3"
+                    width="150"
+                    height="150">
                 <h4 class="mb-1">{{ $siswa->nama_siswa }}</h4>
                 <p class="text-muted mb-2">NISN: {{ $siswa->nisn }}</p>
                 @if($siswa->jenis_kelamin === 'Laki-Laki')

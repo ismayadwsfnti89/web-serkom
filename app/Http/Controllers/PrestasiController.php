@@ -7,9 +7,22 @@ use Illuminate\Http\Request;
 
 class PrestasiController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
-        $prestasi = Prestasi::latest()->paginate(10);
+        $query = Prestasi::query();
+
+        if ($request->filled('search')) {
+            $keyword = $request->search;
+            $query->where(function ($q) use ($keyword) {
+                $q->where('nama_prestasi', 'like', "%{$keyword}%")
+                  ->orWhere('tingkat', 'like', "%{$keyword}%")
+                  ->orWhere('juara', 'like', "%{$keyword}%")
+                  ->orWhere('tahun', 'like', "%{$keyword}%");
+            });
+        }
+
+        $prestasi = $query->latest()->paginate(10)->withQueryString();
+
         return view('prestasi.index', compact('prestasi'));
     }
 
@@ -41,7 +54,7 @@ class PrestasiController extends Controller
         Prestasi::create($data);
 
         return redirect()->route('prestasi.index')
-                         ->with('success', 'Prestasi berhasil ditambahkan!');
+                         ->with('success', 'Prestasi berhasil ditambahkan.');
     }
 
     public function show($id)
@@ -85,7 +98,7 @@ class PrestasiController extends Controller
         $prestasi->update($data);
 
         return redirect()->route('prestasi.index')
-                         ->with('success', 'Prestasi berhasil diperbarui!');
+                         ->with('success', 'Prestasi berhasil diperbarui.');
     }
 
     public function destroy($id)
@@ -99,6 +112,6 @@ class PrestasiController extends Controller
         $prestasi->delete();
 
         return redirect()->route('prestasi.index')
-                         ->with('success', 'Prestasi berhasil dihapus!');
+                         ->with('success', 'Prestasi berhasil dihapus.');
     }
 }

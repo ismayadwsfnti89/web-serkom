@@ -8,9 +8,21 @@ use Illuminate\Support\Facades\Auth;
 
 class PengumumanController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
-        $pengumuman = Pengumuman::with('user')->latest()->paginate(10);
+        $query = Pengumuman::with('user');
+
+        if ($request->filled('search')) {
+            $keyword = $request->search;
+            $query->where(function ($q) use ($keyword) {
+                $q->where('judul', 'like', "%{$keyword}%")
+                  ->orWhere('isi', 'like', "%{$keyword}%")
+                  ->orWhere('status', 'like', "%{$keyword}%");
+            });
+        }
+
+        $pengumuman = $query->latest()->paginate(10)->withQueryString();
+
         return view('pengumuman.index', compact('pengumuman'));
     }
 
@@ -29,12 +41,12 @@ class PengumumanController extends Controller
         ]);
 
         $data = $request->all();
-        $data['id_user'] = Auth::id();   // ✅ Otomatis dari user yang login
+        $data['id_user'] = Auth::id();
 
         Pengumuman::create($data);
 
         return redirect()->route('pengumuman.index')
-                         ->with('success', 'Pengumuman berhasil ditambahkan!');
+                         ->with('success', 'Pengumuman berhasil ditambahkan.');
     }
 
     public function show($id)
@@ -63,7 +75,7 @@ class PengumumanController extends Controller
         $pengumuman->update($request->all());
 
         return redirect()->route('pengumuman.index')
-                         ->with('success', 'Pengumuman berhasil diperbarui!');
+                         ->with('success', 'Pengumuman berhasil diperbarui.');
     }
 
     public function destroy($id)
@@ -72,6 +84,6 @@ class PengumumanController extends Controller
         $pengumuman->delete();
 
         return redirect()->route('pengumuman.index')
-                         ->with('success', 'Pengumuman berhasil dihapus!');
+                         ->with('success', 'Pengumuman berhasil dihapus.');
     }
 }

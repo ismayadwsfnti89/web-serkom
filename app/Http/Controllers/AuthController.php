@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\ProfileSekolah;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -13,7 +14,10 @@ class AuthController extends Controller
         if (Auth::check()) {
             return redirect()->route('dashboard');
         }
-        return view('auth.login');
+
+        $profil = ProfileSekolah::first();
+
+        return view('auth.login', compact('profil'));
     }
 
     // Proses login
@@ -27,7 +31,7 @@ class AuthController extends Controller
         if (Auth::attempt($credentials, $request->filled('remember'))) {
             $request->session()->regenerate();
             return redirect()->intended(route('dashboard'))
-                             ->with('success', 'Selamat datang, ' . Auth::user()->nama . '!');
+                             ->with('success', 'Selamat datang, ' . Auth::user()->nama . '.');
         }
 
         return back()->withErrors([
@@ -41,7 +45,8 @@ class AuthController extends Controller
         Auth::logout();
         $request->session()->invalidate();
         $request->session()->regenerateToken();
+
         return redirect()->route('login')
-                         ->with('success', 'Anda telah logout.');
+                         ->with('success', 'Anda berhasil logout.');
     }
 }

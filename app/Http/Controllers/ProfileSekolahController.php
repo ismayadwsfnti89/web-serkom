@@ -7,13 +7,10 @@ use Illuminate\Http\Request;
 
 class ProfileSekolahController extends Controller
 {
-    // Tampilkan form edit profil
     public function edit()
     {
-        // Ambil data pertama (karena cuma 1 record)
         $profil = ProfileSekolah::first();
 
-        // Kalau belum ada, buat instance kosong
         if (!$profil) {
             $profil = new ProfileSekolah();
         }
@@ -21,7 +18,6 @@ class ProfileSekolahController extends Controller
         return view('profile-sekolah.edit', compact('profil'));
     }
 
-    // Update profil
     public function update(Request $request)
     {
         $request->validate([
@@ -39,14 +35,12 @@ class ProfileSekolahController extends Controller
 
         $profil = ProfileSekolah::first();
 
-        // Kalau belum ada, buat baru
         if (!$profil) {
             $profil = new ProfileSekolah();
         }
 
         $data = $request->except(['foto', 'logo']);
 
-        // Upload foto
         if ($request->hasFile('foto')) {
             if ($profil->foto && file_exists(public_path('uploads/profil/' . $profil->foto))) {
                 unlink(public_path('uploads/profil/' . $profil->foto));
@@ -58,7 +52,6 @@ class ProfileSekolahController extends Controller
             $data['foto'] = $filename;
         }
 
-        // Upload logo
         if ($request->hasFile('logo')) {
             if ($profil->logo && file_exists(public_path('uploads/profil/' . $profil->logo))) {
                 unlink(public_path('uploads/profil/' . $profil->logo));
@@ -74,6 +67,6 @@ class ProfileSekolahController extends Controller
         $profil->save();
 
         return redirect()->route('profil.edit')
-                         ->with('success', 'Profil sekolah berhasil diperbarui!');
+                         ->with('success', 'Profil sekolah berhasil diperbarui.');
     }
 }

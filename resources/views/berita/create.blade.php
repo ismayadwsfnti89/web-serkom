@@ -18,10 +18,10 @@
                 <div class="col-12">
                     <label class="form-label">Judul <span class="text-danger">*</span></label>
                     <input type="text" name="judul"
-                           class="form-control @error('judul') is-invalid @enderror"
-                           value="{{ old('judul') }}"
-                           placeholder="Judul berita..."
-                           maxlength="255" required>
+                        class="form-control @error('judul') is-invalid @enderror"
+                        value="{{ old('judul') }}"
+                        placeholder="Contoh: Kegiatan Peringatan HUT RI ke-80"
+                        maxlength="255" required>
                     @error('judul')
                         <div class="invalid-feedback">{{ $message }}</div>
                     @enderror

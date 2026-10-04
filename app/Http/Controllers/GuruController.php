@@ -7,20 +7,30 @@ use Illuminate\Http\Request;
 
 class GuruController extends Controller
 {
-    // Daftar guru
-    public function index()
+    public function index(Request $request)
     {
-        $guru = Guru::latest()->paginate(10);
+        $query = Guru::query();
+
+        if ($request->filled('search')) {
+            $keyword = $request->search;
+            $query->where(function ($q) use ($keyword) {
+                $q->where('nama_guru', 'like', "%{$keyword}%")
+                  ->orWhere('nip', 'like', "%{$keyword}%")
+                  ->orWhere('jabatan', 'like', "%{$keyword}%")
+                  ->orWhere('mapel', 'like', "%{$keyword}%");
+            });
+        }
+
+        $guru = $query->latest()->paginate(10)->withQueryString();
+
         return view('guru.index', compact('guru'));
     }
 
-    // Form tambah
     public function create()
     {
         return view('guru.create');
     }
 
-    // Simpan data
     public function store(Request $request)
     {
         $request->validate([
@@ -33,7 +43,6 @@ class GuruController extends Controller
 
         $data = $request->except('foto');
 
-        // Upload foto
         if ($request->hasFile('foto')) {
             $file = $request->file('foto');
             $filename = time() . '_' . $file->getClientOriginalName();
@@ -44,31 +53,28 @@ class GuruController extends Controller
         Guru::create($data);
 
         return redirect()->route('guru.index')
-                         ->with('success', 'Data guru berhasil ditambahkan!');
+                         ->with('success', 'Data guru berhasil ditambahkan.');
     }
 
-    // Detail guru
     public function show($id)
     {
         $guru = Guru::findOrFail($id);
         return view('guru.show', compact('guru'));
     }
 
-    // Form edit
     public function edit($id)
     {
         $guru = Guru::findOrFail($id);
         return view('guru.edit', compact('guru'));
     }
 
-    // Update data
     public function update(Request $request, $id)
     {
         $guru = Guru::findOrFail($id);
 
         $request->validate([
             'nama_guru' => 'required|string|max:40',
-            'nip'       => 'nullable|string|max:15',
+            'nip'       => 'nullable|string|max:30',
             'jabatan'   => 'nullable|string|max:100',
             'mapel'     => 'nullable|string|max:40',
             'foto'      => 'nullable|image|mimes:jpg,jpeg,png|max:2048',
@@ -76,9 +82,7 @@ class GuruController extends Controller
 
         $data = $request->except('foto');
 
-        // Upload foto baru
         if ($request->hasFile('foto')) {
-            // Hapus foto lama
             if ($guru->foto && file_exists(public_path('uploads/guru/' . $guru->foto))) {
                 unlink(public_path('uploads/guru/' . $guru->foto));
             }
@@ -92,15 +96,13 @@ class GuruController extends Controller
         $guru->update($data);
 
         return redirect()->route('guru.index')
-                         ->with('success', 'Data guru berhasil diperbarui!');
+                         ->with('success', 'Data guru berhasil diperbarui.');
     }
 
-    // Hapus data
     public function destroy($id)
     {
         $guru = Guru::findOrFail($id);
 
-        // Hapus foto
         if ($guru->foto && file_exists(public_path('uploads/guru/' . $guru->foto))) {
             unlink(public_path('uploads/guru/' . $guru->foto));
         }
@@ -108,6 +110,6 @@ class GuruController extends Controller
         $guru->delete();
 
         return redirect()->route('guru.index')
-                         ->with('success', 'Data guru berhasil dihapus!');
+                         ->with('success', 'Data guru berhasil dihapus.');
     }
 }

@@ -22,12 +22,16 @@
         </div>
     @endif
 
-    {{-- Grid Galeri --}}
+    <x-search-bar
+        :action="route('galeri.index')"
+        placeholder="Cari judul, kategori, atau keterangan..."
+        :value="request('search')"
+    />
+
     <div class="row g-3">
         @forelse($galeri as $item)
         <div class="col-md-4 col-lg-3">
             <div class="dashboard-card h-100">
-                {{-- Preview File --}}
                 @if($item->kategori === 'Foto')
                     <img src="{{ asset('uploads/galeri/' . $item->file) }}"
                          alt="{{ $item->judul }}"
@@ -51,7 +55,7 @@
                     </div>
                     <p class="text-muted small mb-2">
                         <i class="bi bi-calendar me-1"></i>
-                        {{ $item->tanggal ? \Carbon\Carbon::parse($item->tanggal)->format('d M Y') : '-' }}
+                        {{ $item->tanggal ? \Carbon\Carbon::parse($item->tanggal)->locale('id')->translatedFormat('d M Y') : '-' }}
                     </p>
                     @if($item->keterangan)
                         <p class="text-muted small mb-3">
@@ -70,7 +74,7 @@
                         </a>
                         <form action="{{ route('galeri.destroy', $item->id_galeri) }}"
                               method="POST" class="flex-fill"
-                              onsubmit="return confirm('Yakin hapus data ini?')">
+                              onsubmit="return confirm('Hapus galeri &quot;{{ $item->judul }}&quot;? Data yang dihapus tidak bisa dikembalikan.')">
                             @csrf
                             @method('DELETE')
                             <button type="submit" class="btn btn-sm btn-outline-danger w-100" title="Hapus">
@@ -84,21 +88,31 @@
         @empty
         <div class="col-12">
             <div class="dashboard-card text-center py-5">
-                <i class="bi bi-images text-muted" style="font-size: 4rem;"></i>
-                <h5 class="mt-3">Belum ada data galeri</h5>
-                <p class="text-muted">Mulai tambahkan foto atau video</p>
-                <a href="{{ route('galeri.create') }}" class="btn btn-primary">
-                    <i class="bi bi-plus-circle me-2"></i>Tambah Galeri
-                </a>
+                @if(request('search'))
+                    <i class="bi bi-search text-muted" style="font-size: 4rem;"></i>
+                    <h5 class="mt-3">Tidak ada galeri yang cocok</h5>
+                    <p class="text-muted mb-3">Coba kata kunci lain atau reset pencarian.</p>
+                    <a href="{{ route('galeri.index') }}" class="btn btn-outline-secondary">
+                        <i class="bi bi-arrow-left me-2"></i>Lihat Semua
+                    </a>
+                @else
+                    <i class="bi bi-images text-muted" style="font-size: 4rem;"></i>
+                    <h5 class="mt-3">Belum ada data galeri</h5>
+                    <p class="text-muted mb-3">Mulai tambahkan foto atau video.</p>
+                    <a href="{{ route('galeri.create') }}" class="btn btn-primary">
+                        <i class="bi bi-plus-circle me-2"></i>Tambah Galeri
+                    </a>
+                @endif
             </div>
         </div>
         @endforelse
     </div>
 
-    {{-- Pagination --}}
-    <div class="mt-4">
-        {{ $galeri->links() }}
-    </div>
+    @if($galeri->hasPages())
+        <div class="mt-4">
+            {{ $galeri->links() }}
+        </div>
+    @endif
 
 </div>
 @endsection

@@ -8,9 +8,21 @@ use Illuminate\Support\Facades\Auth;
 
 class BeritaController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
-        $berita = Berita::with('user')->latest()->paginate(10);
+        $query = Berita::with('user');
+
+        if ($request->filled('search')) {
+            $keyword = $request->search;
+            $query->where(function ($q) use ($keyword) {
+                $q->where('judul', 'like', "%{$keyword}%")
+                  ->orWhere('isi', 'like', "%{$keyword}%")
+                  ->orWhere('status', 'like', "%{$keyword}%");
+            });
+        }
+
+        $berita = $query->latest()->paginate(10)->withQueryString();
+
         return view('berita.index', compact('berita'));
     }
 
@@ -30,7 +42,7 @@ class BeritaController extends Controller
         ]);
 
         $data = $request->except('gambar');
-        $data['id_user'] = Auth::id();   // ✅ Isi otomatis dari user yang login
+        $data['id_user'] = Auth::id();
 
         if ($request->hasFile('gambar')) {
             $file = $request->file('gambar');
@@ -42,7 +54,7 @@ class BeritaController extends Controller
         Berita::create($data);
 
         return redirect()->route('berita.index')
-                         ->with('success', 'Berita berhasil ditambahkan!');
+                         ->with('success', 'Berita berhasil ditambahkan.');
     }
 
     public function show($id)
@@ -85,7 +97,7 @@ class BeritaController extends Controller
         $berita->update($data);
 
         return redirect()->route('berita.index')
-                         ->with('success', 'Berita berhasil diperbarui!');
+                         ->with('success', 'Berita berhasil diperbarui.');
     }
 
     public function destroy($id)
@@ -99,6 +111,6 @@ class BeritaController extends Controller
         $berita->delete();
 
         return redirect()->route('berita.index')
-                         ->with('success', 'Berita berhasil dihapus!');
+                         ->with('success', 'Berita berhasil dihapus.');
     }
 }

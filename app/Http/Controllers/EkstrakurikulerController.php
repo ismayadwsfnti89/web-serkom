@@ -1,17 +1,27 @@
 <?php
 
 namespace App\Http\Controllers;
+
 use App\Models\Ekstrakurikuler;
 use Illuminate\Http\Request;
 
 class EkstrakurikulerController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
-    public function index()
+    public function index(Request $request)
     {
-       $ekskul = Ekstrakurikuler::latest()->paginate(10);
+        $query = Ekstrakurikuler::query();
+
+        if ($request->filled('search')) {
+            $keyword = $request->search;
+            $query->where(function ($q) use ($keyword) {
+                $q->where('nama_ekskul', 'like', "%{$keyword}%")
+                  ->orWhere('pembina', 'like', "%{$keyword}%")
+                  ->orWhere('jadwal_latihan', 'like', "%{$keyword}%");
+            });
+        }
+
+        $ekskul = $query->latest()->paginate(10)->withQueryString();
+
         return view('ekstrakurikuler.index', compact('ekskul'));
     }
 
@@ -20,9 +30,6 @@ class EkstrakurikulerController extends Controller
         return view('ekstrakurikuler.create');
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
     public function store(Request $request)
     {
         $request->validate([
@@ -35,7 +42,6 @@ class EkstrakurikulerController extends Controller
 
         $data = $request->except('gambar');
 
-        // Upload gambar
         if ($request->hasFile('gambar')) {
             $file = $request->file('gambar');
             $filename = time() . '_' . $file->getClientOriginalName();
@@ -46,31 +52,22 @@ class EkstrakurikulerController extends Controller
         Ekstrakurikuler::create($data);
 
         return redirect()->route('ekskul.index')
-                         ->with('success', 'Ekstrakurikuler berhasil ditambahkan!');
+                         ->with('success', 'Ekstrakurikuler berhasil ditambahkan.');
     }
 
-    /**
-     * Display the specified resource.
-     */
-    public function show(string $id)
+    public function show($id)
     {
-         $ekskul = Ekstrakurikuler::findOrFail($id);
+        $ekskul = Ekstrakurikuler::findOrFail($id);
         return view('ekstrakurikuler.show', compact('ekskul'));
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(string $id)
+    public function edit($id)
     {
         $ekskul = Ekstrakurikuler::findOrFail($id);
         return view('ekstrakurikuler.edit', compact('ekskul'));
     }
 
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, string $id)
+    public function update(Request $request, $id)
     {
         $ekskul = Ekstrakurikuler::findOrFail($id);
 
@@ -84,7 +81,6 @@ class EkstrakurikulerController extends Controller
 
         $data = $request->except('gambar');
 
-        // Upload gambar baru
         if ($request->hasFile('gambar')) {
             if ($ekskul->gambar && file_exists(public_path('uploads/ekskul/' . $ekskul->gambar))) {
                 unlink(public_path('uploads/ekskul/' . $ekskul->gambar));
@@ -99,13 +95,10 @@ class EkstrakurikulerController extends Controller
         $ekskul->update($data);
 
         return redirect()->route('ekskul.index')
-                         ->with('success', 'Ekstrakurikuler berhasil diperbarui!');
+                         ->with('success', 'Ekstrakurikuler berhasil diperbarui.');
     }
 
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(string $id)
+    public function destroy($id)
     {
         $ekskul = Ekstrakurikuler::findOrFail($id);
 
@@ -116,7 +109,6 @@ class EkstrakurikulerController extends Controller
         $ekskul->delete();
 
         return redirect()->route('ekskul.index')
-                         ->with('success', 'Ekstrakurikuler berhasil dihapus!');
+                         ->with('success', 'Ekstrakurikuler berhasil dihapus.');
     }
 }
-

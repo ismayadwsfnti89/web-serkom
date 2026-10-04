@@ -1,8 +1,17 @@
 {{-- Sidebar --}}
 <aside class="sidebar" id="sidebar">
+
     {{-- Brand --}}
     <div class="sidebar-brand">
-        <h5>Web Sekolah</h5>
+        @if(!empty($profil->logo))
+            <img src="{{ asset('uploads/profil/' . $profil->logo) }}" alt="Logo">
+        @else
+            <i class="bi bi-mortarboard-fill"></i>
+        @endif
+        <div>
+            <h5>{{ $profil->nama_sekolah ?? 'Web Sekolah' }}</h5>
+            <small>Panel Admin</small>
+        </div>
     </div>
 
     {{-- Navigation --}}
@@ -20,7 +29,7 @@
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link {{ request()->routeIs('beranda') ? 'active' : '' }}"
+                    <a class="nav-link"
                        href="{{ url('/') }}" target="_blank">
                         <i class="bi bi-globe2"></i>
                         <span>Lihat Website</span>
