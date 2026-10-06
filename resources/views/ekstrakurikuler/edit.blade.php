@@ -11,7 +11,7 @@
     </div>
 
     <div class="dashboard-card">
-        <form action="{{ route('ekskul.update', $ekskul->id_ekskul) }}" method="POST" enctype="multipart/form-data">
+        <form action="{{ route('ekskul.update', encrypt_id($ekskul->id_ekskul)) }}" method="POST" enctype="multipart/form-data">
             @csrf
             @method('PUT')
 

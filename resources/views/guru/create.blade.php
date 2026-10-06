@@ -5,11 +5,13 @@
 @section('content')
 <div class="container-fluid">
 
+    {{-- Header --}}
     <div class="mb-4">
         <h1 class="h3 fw-bold text-dark">Tambah Guru</h1>
         <p class="text-muted mb-0">Isi form di bawah untuk menambah data guru</p>
     </div>
 
+    {{-- Form --}}
     <div class="dashboard-card">
         <form action="{{ route('guru.store') }}" method="POST" enctype="multipart/form-data">
             @csrf
@@ -34,10 +36,12 @@
                            class="form-control @error('nip') is-invalid @enderror"
                            value="{{ old('nip') }}"
                            placeholder="Contoh: 198501012010011001"
-                           maxlength="15">
+                           maxlength="30"
+                           inputmode="numeric">
                     @error('nip')
                         <div class="invalid-feedback">{{ $message }}</div>
                     @enderror
+                    <small class="text-muted">Maksimal 30 karakter</small>
                 </div>
 
                 <div class="col-md-6">

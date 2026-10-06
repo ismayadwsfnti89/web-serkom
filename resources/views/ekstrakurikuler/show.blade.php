@@ -11,7 +11,7 @@
             <p class="text-muted mb-0">Informasi lengkap ekstrakurikuler</p>
         </div>
         <div class="d-flex gap-2">
-            <a href="{{ route('ekskul.edit', $ekskul->id_ekskul) }}" class="btn btn-warning">
+            <a href="{{ route('ekskul.edit', encrypt_id($ekskul->id_ekskul)) }}" class="btn btn-warning">
                 <i class="bi bi-pencil me-2"></i>Edit
             </a>
             <a href="{{ route('ekskul.index') }}" class="btn btn-outline-secondary">

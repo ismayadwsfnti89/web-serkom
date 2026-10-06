@@ -55,20 +55,23 @@ class EkstrakurikulerController extends Controller
                          ->with('success', 'Ekstrakurikuler berhasil ditambahkan.');
     }
 
-    public function show($id)
+    public function show(string $encryptedId)
     {
+        $id = decrypt_id($encryptedId);
         $ekskul = Ekstrakurikuler::findOrFail($id);
         return view('ekstrakurikuler.show', compact('ekskul'));
     }
 
-    public function edit($id)
+    public function edit(string $encryptedId)
     {
+        $id = decrypt_id($encryptedId);
         $ekskul = Ekstrakurikuler::findOrFail($id);
         return view('ekstrakurikuler.edit', compact('ekskul'));
     }
 
-    public function update(Request $request, $id)
+    public function update(Request $request, string $encryptedId)
     {
+        $id = decrypt_id($encryptedId);
         $ekskul = Ekstrakurikuler::findOrFail($id);
 
         $request->validate([
@@ -95,11 +98,12 @@ class EkstrakurikulerController extends Controller
         $ekskul->update($data);
 
         return redirect()->route('ekskul.index')
-                         ->with('success', 'Ekstrakurikuler berhasil diperbarui.');
+                        ->with('success', 'Ekstrakurikuler berhasil diperbarui.');
     }
 
-    public function destroy($id)
+    public function destroy(string $encryptedId)
     {
+        $id = decrypt_id($encryptedId);
         $ekskul = Ekstrakurikuler::findOrFail($id);
 
         if ($ekskul->gambar && file_exists(public_path('uploads/ekskul/' . $ekskul->gambar))) {
@@ -109,6 +113,6 @@ class EkstrakurikulerController extends Controller
         $ekskul->delete();
 
         return redirect()->route('ekskul.index')
-                         ->with('success', 'Ekstrakurikuler berhasil dihapus.');
+                        ->with('success', 'Ekstrakurikuler berhasil dihapus.');
     }
 }

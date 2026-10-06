@@ -49,20 +49,23 @@ class PengumumanController extends Controller
                          ->with('success', 'Pengumuman berhasil ditambahkan.');
     }
 
-    public function show($id)
+    public function show(string $encryptedId)
     {
+        $id = decrypt_id($encryptedId);
         $pengumuman = Pengumuman::with('user')->findOrFail($id);
         return view('pengumuman.show', compact('pengumuman'));
     }
 
-    public function edit($id)
+    public function edit(string $encryptedId)
     {
+        $id = decrypt_id($encryptedId);
         $pengumuman = Pengumuman::findOrFail($id);
         return view('pengumuman.edit', compact('pengumuman'));
     }
 
-    public function update(Request $request, $id)
+    public function update(Request $request, string $encryptedId)
     {
+        $id = decrypt_id($encryptedId);
         $pengumuman = Pengumuman::findOrFail($id);
 
         $request->validate([
@@ -75,15 +78,16 @@ class PengumumanController extends Controller
         $pengumuman->update($request->all());
 
         return redirect()->route('pengumuman.index')
-                         ->with('success', 'Pengumuman berhasil diperbarui.');
+                        ->with('success', 'Pengumuman berhasil diperbarui.');
     }
 
-    public function destroy($id)
+    public function destroy(string $encryptedId)
     {
+        $id = decrypt_id($encryptedId);
         $pengumuman = Pengumuman::findOrFail($id);
         $pengumuman->delete();
 
         return redirect()->route('pengumuman.index')
-                         ->with('success', 'Pengumuman berhasil dihapus.');
+                        ->with('success', 'Pengumuman berhasil dihapus.');
     }
 }

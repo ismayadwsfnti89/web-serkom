@@ -11,7 +11,7 @@
     </div>
 
     <div class="dashboard-card">
-        <form action="{{ route('prestasi.update', $prestasi->id_prestasi) }}" method="POST" enctype="multipart/form-data">
+        <form action="{{ route('prestasi.update', encrypt_id($prestasi->id_prestasi)) }}" method="POST" enctype="multipart/form-data">
             @csrf
             @method('PUT')
 

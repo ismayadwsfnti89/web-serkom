@@ -57,20 +57,23 @@ class PrestasiController extends Controller
                          ->with('success', 'Prestasi berhasil ditambahkan.');
     }
 
-    public function show($id)
+    public function show(string $encryptedId)
     {
+        $id = decrypt_id($encryptedId);
         $prestasi = Prestasi::findOrFail($id);
         return view('prestasi.show', compact('prestasi'));
     }
 
-    public function edit($id)
+    public function edit(string $encryptedId)
     {
+        $id = decrypt_id($encryptedId);
         $prestasi = Prestasi::findOrFail($id);
         return view('prestasi.edit', compact('prestasi'));
     }
 
-    public function update(Request $request, $id)
+    public function update(Request $request, string $encryptedId)
     {
+        $id = decrypt_id($encryptedId);
         $prestasi = Prestasi::findOrFail($id);
 
         $request->validate([
@@ -98,11 +101,12 @@ class PrestasiController extends Controller
         $prestasi->update($data);
 
         return redirect()->route('prestasi.index')
-                         ->with('success', 'Prestasi berhasil diperbarui.');
+                        ->with('success', 'Prestasi berhasil diperbarui.');
     }
 
-    public function destroy($id)
+    public function destroy(string $encryptedId)
     {
+        $id = decrypt_id($encryptedId);
         $prestasi = Prestasi::findOrFail($id);
 
         if ($prestasi->foto && file_exists(public_path('uploads/prestasi/' . $prestasi->foto))) {
@@ -112,6 +116,6 @@ class PrestasiController extends Controller
         $prestasi->delete();
 
         return redirect()->route('prestasi.index')
-                         ->with('success', 'Prestasi berhasil dihapus.');
+                        ->with('success', 'Prestasi berhasil dihapus.');
     }
 }

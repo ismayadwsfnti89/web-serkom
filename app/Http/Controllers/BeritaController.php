@@ -57,20 +57,23 @@ class BeritaController extends Controller
                          ->with('success', 'Berita berhasil ditambahkan.');
     }
 
-    public function show($id)
+    public function show(string $encryptedId)
     {
+        $id = decrypt_id($encryptedId);
         $berita = Berita::with('user')->findOrFail($id);
         return view('berita.show', compact('berita'));
     }
 
-    public function edit($id)
+    public function edit(string $encryptedId)
     {
+        $id = decrypt_id($encryptedId);
         $berita = Berita::findOrFail($id);
         return view('berita.edit', compact('berita'));
     }
 
-    public function update(Request $request, $id)
+    public function update(Request $request, string $encryptedId)
     {
+        $id = decrypt_id($encryptedId);
         $berita = Berita::findOrFail($id);
 
         $request->validate([
@@ -97,11 +100,12 @@ class BeritaController extends Controller
         $berita->update($data);
 
         return redirect()->route('berita.index')
-                         ->with('success', 'Berita berhasil diperbarui.');
+                        ->with('success', 'Berita berhasil diperbarui.');
     }
 
-    public function destroy($id)
+    public function destroy(string $encryptedId)
     {
+        $id = decrypt_id($encryptedId);
         $berita = Berita::findOrFail($id);
 
         if ($berita->gambar && file_exists(public_path('uploads/berita/' . $berita->gambar))) {
@@ -111,6 +115,6 @@ class BeritaController extends Controller
         $berita->delete();
 
         return redirect()->route('berita.index')
-                         ->with('success', 'Berita berhasil dihapus.');
+                        ->with('success', 'Berita berhasil dihapus.');
     }
 }

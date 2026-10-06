@@ -11,9 +11,11 @@
             <p class="text-muted mb-0">Informasi lengkap guru</p>
         </div>
         <div class="d-flex gap-2">
-            <a href="{{ route('guru.edit', $guru->id_guru) }}" class="btn btn-warning">
-                <i class="bi bi-pencil me-2"></i>Edit
-            </a>
+            @if(Auth::user()->role === 'admin')
+                <a href="{{ route('guru.edit', encrypt_id($guru->id_guru)) }}" class="btn btn-warning">
+                    <i class="bi bi-pencil me-2"></i>Edit
+                </a>
+            @endif
             <a href="{{ route('guru.index') }}" class="btn btn-outline-secondary">
                 <i class="bi bi-arrow-left me-2"></i>Kembali
             </a>
@@ -30,7 +32,7 @@
                          width="150" height="150"
                          style="object-fit: cover;">
                 @else
-                    <img src="https://ui-avatars.com/api/?name={{ urlencode($guru->nama_guru) }}&background=6366f1&color=fff&size=150"
+                    <img src="https://ui-avatars.com/api/?name={{ urlencode($guru->nama_guru) }}&background=b91c1c&color=fff&size=150"
                          alt="{{ $guru->nama_guru }}"
                          class="rounded-circle mb-3"
                          width="150" height="150">
@@ -59,7 +61,7 @@
                     </tr>
                     <tr>
                         <td class="text-muted">Terdaftar Sejak</td>
-                        <td>{{ $guru->created_at->format('d F Y') }}</td>
+                        <td>{{ $guru->created_at->locale('id')->translatedFormat('d F Y') }}</td>
                     </tr>
                 </table>
             </div>

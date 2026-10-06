@@ -14,17 +14,23 @@ use App\Http\Controllers\BeritaController;
 use App\Http\Controllers\PengumumanController;
 use App\Http\Controllers\ProfileSekolahController;
 
-// ===== LANDING PAGE =====
-// ===== LANDING PAGE =====
 Route::get('/', function () {
+    $profil = \App\Models\ProfileSekolah::first();
+
     return view('landing.index', [
+        'profil'        => $profil,
         'totalSiswa'    => \App\Models\Siswa::count(),
         'totalGuru'     => \App\Models\Guru::count(),
         'totalEkskul'   => \App\Models\Ekstrakurikuler::count(),
         'totalPrestasi' => \App\Models\Prestasi::count(),
-        'berita'        => \App\Models\Berita::where('status', 'Publish')->latest()->take(3)->get(),
+        'berita'        => \App\Models\Berita::where('status', 'Publish')
+                                ->latest()->take(4)->get(),
+        'pengumuman'    => \App\Models\Pengumuman::where('status', 'Publish')
+                                ->latest()->take(3)->get(),
         'galeri'        => \App\Models\Galeri::latest()->take(8)->get(),
-        'profil'        => \App\Models\ProfileSekolah::first(),
+        'ekskul'        => \App\Models\Ekstrakurikuler::latest()->take(6)->get(),
+        'prestasi'      => \App\Models\Prestasi::latest()->take(4)->get(),
+        'guru'          => \App\Models\Guru::latest()->take(8)->get(),  // ← TAMBAH
     ]);
 })->name('landing');
 

@@ -11,7 +11,7 @@
             <p class="text-muted mb-0">{{ $galeri->judul }}</p>
         </div>
         <div class="d-flex gap-2">
-            <a href="{{ route('galeri.edit', $galeri->id_galeri) }}" class="btn btn-warning">
+            <a href="{{ route('galeri.edit', encrypt_id($galeri->id_galeri)) }}" class="btn btn-warning">
                 <i class="bi bi-pencil me-2"></i>Edit
             </a>
             <a href="{{ route('galeri.index') }}" class="btn btn-outline-secondary">

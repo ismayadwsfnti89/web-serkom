@@ -7,7 +7,6 @@ use Illuminate\Http\Request;
 
 class SiswaController extends Controller
 {
-    // Tampilkan daftar siswa + pencarian
     public function index(Request $request)
     {
         $query = Siswa::query();
@@ -46,20 +45,24 @@ class SiswaController extends Controller
                          ->with('success', 'Data siswa berhasil ditambahkan.');
     }
 
-    public function show($id)
+    // ============ PAKAI ENCRYPTED ID ============
+    public function show(string $encryptedId)
     {
+        $id = decrypt_id($encryptedId);
         $siswa = Siswa::findOrFail($id);
         return view('siswa.show', compact('siswa'));
     }
 
-    public function edit($id)
+    public function edit(string $encryptedId)
     {
+        $id = decrypt_id($encryptedId);
         $siswa = Siswa::findOrFail($id);
         return view('siswa.edit', compact('siswa'));
     }
 
-    public function update(Request $request, $id)
+    public function update(Request $request, string $encryptedId)
     {
+        $id = decrypt_id($encryptedId);
         $siswa = Siswa::findOrFail($id);
 
         $request->validate([
@@ -75,8 +78,9 @@ class SiswaController extends Controller
                          ->with('success', 'Data siswa berhasil diperbarui.');
     }
 
-    public function destroy($id)
+    public function destroy(string $encryptedId)
     {
+        $id = decrypt_id($encryptedId);
         $siswa = Siswa::findOrFail($id);
         $siswa->delete();
 

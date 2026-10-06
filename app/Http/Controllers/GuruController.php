@@ -35,7 +35,7 @@ class GuruController extends Controller
     {
         $request->validate([
             'nama_guru' => 'required|string|max:40',
-            'nip'       => 'nullable|string|max:15',
+            'nip'       => 'nullable|string|max:30',    // ← FIX: 15 → 30
             'jabatan'   => 'nullable|string|max:100',
             'mapel'     => 'nullable|string|max:40',
             'foto'      => 'nullable|image|mimes:jpg,jpeg,png|max:2048',
@@ -56,20 +56,24 @@ class GuruController extends Controller
                          ->with('success', 'Data guru berhasil ditambahkan.');
     }
 
-    public function show($id)
+        // ============ PAKAI ENCRYPTED ID ============
+    public function show(string $encryptedId)
     {
+        $id = decrypt_id($encryptedId);
         $guru = Guru::findOrFail($id);
         return view('guru.show', compact('guru'));
     }
 
-    public function edit($id)
+    public function edit(string $encryptedId)
     {
+        $id = decrypt_id($encryptedId);
         $guru = Guru::findOrFail($id);
         return view('guru.edit', compact('guru'));
     }
 
-    public function update(Request $request, $id)
+    public function update(Request $request, string $encryptedId)
     {
+        $id = decrypt_id($encryptedId);
         $guru = Guru::findOrFail($id);
 
         $request->validate([
@@ -96,11 +100,12 @@ class GuruController extends Controller
         $guru->update($data);
 
         return redirect()->route('guru.index')
-                         ->with('success', 'Data guru berhasil diperbarui.');
+                        ->with('success', 'Data guru berhasil diperbarui.');
     }
 
-    public function destroy($id)
+    public function destroy(string $encryptedId)
     {
+        $id = decrypt_id($encryptedId);
         $guru = Guru::findOrFail($id);
 
         if ($guru->foto && file_exists(public_path('uploads/guru/' . $guru->foto))) {
@@ -110,6 +115,6 @@ class GuruController extends Controller
         $guru->delete();
 
         return redirect()->route('guru.index')
-                         ->with('success', 'Data guru berhasil dihapus.');
+                        ->with('success', 'Data guru berhasil dihapus.');
     }
 }

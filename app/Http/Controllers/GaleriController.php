@@ -55,20 +55,23 @@ class GaleriController extends Controller
                          ->with('success', 'Galeri berhasil ditambahkan.');
     }
 
-    public function show($id)
+    public function show(string $encryptedId)
     {
+        $id = decrypt_id($encryptedId);
         $galeri = Galeri::findOrFail($id);
         return view('galeri.show', compact('galeri'));
     }
 
-    public function edit($id)
+    public function edit(string $encryptedId)
     {
+        $id = decrypt_id($encryptedId);
         $galeri = Galeri::findOrFail($id);
         return view('galeri.edit', compact('galeri'));
     }
 
-    public function update(Request $request, $id)
+    public function update(Request $request, string $encryptedId)
     {
+        $id = decrypt_id($encryptedId);
         $galeri = Galeri::findOrFail($id);
 
         $request->validate([
@@ -95,11 +98,12 @@ class GaleriController extends Controller
         $galeri->update($data);
 
         return redirect()->route('galeri.index')
-                         ->with('success', 'Galeri berhasil diperbarui.');
+                        ->with('success', 'Galeri berhasil diperbarui.');
     }
 
-    public function destroy($id)
+    public function destroy(string $encryptedId)
     {
+        $id = decrypt_id($encryptedId);
         $galeri = Galeri::findOrFail($id);
 
         if ($galeri->file && file_exists(public_path('uploads/galeri/' . $galeri->file))) {
@@ -109,6 +113,6 @@ class GaleriController extends Controller
         $galeri->delete();
 
         return redirect()->route('galeri.index')
-                         ->with('success', 'Galeri berhasil dihapus.');
+                        ->with('success', 'Galeri berhasil dihapus.');
     }
 }

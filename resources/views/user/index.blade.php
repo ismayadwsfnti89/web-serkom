@@ -73,20 +73,20 @@
                             @endif
                         </td>
                         <td class="text-center">
-                            <a href="{{ route('user.show', $item->id_user) }}"
-                               class="btn btn-sm btn-outline-info" title="Lihat">
+                            <a href="{{ route('user.show', encrypt_id($item->id_user)) }}"
+                            class="btn btn-sm btn-outline-info" title="Lihat">
                                 <i class="bi bi-eye"></i>
                             </a>
 
                             @if(Auth::user()->isAdmin())
-                                <a href="{{ route('user.edit', $item->id_user) }}"
-                                   class="btn btn-sm btn-outline-warning" title="Edit">
+                                <a href="{{ route('user.edit', encrypt_id($item->id_user)) }}"
+                                class="btn btn-sm btn-outline-warning" title="Edit">
                                     <i class="bi bi-pencil"></i>
                                 </a>
                                 @if($item->id_user !== Auth::id())
-                                    <form action="{{ route('user.destroy', $item->id_user) }}"
-                                          method="POST" class="d-inline"
-                                          onsubmit="return confirm('Hapus user &quot;{{ $item->nama }}&quot;? Data yang dihapus tidak bisa dikembalikan.')">
+                                    <form action="{{ route('user.destroy', encrypt_id($item->id_user)) }}"
+                                        method="POST" class="d-inline"
+                                        onsubmit="return confirm('Hapus user &quot;{{ $item->nama }}&quot;? Data yang dihapus tidak bisa dikembalikan.')">
                                         @csrf
                                         @method('DELETE')
                                         <button type="submit" class="btn btn-sm btn-outline-danger" title="Hapus">

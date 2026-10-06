@@ -11,7 +11,7 @@
     </div>
 
     <div class="dashboard-card">
-        <form action="{{ route('pengumuman.update', $pengumuman->id_pengumuman) }}" method="POST">
+        <form action="{{ route('pengumuman.update', encrypt_id($pengumuman->id_pengumuman)) }}" method="POST">
             @csrf
             @method('PUT')
 

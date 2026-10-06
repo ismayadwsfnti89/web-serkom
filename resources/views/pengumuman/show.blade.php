@@ -11,7 +11,7 @@
             <p class="text-muted mb-0">Informasi lengkap pengumuman</p>
         </div>
         <div class="d-flex gap-2">
-            <a href="{{ route('pengumuman.edit', $pengumuman->id_pengumuman) }}" class="btn btn-warning">
+            <a href="{{ route('pengumuman.edit', encrypt_id($pengumuman->id_pengumuman)) }}" class="btn btn-warning">
                 <i class="bi bi-pencil me-2"></i>Edit
             </a>
             <a href="{{ route('pengumuman.index') }}" class="btn btn-outline-secondary">

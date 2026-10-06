@@ -11,7 +11,7 @@
             <p class="text-muted mb-0">Informasi lengkap user</p>
         </div>
         <div class="d-flex gap-2">
-            <a href="{{ route('user.edit', $user->id_user) }}" class="btn btn-warning">
+            <a href="{{ route('user.edit', encrypt_id($user->id_user)) }}" class="btn btn-warning">
                 <i class="bi bi-pencil me-2"></i>Edit
             </a>
             <a href="{{ route('user.index') }}" class="btn btn-outline-secondary">

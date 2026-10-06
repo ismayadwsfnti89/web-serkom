@@ -75,17 +75,17 @@
                         <td>{{ $item->juara ?? '-' }}</td>
                         <td>{{ $item->tahun ?? '-' }}</td>
                         <td class="text-center">
-                            <a href="{{ route('prestasi.show', $item->id_prestasi) }}"
-                               class="btn btn-sm btn-outline-info" title="Lihat">
+                            <a href="{{ route('prestasi.show', encrypt_id($item->id_prestasi)) }}"
+                            class="btn btn-sm btn-outline-info" title="Lihat">
                                 <i class="bi bi-eye"></i>
                             </a>
-                            <a href="{{ route('prestasi.edit', $item->id_prestasi) }}"
-                               class="btn btn-sm btn-outline-warning" title="Edit">
+                            <a href="{{ route('prestasi.edit', encrypt_id($item->id_prestasi)) }}"
+                            class="btn btn-sm btn-outline-warning" title="Edit">
                                 <i class="bi bi-pencil"></i>
                             </a>
-                            <form action="{{ route('prestasi.destroy', $item->id_prestasi) }}"
-                                  method="POST" class="d-inline"
-                                  onsubmit="return confirm('Hapus prestasi &quot;{{ Str::limit($item->nama_prestasi, 30) }}&quot;? Data yang dihapus tidak bisa dikembalikan.')">
+                            <form action="{{ route('prestasi.destroy', encrypt_id($item->id_prestasi)) }}"
+                                method="POST" class="d-inline"
+                                onsubmit="return confirm('Hapus prestasi &quot;{{ Str::limit($item->nama_prestasi, 30) }}&quot;? Data yang dihapus tidak bisa dikembalikan.')">
                                 @csrf
                                 @method('DELETE')
                                 <button type="submit" class="btn btn-sm btn-outline-danger" title="Hapus">

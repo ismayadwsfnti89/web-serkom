@@ -63,17 +63,17 @@
                         <td>{{ $item->pembina ?? '-' }}</td>
                         <td>{{ $item->jadwal_latihan ?? '-' }}</td>
                         <td class="text-center">
-                            <a href="{{ route('ekskul.show', $item->id_ekskul) }}"
-                               class="btn btn-sm btn-outline-info" title="Lihat">
+                            <a href="{{ route('ekskul.show', encrypt_id($item->id_ekskul)) }}"
+                            class="btn btn-sm btn-outline-info" title="Lihat">
                                 <i class="bi bi-eye"></i>
                             </a>
-                            <a href="{{ route('ekskul.edit', $item->id_ekskul) }}"
-                               class="btn btn-sm btn-outline-warning" title="Edit">
+                            <a href="{{ route('ekskul.edit', encrypt_id($item->id_ekskul)) }}"
+                            class="btn btn-sm btn-outline-warning" title="Edit">
                                 <i class="bi bi-pencil"></i>
                             </a>
-                            <form action="{{ route('ekskul.destroy', $item->id_ekskul) }}"
-                                  method="POST" class="d-inline"
-                                  onsubmit="return confirm('Hapus ekstrakurikuler &quot;{{ $item->nama_ekskul }}&quot;? Data yang dihapus tidak bisa dikembalikan.')">
+                            <form action="{{ route('ekskul.destroy', encrypt_id($item->id_ekskul)) }}"
+                                method="POST" class="d-inline"
+                                onsubmit="return confirm('Hapus ekstrakurikuler &quot;{{ $item->nama_ekskul }}&quot;? Data yang dihapus tidak bisa dikembalikan.')">
                                 @csrf
                                 @method('DELETE')
                                 <button type="submit" class="btn btn-sm btn-outline-danger" title="Hapus">

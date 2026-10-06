@@ -83,19 +83,19 @@
                         <td>{{ $item->jabatan ?? '-' }}</td>
                         <td>{{ $item->mapel ?? '-' }}</td>
                         <td class="text-center">
-                            <a href="{{ route('guru.show', $item->id_guru) }}"
-                               class="btn btn-sm btn-outline-info" title="Lihat">
+                            <a href="{{ route('guru.show', encrypt_id($item->id_guru)) }}"
+                            class="btn btn-sm btn-outline-info" title="Lihat">
                                 <i class="bi bi-eye"></i>
                             </a>
 
                             @if(Auth::user()->role === 'admin')
-                                <a href="{{ route('guru.edit', $item->id_guru) }}"
-                                   class="btn btn-sm btn-outline-warning" title="Edit">
+                                <a href="{{ route('guru.edit', encrypt_id($item->id_guru)) }}"
+                                class="btn btn-sm btn-outline-warning" title="Edit">
                                     <i class="bi bi-pencil"></i>
                                 </a>
-                                <form action="{{ route('guru.destroy', $item->id_guru) }}"
-                                      method="POST" class="d-inline"
-                                      onsubmit="return confirm('Hapus guru &quot;{{ $item->nama_guru }}&quot;? Data yang dihapus tidak bisa dikembalikan.')">
+                                <form action="{{ route('guru.destroy', encrypt_id($item->id_guru)) }}"
+                                    method="POST" class="d-inline"
+                                    onsubmit="return confirm('Hapus guru &quot;{{ $item->nama_guru }}&quot;? Data yang dihapus tidak bisa dikembalikan.')">
                                     @csrf
                                     @method('DELETE')
                                     <button type="submit" class="btn btn-sm btn-outline-danger" title="Hapus">

@@ -54,20 +54,23 @@ class UserController extends Controller
                          ->with('success', 'User berhasil ditambahkan.');
     }
 
-    public function show($id)
+    public function show(string $encryptedId)
     {
+        $id = decrypt_id($encryptedId);
         $user = User::findOrFail($id);
         return view('user.show', compact('user'));
     }
 
-    public function edit($id)
+    public function edit(string $encryptedId)
     {
+        $id = decrypt_id($encryptedId);
         $user = User::findOrFail($id);
         return view('user.edit', compact('user'));
     }
 
-    public function update(Request $request, $id)
+    public function update(Request $request, string $encryptedId)
     {
+        $id = decrypt_id($encryptedId);
         $user = User::findOrFail($id);
 
         $request->validate([
@@ -90,21 +93,22 @@ class UserController extends Controller
         $user->update($data);
 
         return redirect()->route('user.index')
-                         ->with('success', 'User berhasil diperbarui.');
+                        ->with('success', 'User berhasil diperbarui.');
     }
 
-    public function destroy($id)
+    public function destroy(string $encryptedId)
     {
+        $id = decrypt_id($encryptedId);
         $user = User::findOrFail($id);
 
         if ($user->id_user === Auth::id()) {
             return redirect()->route('user.index')
-                             ->with('error', 'Anda tidak bisa menghapus akun sendiri.');
+                            ->with('error', 'Anda tidak bisa menghapus akun sendiri.');
         }
 
         $user->delete();
 
         return redirect()->route('user.index')
-                         ->with('success', 'User berhasil dihapus.');
+                        ->with('success', 'User berhasil dihapus.');
     }
 }

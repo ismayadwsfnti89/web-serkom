@@ -3,297 +3,340 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="@yield('meta_description', 'Website Resmi Sekolah')">
+    <meta name="description" content="@yield('meta_description', 'Website Resmi ' . ($profil->nama_sekolah ?? 'Sekolah'))">
 
-    <title>@yield('title', 'Beranda') - {{ $profil->nama_sekolah ?? 'SDN 4 MANONJAYA' }}</title>
+    <title>@yield('title', 'Beranda') - {{ $profil->nama_sekolah ?? 'Web Sekolah' }}</title>
 
     <link rel="icon" type="image/x-icon" href="{{ asset('favicon.ico') }}">
+
+    {{-- Google Fonts — biar gak keliatan AI --}}
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.13.1/font/bootstrap-icons.css" rel="stylesheet">
 
     <style>
         :root {
-            /* ==== Palet MERAH ==== */
-            --primary: #b91c1c;          /* merah utama */
-            --primary-dark: #7f1d1d;     /* merah tua (hover) */
-            --primary-light: #fef2f2;    /* merah sangat muda (bg) */
-            --accent: #f59e0b;           /* aksen kuning/orange */
-            --dark: #1f2937;
+            /* ====== Palet Kustom: Merah + Gold ====== */
+            --primary: #a4161a;             /* merah maroon */
+            --primary-dark: #6a0c0f;
+            --primary-light: #fef2f2;
+            --accent: #d4a017;              /* gold */
+            --accent-dark: #b8860b;
+            --accent-light: #fef9e7;
+
+            --dark: #1a1a1a;
             --gray: #6b7280;
+            --gray-light: #f8f9fa;
+            --border: #e5e7eb;
         }
 
         * { margin: 0; padding: 0; box-sizing: border-box; }
 
+        html { scroll-behavior: smooth; }
+
         body {
-            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
             color: var(--dark);
             overflow-x: hidden;
             background: #fff;
+            line-height: 1.6;
         }
 
+        h1, h2, h3, h4, h5 { font-family: 'Plus Jakarta Sans', sans-serif; }
+
+        a { text-decoration: none; }
+
+        /* ============ TOPBAR ============ */
+        .topbar {
+            background: var(--primary-dark);
+            color: rgba(255,255,255,0.85);
+            font-size: 0.8rem;
+            padding: 8px 0;
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+        }
+        .topbar a { color: rgba(255,255,255,0.85); transition: color 0.2s; }
+        .topbar a:hover { color: var(--accent); }
+        .topbar i { color: var(--accent); margin-right: 6px; }
+        .topbar .divider { color: rgba(255,255,255,0.2); margin: 0 12px; }
+
         /* ============ NAVBAR ============ */
-        .landing-navbar {
+        .main-navbar {
             background: #fff;
-            box-shadow: 0 1px 5px rgba(0,0,0,0.08);
-            padding: 12px 0;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.06);
+            padding: 14px 0;
             position: sticky;
             top: 0;
             z-index: 1030;
-            border-bottom: 3px solid var(--primary);
         }
-        .landing-navbar .navbar-brand {
-            font-weight: 700;
-            font-size: 1.25rem;
+        .main-navbar .navbar-brand {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            font-weight: 800;
+            font-size: 1.15rem;
             color: var(--dark);
             display: flex;
             align-items: center;
-            gap: 10px;
+            gap: 12px;
         }
-        .landing-navbar .navbar-brand img {
-            width: 40px;
-            height: 40px;
+        .main-navbar .navbar-brand img {
+            width: 42px; height: 42px;
             object-fit: contain;
         }
-        .landing-navbar .navbar-brand i {
-            color: var(--primary);
-            font-size: 1.5rem;
+        .main-navbar .navbar-brand .brand-icon {
+            width: 42px; height: 42px;
+            background: var(--primary);
+            color: #fff;
+            border-radius: 10px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.3rem;
         }
-        .landing-navbar .nav-link {
+        .main-navbar .navbar-brand .brand-text {
+            display: flex;
+            flex-direction: column;
+            line-height: 1.1;
+        }
+        .main-navbar .navbar-brand .brand-text small {
+            font-size: 0.65rem;
+            font-weight: 500;
+            color: var(--gray);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        .main-navbar .nav-link {
             color: #4b5563;
             font-weight: 500;
             padding: 8px 16px !important;
+            font-size: 0.9rem;
             transition: color 0.2s;
         }
-        .landing-navbar .nav-link:hover,
-        .landing-navbar .nav-link.active {
+        .main-navbar .nav-link:hover,
+        .main-navbar .nav-link.active {
             color: var(--primary);
         }
-        .landing-navbar .btn-primary {
+        .main-navbar .btn-login {
             background: var(--primary);
+            color: #fff;
+            padding: 8px 20px;
+            border-radius: 8px;
+            font-weight: 600;
+            font-size: 0.875rem;
+            transition: all 0.2s;
+        }
+        .main-navbar .btn-login:hover {
+            background: var(--primary-dark);
+            transform: translateY(-1px);
+            box-shadow: 0 6px 15px rgba(164, 22, 26, 0.25);
+        }
+        .main-navbar .btn-search {
+            background: transparent;
+            border: 1px solid var(--border);
+            color: var(--gray);
+            width: 38px; height: 38px;
+            border-radius: 8px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.2s;
+        }
+        .main-navbar .btn-search:hover {
+            background: var(--primary);
+            color: #fff;
             border-color: var(--primary);
         }
-        .landing-navbar .btn-primary:hover {
-            background: var(--primary-dark);
-            border-color: var(--primary-dark);
-        }
-        .navbar-toggler { color: var(--primary); }
-
-        /* ============ HERO ============ */
-        .hero {
-            background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
-            color: #fff;
-            padding: 100px 0 80px;
-            position: relative;
-            overflow: hidden;
-        }
-        .hero::before {
-            content: '';
-            position: absolute;
-            top: -50%;
-            right: -20%;
-            width: 600px;
-            height: 600px;
-            background: rgba(255,255,255,0.05);
-            border-radius: 50%;
-        }
-        .hero h1 {
-            font-size: 3rem;
-            font-weight: 800;
-            margin-bottom: 20px;
-            line-height: 1.2;
-        }
-        .hero p {
-            font-size: 1.125rem;
-            opacity: 0.95;
-            margin-bottom: 32px;
-            max-width: 600px;
-        }
-        .hero .badge { color: var(--primary) !important; }
-        .hero .btn-hero {
-            padding: 12px 32px;
-            font-weight: 600;
-            border-radius: 8px;
-            transition: transform 0.2s, box-shadow 0.2s;
-        }
-        .hero .btn-hero:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 8px 20px rgba(0,0,0,0.15);
-        }
-        .hero .btn-outline-light:hover { color: var(--primary); background: #fff; }
-        .hero-icon { color: rgba(255,255,255,0.15); }
-
-        /* ============ STATS ============ */
-        .stats-section { margin-top: -50px; position: relative; z-index: 10; }
-        .stat-box {
-            background: #fff;
-            border-radius: 12px;
-            padding: 24px;
-            text-align: center;
-            box-shadow: 0 4px 20px rgba(0,0,0,0.08);
-            transition: transform 0.2s, border-color 0.2s;
-            border-top: 3px solid transparent;
-        }
-        .stat-box:hover { transform: translateY(-4px); border-top-color: var(--primary); }
-        .stat-box i { font-size: 2rem; color: var(--primary); margin-bottom: 12px; }
-        .stat-box h3 { font-size: 2rem; font-weight: 700; color: var(--dark); margin-bottom: 4px; }
-        .stat-box p { color: var(--gray); font-size: 0.875rem; margin: 0; }
 
         /* ============ SECTION ============ */
-        .section { padding: 80px 0; }
-        .section-title { text-align: center; margin-bottom: 48px; }
-        .section-title h2 { font-size: 2rem; font-weight: 700; color: var(--dark); margin-bottom: 12px; }
-        .section-title p { color: var(--gray); max-width: 600px; margin: 0 auto; }
-        .section-title .divider {
-            width: 60px; height: 4px;
-            background: var(--primary);
-            border-radius: 2px;
-            margin: 16px auto 0;
+        .section {
+            padding: 70px 0;
         }
-
-        /* ============ PROFIL ============ */
-        .profil-img {
-            width: 100%;
-            border-radius: 12px;
-            box-shadow: 0 8px 24px rgba(0,0,0,0.1);
+        .section-title-wrap {
+            margin-bottom: 40px;
         }
-        .profil-content h3 { font-size: 1.75rem; font-weight: 700; margin-bottom: 16px; }
-        .profil-content p { color: #4b5563; line-height: 1.8; margin-bottom: 16px; }
-        .profil-content ul { list-style: none; padding: 0; }
-        .profil-content ul li {
-            padding: 8px 0; color: #4b5563;
-            display: flex; align-items: center; gap: 12px;
+        .section-label {
+            display: inline-block;
+            color: var(--primary);
+            font-size: 0.8rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            margin-bottom: 10px;
+            position: relative;
+            padding-left: 32px;
         }
-        .profil-content ul li i { color: var(--primary); font-size: 1.25rem; }
-        .profil-info-box {
-            background: var(--primary-light);
-            border-left: 4px solid var(--primary);
+        .section-label::before {
+            content: '';
+            position: absolute;
+            left: 0; top: 50%;
+            width: 24px; height: 2px;
+            background: var(--accent);
+            transform: translateY(-50%);
         }
-
-        /* ============ CARD BERITA ============ */
-        .content-card {
-            background: #fff;
-            border-radius: 12px;
-            overflow: hidden;
-            box-shadow: 0 2px 12px rgba(0,0,0,0.06);
-            transition: transform 0.2s, box-shadow 0.2s;
-            height: 100%;
-            border-top: 3px solid transparent;
+        .section-title {
+            font-size: 2rem;
+            font-weight: 800;
+            color: var(--dark);
+            margin-bottom: 10px;
         }
-        .content-card:hover {
-            transform: translateY(-4px);
-            box-shadow: 0 8px 24px rgba(0,0,0,0.12);
-            border-top-color: var(--primary);
+        .section-subtitle {
+            color: var(--gray);
+            font-size: 0.95rem;
+            max-width: 600px;
         }
-        .content-card img { width: 100%; height: 200px; object-fit: cover; }
-        .content-card .card-body { padding: 20px; }
-        .content-card .card-meta {
-            font-size: 0.75rem; color: var(--gray);
-            margin-bottom: 8px;
-            display: flex; align-items: center; gap: 12px;
+        .section-header-flex {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-end;
+            margin-bottom: 40px;
+            flex-wrap: wrap;
+            gap: 16px;
         }
-        .content-card .card-meta i { color: var(--primary); }
-        .content-card .card-title {
-            font-size: 1.1rem; font-weight: 700;
-            margin-bottom: 8px; color: var(--dark);
-            display: -webkit-box;
-            -webkit-line-clamp: 2;
-            -webkit-box-orient: vertical;
-            overflow: hidden;
-        }
-        .content-card .card-text {
-            font-size: 0.875rem; color: var(--gray);
-            display: -webkit-box;
-            -webkit-line-clamp: 3;
-            -webkit-box-orient: vertical;
-            overflow: hidden;
-            margin-bottom: 12px;
-        }
-        .content-card a.link-more {
+        .section-link {
             color: var(--primary);
             font-weight: 600;
-            text-decoration: none;
-            font-size: 0.875rem;
+            font-size: 0.9rem;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            transition: gap 0.2s;
         }
-        .content-card a.link-more:hover { color: var(--primary-dark); }
-
-        /* ============ GALERI ============ */
-        .galeri-item {
-            border-radius: 12px; overflow: hidden;
-            position: relative; aspect-ratio: 1;
-            box-shadow: 0 2px 12px rgba(0,0,0,0.06);
-            transition: transform 0.2s;
+        .section-link:hover {
+            color: var(--primary-dark);
+            gap: 10px;
         }
-        .galeri-item:hover { transform: scale(1.03); }
-        .galeri-item img { width: 100%; height: 100%; object-fit: cover; }
-        .galeri-item .overlay {
-            position: absolute; inset: 0;
-            background: linear-gradient(to top, rgba(185,28,28,0.85), transparent 60%);
-            opacity: 0;
-            transition: opacity 0.2s;
-            display: flex; align-items: flex-end; padding: 16px;
-        }
-        .galeri-item:hover .overlay { opacity: 1; }
-        .galeri-item .overlay p { color: #fff; font-weight: 600; margin: 0; font-size: 0.9rem; }
-
-        /* ============ CTA ============ */
-        .cta-section {
-            background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
-            color: #fff;
-            padding: 60px 0;
-            border-radius: 16px;
-            text-align: center;
-        }
-        .cta-section h2 { font-size: 1.75rem; font-weight: 700; margin-bottom: 12px; }
-        .cta-section p { opacity: 0.95; margin-bottom: 24px; }
-        .cta-section .btn-light { color: var(--primary); font-weight: 600; }
-        .cta-section .btn-light:hover { color: var(--primary-dark); }
 
         /* ============ FOOTER ============ */
         .landing-footer {
-            background: #1f2937;
-            color: #d1d5db;
-            padding: 48px 0 24px;
+            background: #14161a;
+            color: #9ca3af;
+            padding: 60px 0 0;
         }
-        .landing-footer h5 { color: #fff; font-weight: 700; margin-bottom: 16px; }
-        .landing-footer h5 i { color: var(--primary); }
-        .landing-footer h5 img {
-            width: 28px; height: 28px;
-            object-fit: contain;
-            margin-right: 6px;
+        .landing-footer h5 {
+            color: #fff;
+            font-weight: 700;
+            font-size: 1rem;
+            margin-bottom: 20px;
+            position: relative;
+            padding-bottom: 10px;
         }
-        .landing-footer p, .landing-footer a {
-            color: #d1d5db; text-decoration: none; font-size: 0.9rem;
+        .landing-footer h5::after {
+            content: '';
+            position: absolute;
+            left: 0; bottom: 0;
+            width: 32px; height: 2px;
+            background: var(--accent);
         }
-        .landing-footer a:hover { color: #fff; }
+        .landing-footer p,
+        .landing-footer a {
+            color: #9ca3af;
+            font-size: 0.875rem;
+            line-height: 1.7;
+            transition: color 0.2s;
+        }
+        .landing-footer a:hover { color: var(--accent); }
         .landing-footer ul { list-style: none; padding: 0; }
-        .landing-footer ul li { margin-bottom: 8px; }
-        .landing-footer ul li i { color: var(--primary); }
-        .landing-footer .social-links a {
-            display: inline-flex; align-items: center; justify-content: center;
-            width: 36px; height: 36px;
-            background: #374151; border-radius: 50%;
+        .landing-footer ul li { margin-bottom: 10px; }
+        .landing-footer ul li i {
+            color: var(--accent);
             margin-right: 8px;
-            transition: background 0.2s, transform 0.2s;
+            width: 16px;
+        }
+        .landing-footer .social-links a {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 38px; height: 38px;
+            background: rgba(255,255,255,0.05);
+            border: 1px solid rgba(255,255,255,0.1);
+            border-radius: 8px;
+            margin-right: 8px;
+            transition: all 0.2s;
         }
         .landing-footer .social-links a:hover {
             background: var(--primary);
+            border-color: var(--primary);
+            color: #fff;
             transform: translateY(-2px);
         }
         .landing-footer .copyright {
-            border-top: 1px solid #374151;
-            padding-top: 24px; margin-top: 24px;
-            text-align: center; font-size: 0.85rem;
+            border-top: 1px solid rgba(255,255,255,0.08);
+            padding: 20px 0;
+            margin-top: 40px;
+            text-align: center;
+            font-size: 0.8rem;
+        }
+
+        /* ============ BACK TO TOP ============ */
+        .back-to-top {
+            position: fixed;
+            right: 24px;
+            bottom: 24px;
+            width: 44px; height: 44px;
+            background: var(--primary);
+            color: #fff;
+            border: none;
+            border-radius: 10px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.1rem;
+            box-shadow: 0 6px 20px rgba(164, 22, 26, 0.3);
+            opacity: 0;
+            visibility: hidden;
+            transform: translateY(10px);
+            transition: all 0.3s;
+            z-index: 999;
+        }
+        .back-to-top.show {
+            opacity: 1;
+            visibility: visible;
+            transform: translateY(0);
+        }
+        .back-to-top:hover {
+            background: var(--primary-dark);
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(164, 22, 26, 0.4);
+        }
+
+        /* ============ SEARCH MODAL ============ */
+        .search-modal .modal-content {
+            border-radius: 12px;
+            border: none;
+        }
+        .search-modal .modal-header {
+            border-bottom: 1px solid var(--border);
+        }
+        .search-modal input {
+            border: none;
+            font-size: 1.1rem;
+            padding: 8px 0;
+        }
+        .search-modal input:focus {
+            box-shadow: none;
+            border-color: transparent;
+        }
+
+        /* ============ SCROLL ANIMATION ============ */
+        .fade-in-up {
+            opacity: 0;
+            transform: translateY(20px);
+            transition: opacity 0.6s ease, transform 0.6s ease;
+        }
+        .fade-in-up.visible {
+            opacity: 1;
+            transform: translateY(0);
         }
 
         /* ============ RESPONSIVE ============ */
-        @media (max-width: 768px) {
-            .hero h1 { font-size: 2rem; }
-            .hero { padding: 60px 0 40px; }
+        @media (max-width: 991.98px) {
+            .section-title { font-size: 1.6rem; }
+            .topbar { display: none; }
+        }
+        @media (max-width: 767.98px) {
             .section { padding: 48px 0; }
-            .stats-section { margin-top: 20px; }
-            .stat-box { padding: 20px 12px; }
-            .stat-box h3 { font-size: 1.5rem; }
-            .landing-navbar .nav-link { padding: 8px 10px !important; }
+            .section-title { font-size: 1.4rem; }
         }
     </style>
 
@@ -302,43 +345,34 @@
 <body>
 
 {{-- ============ NAVBAR ============ --}}
-<nav class="landing-navbar navbar navbar-expand-lg">
-    <div class="container">
-        <a class="navbar-brand" href="{{ route('landing') }}">
-            @if(!empty($profil->logo))
-                <img src="{{ asset('uploads/profil/' . $profil->logo) }}" alt="Logo">
-            @else
-                <i class="bi bi-mortarboard-fill"></i>
-            @endif
-            {{ $profil->nama_sekolah ?? 'Web Sekolah' }}
-        </a>
+<div class="collapse navbar-collapse" id="navLanding">
+    <ul class="navbar-nav ms-auto align-items-lg-center">
+        <li class="nav-item"><a class="nav-link active" href="#beranda">Beranda</a></li>
+        <li class="nav-item"><a class="nav-link" href="#profil">Profil</a></li>
+        <li class="nav-item"><a class="nav-link" href="#sambutan">Sambutan</a></li>
+        <li class="nav-item"><a class="nav-link" href="#guru">Guru</a></li>
+        <li class="nav-item"><a class="nav-link" href="#berita">Berita</a></li>
+        <li class="nav-item"><a class="nav-link" href="#galeri">Galeri</a></li>
+        <li class="nav-item"><a class="nav-link" href="#prestasi">Prestasi</a></li>
+        <li class="nav-item"><a class="nav-link" href="#kontak">Kontak</a></li>
 
-        <button class="navbar-toggler border-0" type="button" data-bs-toggle="collapse" data-bs-target="#navLanding">
-            <i class="bi bi-list fs-3"></i>
-        </button>
+        {{-- Tombol Search --}}
+        <li class="nav-item ms-lg-3 mt-2 mt-lg-0">
+            <button class="btn-search" data-bs-toggle="modal" data-bs-target="#searchModal" title="Cari">
+                <i class="bi bi-search"></i>
+            </button>
+        </li>
 
-        <div class="collapse navbar-collapse" id="navLanding">
-            <ul class="navbar-nav ms-auto align-items-lg-center">
-                <li class="nav-item"><a class="nav-link" href="#beranda">Beranda</a></li>
-                <li class="nav-item"><a class="nav-link" href="#profil">Profil</a></li>
-                <li class="nav-item"><a class="nav-link" href="#berita">Berita</a></li>
-                <li class="nav-item"><a class="nav-link" href="#galeri">Galeri</a></li>
-                <li class="nav-item"><a class="nav-link" href="#kontak">Kontak</a></li>
-                <li class="nav-item ms-lg-3 mt-2 mt-lg-0">
-                    @auth
-                        <a href="{{ route('dashboard') }}" class="btn btn-primary w-100">
-                            <i class="bi bi-speedometer2 me-1"></i> Dashboard
-                        </a>
-                    @else
-                        <a href="{{ route('login') }}" class="btn btn-primary w-100">
-                            <i class="bi bi-box-arrow-in-right me-1"></i> Login
-                        </a>
-                    @endauth
-                </li>
-            </ul>
-        </div>
-    </div>
-</nav>
+        {{-- Tombol Dashboard — HANYA muncul kalau admin login --}}
+        @auth
+            <li class="nav-item ms-lg-2 mt-2 mt-lg-0">
+                <a href="{{ route('dashboard') }}" class="btn-login">
+                    <i class="bi bi-speedometer2 me-1"></i> Dashboard
+                </a>
+            </li>
+        @endauth
+    </ul>
+</div>
 
 {{-- ============ KONTEN ============ --}}
 @yield('content')
@@ -348,76 +382,180 @@
     <div class="container">
         <div class="row g-4">
 
-            {{-- Kolom 1: Brand + Deskripsi --}}
-            <div class="col-lg-4">
-                <h5>
+            {{-- Kolom 1: Brand --}}
+            <div class="col-lg-4 col-md-6">
+                <div class="d-flex align-items-center gap-3 mb-3">
                     @if(!empty($profil->logo))
-                        <img src="{{ asset('uploads/profil/' . $profil->logo) }}" alt="Logo">
+                        <img src="{{ asset('uploads/profil/' . $profil->logo) }}"
+                             alt="Logo"
+                             style="width: 48px; height: 48px; object-fit: contain;">
                     @else
-                        <i class="bi bi-mortarboard-fill me-2"></i>
+                        <span style="display: inline-flex; width: 48px; height: 48px; background: var(--primary); border-radius: 10px; align-items: center; justify-content: center; color: #fff; font-size: 1.4rem;">
+                            <i class="bi bi-mortarboard-fill"></i>
+                        </span>
                     @endif
-                    {{ $profil->nama_sekolah ?? ' Web Sekolah' }}
-                </h5>
+                    <h5 class="mb-0" style="padding-bottom: 0;">
+                        {{ $profil->nama_sekolah ?? 'Web Sekolah' }}
+                    </h5>
+                </div>
                 @if(!empty($profil->deskripsi))
-                    <p>{{ Str::limit($profil->deskripsi, 150) }}</p>
+                    <p>{{ Str::limit($profil->deskripsi, 180) }}</p>
                 @endif
                 <div class="social-links mt-3">
-                    <a href="#"><i class="bi bi-envelope"></i></a>
+                    <a href="#"><i class="bi bi-envelope-fill"></i></a>
                     <a href="#"><i class="bi bi-instagram"></i></a>
                     <a href="#"><i class="bi bi-youtube"></i></a>
+                    <a href="#"><i class="bi bi-facebook"></i></a>
                 </div>
             </div>
 
             {{-- Kolom 2: Menu --}}
-            <div class="col-lg-2 col-md-4">
+            <div class="col-lg-2 col-md-6">
                 <h5>Menu</h5>
                 <ul>
                     <li><a href="#beranda">Beranda</a></li>
                     <li><a href="#profil">Profil</a></li>
                     <li><a href="#berita">Berita</a></li>
                     <li><a href="#galeri">Galeri</a></li>
+                    <li><a href="#prestasi">Prestasi</a></li>
                 </ul>
             </div>
 
-            {{-- Kolom 3: Kontak (hanya tampil kalau ada data) --}}
-            <div class="col-lg-3 col-md-4">
+            {{-- Kolom 3: Kontak --}}
+            <div class="col-lg-3 col-md-6">
                 <h5>Kontak</h5>
                 <ul>
                     @if(!empty($profil->alamat))
-                        <li><i class="bi bi-geo-alt me-2"></i>{{ $profil->alamat }}</li>
+                        <li><i class="bi bi-geo-alt-fill"></i>{{ $profil->alamat }}</li>
                     @endif
                     @if(!empty($profil->kontak))
-                        <li><i class="bi bi-telephone me-2"></i>{{ $profil->kontak }}</li>
+                        <li><i class="bi bi-telephone-fill"></i>{{ $profil->kontak }}</li>
                     @endif
-                    @if(!empty($profil->email))
-                        <li><i class="bi bi-envelope me-2"></i>{{ $profil->email }}</li>
+                    @if(!empty($profil->npsn))
+                        <li><i class="bi bi-hash"></i>NPSN: {{ $profil->npsn }}</li>
                     @endif
 
-                    @if(empty($profil->alamat) && empty($profil->kontak) && empty($profil->email))
-                        <li class="text-muted fst-italic">Belum ada info kontak</li>
+                    @if(empty($profil->alamat) && empty($profil->kontak) && empty($profil->npsn))
+                        <li class="fst-italic">Belum ada info kontak</li>
                     @endif
                 </ul>
             </div>
 
             {{-- Kolom 4: Jam Operasional --}}
-            <div class="col-lg-3 col-md-4">
+            <div class="col-lg-3 col-md-6">
                 <h5>Jam Operasional</h5>
                 <ul>
-                    <li>Senin - Kamis : 07.00 - 12.00</li>
-                    <li>Jumat : 07.00 - 11.00</li>
-                    <li>Sabtu - Minggu : Libur</li>
+                    <li><i class="bi bi-clock-fill"></i>Senin - Kamis: 07.00 - 12.00</li>
+                    <li><i class="bi bi-clock-fill"></i>Jumat: 07.00 - 11.00</li>
+                    <li><i class="bi bi-clock-fill"></i>Sabtu - Minggu: Libur</li>
                 </ul>
             </div>
 
         </div>
 
         <div class="copyright">
-            &copy; {{ date('Y') }} {{ $profil->nama_sekolah ?? 'Web Sekolah' }} | IT Team.
+            &copy; {{ date('Y') }} {{ $profil->nama_sekolah ?? 'Web Sekolah' }}. All rights reserved.
         </div>
     </div>
 </footer>
 
+{{-- ============ BACK TO TOP ============ --}}
+<button class="back-to-top" id="backToTop" title="Kembali ke atas">
+    <i class="bi bi-arrow-up"></i>
+</button>
+
+{{-- ============ SEARCH MODAL ============ --}}
+<div class="modal fade search-modal" id="searchModal" tabindex="-1">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h6 class="modal-title fw-bold">
+                    <i class="bi bi-search me-2"></i>Cari Informasi
+                </h6>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body">
+                <form action="#berita" method="GET">
+                    <div class="d-flex align-items-center gap-2 border-bottom">
+                        <i class="bi bi-search text-muted"></i>
+                        <input type="text" name="search" class="form-control"
+                               placeholder="Cari berita, pengumuman..."
+                               value="{{ request('search') }}" autofocus>
+                        <button type="submit" class="btn btn-sm" style="background: var(--primary); color: #fff;">
+                            Cari
+                        </button>
+                    </div>
+                </form>
+                <p class="text-muted small mt-3 mb-0">
+                    <i class="bi bi-info-circle me-1"></i>
+                    Ketik kata kunci untuk mencari berita atau pengumuman.
+                </p>
+            </div>
+        </div>
+    </div>
+</div>
+
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"></script>
+
+<script>
+    // ============ BACK TO TOP ============
+    const backToTop = document.getElementById('backToTop');
+    window.addEventListener('scroll', function() {
+        if (window.scrollY > 400) {
+            backToTop.classList.add('show');
+        } else {
+            backToTop.classList.remove('show');
+        }
+    });
+    backToTop.addEventListener('click', function() {
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+    });
+
+    // ============ SMOOTH SCROLL (untuk browser lama) ============
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener('click', function (e) {
+            const target = document.querySelector(this.getAttribute('href'));
+            if (target) {
+                e.preventDefault();
+                target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            }
+        });
+    });
+
+    // ============ FADE IN ON SCROLL ============
+    const observerOptions = {
+        threshold: 0.1,
+        rootMargin: '0px 0px -50px 0px'
+    };
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                entry.target.classList.add('visible');
+            }
+        });
+    }, observerOptions);
+    document.querySelectorAll('.fade-in-up').forEach(el => observer.observe(el));
+
+    // ============ NAVBAR ACTIVE LINK ============
+    const sections = document.querySelectorAll('section[id]');
+    const navLinks = document.querySelectorAll('.main-navbar .nav-link');
+    window.addEventListener('scroll', () => {
+        let current = '';
+        sections.forEach(section => {
+            const sectionTop = section.offsetTop - 100;
+            if (window.scrollY >= sectionTop) {
+                current = section.getAttribute('id');
+            }
+        });
+        navLinks.forEach(link => {
+            link.classList.remove('active');
+            if (link.getAttribute('href') === '#' + current) {
+                link.classList.add('active');
+            }
+        });
+    });
+</script>
+
 @stack('scripts')
 </body>
 </html>

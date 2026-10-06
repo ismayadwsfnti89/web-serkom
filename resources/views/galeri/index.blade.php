@@ -64,17 +64,17 @@
                     @endif
 
                     <div class="d-flex gap-1">
-                        <a href="{{ route('galeri.show', $item->id_galeri) }}"
-                           class="btn btn-sm btn-outline-info flex-fill" title="Lihat">
+                        <a href="{{ route('galeri.show', encrypt_id($item->id_galeri)) }}"
+                        class="btn btn-sm btn-outline-info flex-fill" title="Lihat">
                             <i class="bi bi-eye"></i>
                         </a>
-                        <a href="{{ route('galeri.edit', $item->id_galeri) }}"
-                           class="btn btn-sm btn-outline-warning flex-fill" title="Edit">
+                        <a href="{{ route('galeri.edit', encrypt_id($item->id_galeri)) }}"
+                        class="btn btn-sm btn-outline-warning flex-fill" title="Edit">
                             <i class="bi bi-pencil"></i>
                         </a>
-                        <form action="{{ route('galeri.destroy', $item->id_galeri) }}"
-                              method="POST" class="flex-fill"
-                              onsubmit="return confirm('Hapus galeri &quot;{{ $item->judul }}&quot;? Data yang dihapus tidak bisa dikembalikan.')">
+                        <form action="{{ route('galeri.destroy', encrypt_id($item->id_galeri)) }}"
+                            method="POST" class="flex-fill"
+                            onsubmit="return confirm('Hapus galeri &quot;{{ $item->judul }}&quot;? Data yang dihapus tidak bisa dikembalikan.')">
                             @csrf
                             @method('DELETE')
                             <button type="submit" class="btn btn-sm btn-outline-danger w-100" title="Hapus">

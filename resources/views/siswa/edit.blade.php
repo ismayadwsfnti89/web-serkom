@@ -13,7 +13,7 @@
 
     {{-- Form --}}
     <div class="dashboard-card">
-        <form action="{{ route('siswa.update', $siswa->id_siswa) }}" method="POST">
+        <form action="{{ route('siswa.update', encrypt_id($siswa->id_siswa)) }}" method="POST">
             @csrf
             @method('PUT')
 
