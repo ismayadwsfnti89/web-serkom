@@ -3,12 +3,21 @@
 namespace App\Providers;
 
 use Illuminate\Support\ServiceProvider;
-use Illuminate\Pagination\Paginator;
+use Illuminate\Support\Facades\View;
+use App\Models\ProfileSekolah;
 
 class AppServiceProvider extends ServiceProvider
 {
+    public function register(): void
+    {
+        //
+    }
+
     public function boot(): void
     {
-        Paginator::useBootstrapFive();  // ← tambahkan ini
+        // Kirim $profil ke semua view
+        View::composer('*', function ($view) {
+            $view->with('profil', ProfileSekolah::first());
+        });
     }
 }

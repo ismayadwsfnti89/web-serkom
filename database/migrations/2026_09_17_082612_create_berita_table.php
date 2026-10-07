@@ -13,12 +13,13 @@ return new class extends Migration
     {
        Schema::create('berita', function (Blueprint $table) {
             $table->uuid('id_berita')->primary();
+            $table->text('slug')->unique();
             $table->string('judul');
             $table->text('isi');
             $table->date('tanggal');
             $table->string('gambar');
             $table->enum('status', ['Publish', 'Draft'])->default('Draft');
-            $table->uuid('id_user')->nullable();   
+            $table->uuid('id_user')->nullable();
             $table->timestamps();
 
             $table->foreign('id_user')

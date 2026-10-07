@@ -14,32 +14,19 @@
     </div>
 
     @if(Auth::user()->role === 'admin')
-        <a href="{{ route('siswa.create') }}" class="btn btn-primary">
+        <a href="{{ route('siswa.create') }}" class="btn btn-danger">
             <i class="bi bi-plus-circle me-2"></i>Tambah Siswa
         </a>
     @endif
 </div>
 
 @if(session('success'))
-    <div class="alert alert-success alert-dismissible fade show" role="alert">
+    <div class="alert alert-success alert-dismissible fade show">
         <i class="bi bi-check-circle me-1"></i> {{ session('success') }}
         <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
     </div>
 @endif
 
-@if($errors->any())
-    <div class="alert alert-danger alert-dismissible fade show" role="alert">
-        <i class="bi bi-exclamation-triangle me-1"></i>
-        <ul class="mb-0">
-            @foreach($errors->all() as $error)
-                <li>{{ $error }}</li>
-            @endforeach
-        </ul>
-        <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
-    </div>
-@endif
-
-{{-- Search Bar --}}
 <x-search-bar
     :action="route('siswa.index')"
     placeholder="Cari NISN, nama, atau tahun masuk..."
@@ -49,7 +36,7 @@
 <div class="dashboard-card">
     <div class="table-responsive">
         <table class="table table-hover align-middle mb-0">
-            <thead>
+            <thead class="table-light">
                 <tr>
                     <th width="60">No</th>
                     <th>NISN</th>
@@ -69,27 +56,27 @@
                             @if($item->jenis_kelamin === 'Laki-Laki')
                                 <span class="badge bg-primary">Laki-Laki</span>
                             @else
-                                <span class="badge" style="background:#ec4899;">Perempuan</span>
+                                <span class="badge bg-danger">Perempuan</span>
                             @endif
                         </td>
                         <td>{{ $item->tahun_masuk ?? '-' }}</td>
                         <td class="text-center">
                             <a href="{{ route('siswa.show', encrypt_id($item->id_siswa)) }}"
-                            class="btn btn-sm btn-outline-info" title="Lihat">
+                               class="btn btn-sm btn-outline-info">
                                 <i class="bi bi-eye"></i>
                             </a>
 
                             @if(Auth::user()->role === 'admin')
                                 <a href="{{ route('siswa.edit', encrypt_id($item->id_siswa)) }}"
-                                class="btn btn-sm btn-outline-warning" title="Edit">
+                                   class="btn btn-sm btn-outline-warning">
                                     <i class="bi bi-pencil"></i>
                                 </a>
                                 <form action="{{ route('siswa.destroy', encrypt_id($item->id_siswa)) }}"
-                                    method="POST" class="d-inline"
-                                    onsubmit="return confirm('Hapus siswa &quot;{{ $item->nama_siswa }}&quot;? Data yang dihapus tidak bisa dikembalikan.')">
+                                      method="POST" class="d-inline"
+                                      onsubmit="return confirm('Hapus siswa ini?')">
                                     @csrf
                                     @method('DELETE')
-                                    <button type="submit" class="btn btn-sm btn-outline-danger" title="Hapus">
+                                    <button type="submit" class="btn btn-sm btn-outline-danger">
                                         <i class="bi bi-trash"></i>
                                     </button>
                                 </form>
@@ -99,15 +86,8 @@
                 @empty
                     <tr>
                         <td colspan="6" class="text-center py-5 text-muted">
-                            @if(request('search'))
-                                <i class="bi bi-search fs-1 d-block mb-3 opacity-50"></i>
-                                <p class="mb-1 fw-medium">Tidak ada siswa yang cocok</p>
-                                <p class="small mb-0">Coba kata kunci lain atau reset pencarian.</p>
-                            @else
-                                <i class="bi bi-inbox fs-1 d-block mb-3 opacity-50"></i>
-                                <p class="mb-1 fw-medium">Belum ada data siswa</p>
-                                <p class="small mb-0">Mulai tambahkan siswa pertama.</p>
-                            @endif
+                            <i class="bi bi-inbox fs-1 d-block mb-3"></i>
+                            <p class="mb-0">Belum ada data siswa.</p>
                         </td>
                     </tr>
                 @endforelse
@@ -116,9 +96,7 @@
     </div>
 
     @if($siswa->hasPages())
-        <div class="mt-3">
-            {{ $siswa->links() }}
-        </div>
+        <div class="mt-3">{{ $siswa->links() }}</div>
     @endif
 </div>
 @endsection

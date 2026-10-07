@@ -1,136 +1,54 @@
-<section class="section" id="prestasi">
+<section class="py-5" id="prestasi">
     <div class="container">
-        <div class="section-header-flex fade-in-up">
-            <div>
-                <span class="section-label">Pencapaian</span>
-                <h2 class="section-title">Prestasi Terbaru</h2>
-                <p class="section-subtitle">Kebanggaan sekolah kami</p>
-            </div>
+        <div class="mb-4">
+            <h2 class="fw-bold mb-1">Prestasi Terbaru</h2>
+            <p class="text-muted mb-0">Kebanggaan sekolah kami</p>
         </div>
 
         <div class="row g-4">
             @forelse($prestasi as $item)
-                <div class="col-md-6 col-lg-3 fade-in-up">
-                    <div class="prestasi-card">
-                        <div class="prestasi-badge">
-                            @php
-                                $warna = match($item->tingkat) {
-                                    'Internasional' => ['bg' => '#7c3aed', 'text' => '#fff'],
-                                    'Nasional'      => ['bg' => 'var(--primary)', 'text' => '#fff'],
-                                    'Provinsi'      => ['bg' => 'var(--accent)', 'text' => 'var(--dark)'],
-                                    default         => ['bg' => '#e5e7eb', 'text' => 'var(--dark)'],
-                                };
-                            @endphp
-                            <span style="background: {{ $warna['bg'] }}; color: {{ $warna['text'] }};">
-                                {{ $item->tingkat }}
-                            </span>
-                        </div>
+                @php
+                    $warna = match($item->tingkat) {
+                        'Internasional' => 'bg-primary',
+                        'Nasional'      => 'bg-danger',
+                        'Provinsi'      => 'bg-warning text-dark',
+                        default         => 'bg-secondary',
+                    };
+                @endphp
 
-                        <div class="prestasi-img">
-                            @if($item->foto)
-                                <img src="{{ asset('uploads/prestasi/' . $item->foto) }}" alt="{{ $item->nama_prestasi }}">
-                            @else
-                                <div class="prestasi-placeholder">
-                                    <i class="bi bi-trophy-fill"></i>
-                                </div>
-                            @endif
-                        </div>
+                <div class="col-md-6 col-lg-3">
+                    <div class="card border-0 shadow-sm h-100">
+                        @if($item->foto)
+                            <img src="{{ asset('uploads/prestasi/' . $item->foto) }}"
+                                 class="card-img-top" alt="{{ $item->nama_prestasi }}"
+                                 style="height: 200px; object-fit: cover;">
+                        @else
+                            <div class="bg-secondary bg-opacity-10 d-flex align-items-center justify-content-center"
+                                 style="height: 200px;">
+                                <i class="bi bi-trophy text-secondary" style="font-size: 3rem;"></i>
+                            </div>
+                        @endif
 
-                        <div class="prestasi-body">
-                            <h5>{{ $item->nama_prestasi }}</h5>
+                        <div class="card-body">
+                            <span class="badge {{ $warna }} mb-2">{{ $item->tingkat }}</span>
+                            <h6 class="fw-bold mb-1">{{ $item->nama_prestasi }}</h6>
                             @if($item->juara)
-                                <p class="prestasi-juara">
+                                <small class="text-danger d-block">
                                     <i class="bi bi-award-fill me-1"></i>{{ $item->juara }}
-                                </p>
+                                </small>
                             @endif
                             @if($item->tahun)
-                                <p class="prestasi-tahun">{{ $item->tahun }}</p>
+                                <small class="text-muted">{{ $item->tahun }}</small>
                             @endif
                         </div>
                     </div>
                 </div>
             @empty
-                <div class="col-12 text-center py-5 fade-in-up">
-                    <i class="bi bi-award" style="font-size: 4rem; color: var(--gray); opacity: 0.3;"></i>
-                    <p class="text-muted mt-3 mb-0">Belum ada data prestasi.</p>
+                <div class="col-12 text-center py-5">
+                    <i class="bi bi-award text-muted" style="font-size: 4rem;"></i>
+                    <p class="text-muted mt-3">Belum ada data prestasi.</p>
                 </div>
             @endforelse
         </div>
     </div>
 </section>
-
-@push('styles')
-<style>
-    .prestasi-card {
-        background: #fff;
-        border: 1px solid var(--border);
-        border-radius: 16px;
-        padding: 20px;
-        height: 100%;
-        position: relative;
-        transition: all 0.3s;
-    }
-    .prestasi-card:hover {
-        transform: translateY(-4px);
-        box-shadow: 0 12px 30px rgba(0,0,0,0.08);
-        border-color: var(--primary);
-    }
-    .prestasi-badge {
-        position: absolute;
-        top: 16px; right: 16px;
-        z-index: 2;
-    }
-    .prestasi-badge span {
-        padding: 4px 10px;
-        border-radius: 6px;
-        font-size: 0.65rem;
-        font-weight: 700;
-        text-transform: uppercase;
-        letter-spacing: 0.5px;
-    }
-    .prestasi-img {
-        width: 100%;
-        aspect-ratio: 4/3;
-        border-radius: 12px;
-        overflow: hidden;
-        margin-bottom: 16px;
-    }
-    .prestasi-img img {
-        width: 100%; height: 100%;
-        object-fit: cover;
-        transition: transform 0.3s;
-    }
-    .prestasi-card:hover .prestasi-img img { transform: scale(1.05); }
-    .prestasi-placeholder {
-        width: 100%; height: 100%;
-        background: linear-gradient(135deg, var(--primary-light), var(--accent-light));
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        font-size: 3rem;
-        color: var(--accent-dark);
-    }
-    .prestasi-body h5 {
-        font-size: 0.95rem;
-        font-weight: 700;
-        line-height: 1.4;
-        margin-bottom: 8px;
-        color: var(--dark);
-        display: -webkit-box;
-        -webkit-line-clamp: 2;
-        -webkit-box-orient: vertical;
-        overflow: hidden;
-    }
-    .prestasi-juara {
-        font-size: 0.8rem;
-        color: var(--primary);
-        font-weight: 600;
-        margin-bottom: 4px;
-    }
-    .prestasi-tahun {
-        font-size: 0.75rem;
-        color: var(--gray);
-        margin: 0;
-    }
-</style>
-@endpush

@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Berita;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Str;
 
 class BeritaController extends Controller
 {
@@ -33,8 +34,12 @@ class BeritaController extends Controller
 
     public function store(Request $request)
     {
-        $request->validate([
+        $slug = Str::slug($request -> judul);
+        $request -> merge(['slug'=> $slug]);
+
+            $request->validate([
             'judul'   => 'required|string|max:255',
+            'slug'    => 'required|unique:berita,slug',
             'isi'     => 'required|string',
             'tanggal' => 'required|date',
             'gambar'  => 'nullable|image|mimes:jpg,jpeg,png|max:2048',

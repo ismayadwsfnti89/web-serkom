@@ -1,17 +1,14 @@
-{{-- Header --}}
 <nav class="navbar top-navbar d-flex align-items-center">
     <div class="container-fluid d-flex align-items-center">
 
-        {{-- Toggle Sidebar (Mobile) --}}
         <button class="btn btn-light btn-sm d-lg-none me-2" type="button" id="sidebarToggle">
             <i class="bi bi-list"></i>
         </button>
 
-        {{-- Breadcrumb --}}
         <nav aria-label="breadcrumb" class="d-none d-lg-block">
             <ol class="breadcrumb mb-0">
                 <li class="breadcrumb-item">
-                    <a href="{{ route('dashboard') }}">
+                    <a href="{{ route('dashboard') }}" class="text-danger text-decoration-none">
                         <i class="bi bi-house-door me-1"></i>Home
                     </a>
                 </li>
@@ -23,51 +20,45 @@
             </ol>
         </nav>
 
-        {{-- Logo mobile --}}
         <div class="navbar-brand d-lg-none fw-bold me-auto d-flex align-items-center gap-2">
-            @if(!empty($profil->logo))
+            @if($profil?->logo)
                 <img src="{{ asset('uploads/profil/' . $profil->logo) }}"
                      alt="Logo"
                      style="width: 28px; height: 28px; object-fit: contain;">
             @endif
-            <span>{{ $profil->nama_sekolah ?? 'Web Sekolah' }}</span>
+            <span>{{ $profil?->nama_sekolah ?? 'Web Sekolah' }}</span>
         </div>
 
         <div class="flex-grow-1 d-none d-lg-block"></div>
 
-        {{-- Right Actions --}}
         <div class="d-flex align-items-center gap-2">
 
-            {{-- Lihat Website --}}
             <a href="{{ route('landing') }}" target="_blank"
-               class="btn btn-light btn-sm d-none d-md-inline-flex align-items-center"
-               title="Lihat Website">
+               class="btn btn-light btn-sm d-none d-md-inline-flex align-items-center">
                 <i class="bi bi-globe2 me-1"></i>
                 <span class="d-none d-lg-inline">Lihat Website</span>
             </a>
 
-            {{-- Notifications --}}
             <div class="dropdown">
-                <button class="btn btn-light btn-sm position-relative" data-bs-toggle="dropdown">
+                <button class="btn btn-light btn-sm" data-bs-toggle="dropdown">
                     <i class="bi bi-bell"></i>
                 </button>
-                <ul class="dropdown-menu dropdown-menu-end" style="width: 320px;">
+                <ul class="dropdown-menu dropdown-menu-end" style="width: 300px;">
                     <li class="dropdown-header">Notifikasi</li>
                     <li><hr class="dropdown-divider"></li>
                     <li class="text-center py-4 text-muted small">
-                        <i class="bi bi-bell-slash fs-4 d-block mb-2 opacity-50"></i>
+                        <i class="bi bi-bell-slash fs-4 d-block mb-2"></i>
                         Belum ada notifikasi
                     </li>
                 </ul>
             </div>
 
-            {{-- User Dropdown --}}
             <div class="dropdown">
                 <button class="btn btn-light btn-sm d-flex align-items-center" data-bs-toggle="dropdown">
-                    <img src="https://ui-avatars.com/api/?name={{ Auth::user()->nama ?? 'Admin' }}&background=b91c1c&color=fff&size=32"                         alt="User"
+                    <img src="https://ui-avatars.com/api/?name={{ Auth::user()->nama ?? 'Admin' }}&background=dc3545&color=fff&size=32"
+                         alt="User"
                          class="rounded-circle me-2"
-                         width="32"
-                         height="32">
+                         width="32" height="32">
                     <span class="d-none d-md-inline">{{ Auth::user()->nama ?? 'Admin' }}</span>
                     <i class="bi bi-chevron-down ms-1"></i>
                 </button>
@@ -79,16 +70,6 @@
                     <li>
                         <a class="dropdown-item" href="{{ route('profil.edit') }}">
                             <i class="bi bi-building me-2"></i>Profil Sekolah
-                        </a>
-                    </li>
-                    <li>
-                        <a class="dropdown-item" href="#">
-                            <i class="bi bi-person me-2"></i>Profil Saya
-                        </a>
-                    </li>
-                    <li>
-                        <a class="dropdown-item" href="#">
-                            <i class="bi bi-gear me-2"></i>Pengaturan
                         </a>
                     </li>
                     <li><hr class="dropdown-divider"></li>

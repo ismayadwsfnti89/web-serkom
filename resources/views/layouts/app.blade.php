@@ -5,25 +5,18 @@
 </head>
 <body>
 
-    {{-- Sidebar --}}
     @include('layouts.sidebar')
 
-    {{-- Main Wrapper --}}
-    <div class="main-wrapper" id="mainWrapper">
-
-        {{-- Header --}}
+    <div class="main-wrapper">
         @include('layouts.header')
 
-        {{-- Main Content --}}
-        <main class="dashboard-content" id="main-content">
+        <main class="dashboard-content">
             @yield('content')
         </main>
 
-        {{-- Footer --}}
         @include('layouts.footer')
     </div>
 
-    {{-- Scripts --}}
     @include('layouts.scripts')
 </body>
 </html>
