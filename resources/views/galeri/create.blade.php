@@ -26,7 +26,8 @@
 
             <div class="col-md-3">
                 <label class="form-label">Kategori <span class="text-danger">*</span></label>
-                <select name="kategori" class="form-select @error('kategori') is-invalid @enderror" required>
+                <select name="kategori"
+                        class="form-select @error('kategori') is-invalid @enderror" required>
                     <option value="">-- Pilih --</option>
                     <option value="Foto" {{ old('kategori') === 'Foto' ? 'selected' : '' }}>Foto</option>
                     <option value="Video" {{ old('kategori') === 'Video' ? 'selected' : '' }}>Video</option>
@@ -62,7 +63,10 @@
             <div class="col-12">
                 <label class="form-label">Keterangan</label>
                 <textarea name="keterangan" rows="3"
-                          class="form-control">{{ old('keterangan') }}</textarea>
+                          class="form-control @error('keterangan') is-invalid @enderror">{{ old('keterangan') }}</textarea>
+                @error('keterangan')
+                    <div class="invalid-feedback">{{ $message }}</div>
+                @enderror
             </div>
         </div>
 

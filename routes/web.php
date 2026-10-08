@@ -12,36 +12,26 @@ use App\Http\Controllers\GaleriController;
 use App\Http\Controllers\BeritaController;
 use App\Http\Controllers\PengumumanController;
 use App\Http\Controllers\ProfileSekolahController;
-
-use App\Models\ProfileSekolah;
-use App\Models\Siswa;
-use App\Models\Guru;
-use App\Models\Ekstrakurikuler;
-use App\Models\Prestasi;
-use App\Models\Berita;
-use App\Models\Pengumuman;
-use App\Models\Galeri;
+use App\Http\Controllers\LandingController;
+use App\Http\Controllers\TampilController;
 
 /*
 |--------------------------------------------------------------------------
 | Landing Page
 |--------------------------------------------------------------------------
 */
-Route::get('/', function () {
-    return view('landing.index', [
-        'profil'        => ProfileSekolah::first(),
-        'totalSiswa'    => Siswa::count(),
-        'totalGuru'     => Guru::count(),
-        'totalEkskul'   => Ekstrakurikuler::count(),
-        'totalPrestasi' => Prestasi::count(),
-        'berita'        => Berita::where('status', 'Publish')->latest()->take(4)->get(),
-        'pengumuman'    => Pengumuman::where('status', 'Publish')->latest()->take(3)->get(),
-        'galeri'        => Galeri::latest()->take(8)->get(),
-        'ekskul'        => Ekstrakurikuler::latest()->take(6)->get(),
-        'prestasi'      => Prestasi::latest()->take(4)->get(),
-        'guru'          => Guru::latest()->take(8)->get(),
-    ]);
-})->name('landing');
+
+
+Route::get('/', [LandingController::class, 'index'])->name('landing.index');
+Route::prefix('public')->group(function () {
+    Route::get('/guru', [TampilController::class, 'guru'])->name('tampil.guru');
+    Route::get('/berita', [TampilController::class, 'berita'])->name('tampil.berita');
+    Route::get('/berita/{id}', [TampilController::class, 'beritaDetail'])->name('tampil.berita.detail');
+    Route::get('/galeri', [TampilController::class, 'galeri'])->name('tampil.galeri');
+    Route::get('/prestasi', [TampilController::class, 'prestasi'])->name('tampil.prestasi');
+    Route::get('/ekskul', [TampilController::class, 'ekskul'])->name('tampil.ekskul');
+    Route::get('/pengumuman', [TampilController::class, 'pengumuman'])->name('tampil.pengumuman');
+});
 
 /*
 |--------------------------------------------------------------------------

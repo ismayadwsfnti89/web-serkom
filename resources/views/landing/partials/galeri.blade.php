@@ -5,7 +5,7 @@
                 <h2 class="fw-bold mb-1">Galeri Sekolah</h2>
                 <p class="text-muted mb-0">Potret kegiatan seru di sekolah kami</p>
             </div>
-            <a href="#" class="btn btn-outline-danger btn-sm">
+            <a href="{{ route('tampil.galeri') }}" class="btn btn-outline-danger btn-sm">
                 Lihat Semua <i class="bi bi-arrow-right"></i>
             </a>
         </div>

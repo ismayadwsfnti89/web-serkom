@@ -8,9 +8,16 @@
         <h1 class="h3 fw-bold">Daftar Prestasi</h1>
         <p class="text-muted mb-0">Kelola data prestasi sekolah</p>
     </div>
-    <a href="{{ route('prestasi.create') }}" class="btn btn-danger">
-        <i class="bi bi-plus-circle me-2"></i>Tambah Prestasi
-    </a>
+    <div class="d-flex align-items-center gap-3">
+        <x-search-bar
+        :action="route('prestasi.index')"
+        placeholder="Cari ..."
+        :value="request('search')"/>
+
+        <a href="{{ route('prestasi.create') }}" class="btn btn-danger">
+            <i class="bi bi-plus-circle me-2"></i>Tambah Prestasi
+        </a>
+    </div>
 </div>
 
 @if(session('success'))
@@ -20,11 +27,6 @@
     </div>
 @endif
 
-<x-search-bar
-    :action="route('prestasi.index')"
-    placeholder="Cari nama prestasi, tingkat, atau juara..."
-    :value="request('search')"
-/>
 
 <div class="dashboard-card">
     <div class="table-responsive">
@@ -105,7 +107,7 @@
     </div>
 
     @if($prestasi->hasPages())
-        <div class="mt-3">{{ $prestasi->links() }}</div>
+        <div class="mt-3">{{ $prestasi->links('pagination::bootstrap-5') }}</div>
     @endif
 </div>
 @endsection

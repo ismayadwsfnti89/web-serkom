@@ -27,7 +27,20 @@
         html {
             scroll-behavior: smooth;
         }
-        
+        .hero-slide {
+            position: relative;
+        }
+        .hero-overlay {
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(135deg, rgba(220, 53, 69, 0.45) 0%, rgba(167, 29, 42, 0.55) 100%);
+            z-index: 1;
+        }
+        .hero-content {
+            position: relative;
+            z-index: 2;
+        }
+
     </style>
 </head>
 <body>
@@ -45,7 +58,6 @@
             @endif
             <span>{{ $profil?->nama_sekolah ?? 'Web Sekolah' }}</span>
         </a>
-
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navLanding">
             <span class="navbar-toggler-icon"></span>
         </button>
@@ -93,7 +105,7 @@
                     <h5 class="text-white mb-0">{{ $profil?->nama_sekolah ?? 'Web Sekolah' }}</h5>
                 </div>
                 @if($profil?->deskripsi)
-                    <p class="small">{{ Str::limit($profil->deskripsi, 120) }}</p>
+                    <p class="small">{{ Str::limit($profil->deskripsi, 2000) }}</p>
                 @endif
             </div>
 

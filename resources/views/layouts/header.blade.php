@@ -29,11 +29,11 @@
             <span>{{ $profil?->nama_sekolah ?? 'Web Sekolah' }}</span>
         </div>
 
-        <div class="flex-grow-1 d-none d-lg-block"></div>
+        <div class="grow d-none d-lg-block"></div>
 
         <div class="d-flex align-items-center gap-2">
 
-            <a href="{{ route('landing') }}" target="_blank"
+            <a href="{{ route('landing.index') }}" 
                class="btn btn-light btn-sm d-none d-md-inline-flex align-items-center">
                 <i class="bi bi-globe2 me-1"></i>
                 <span class="d-none d-lg-inline">Lihat Website</span>

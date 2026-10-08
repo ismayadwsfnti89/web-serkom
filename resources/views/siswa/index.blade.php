@@ -12,12 +12,18 @@
         <h3 class="mb-1 fw-bold">Data Siswa</h3>
         <p class="text-muted mb-0">Kelola data siswa sekolah</p>
     </div>
+    <div class="d-flex align-items-center gap-3">
+        <x-search-bar
+        :action="route('siswa.index')"
+        placeholder="Cari ..."
+        :value="request('search')"/>
 
     @if(Auth::user()->role === 'admin')
         <a href="{{ route('siswa.create') }}" class="btn btn-danger">
             <i class="bi bi-plus-circle me-2"></i>Tambah Siswa
         </a>
     @endif
+    </div>
 </div>
 
 @if(session('success'))
@@ -26,12 +32,6 @@
         <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
     </div>
 @endif
-
-<x-search-bar
-    :action="route('siswa.index')"
-    placeholder="Cari NISN, nama, atau tahun masuk..."
-    :value="request('search')"
-/>
 
 <div class="dashboard-card">
     <div class="table-responsive">
@@ -96,7 +96,7 @@
     </div>
 
     @if($siswa->hasPages())
-        <div class="mt-3">{{ $siswa->links() }}</div>
+        <div class="mt-3">{{ $siswa->links('pagination::bootstrap-5') }}</div>
     @endif
 </div>
 @endsection

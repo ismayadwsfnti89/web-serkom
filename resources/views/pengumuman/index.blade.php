@@ -8,9 +8,15 @@
         <h1 class="h3 fw-bold">Daftar Pengumuman</h1>
         <p class="text-muted mb-0">Kelola pengumuman sekolah</p>
     </div>
+    <div class="d-flex align-items-center gap-3">
+        <x-search-bar
+        :action="route('pengumuman.index')"
+        placeholder="Cari ..."
+        :value="request('search')"/>
     <a href="{{ route('pengumuman.create') }}" class="btn btn-danger">
         <i class="bi bi-plus-circle me-2"></i>Tambah Pengumuman
     </a>
+    </div>
 </div>
 
 @if(session('success'))
@@ -19,12 +25,6 @@
         <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
     </div>
 @endif
-
-<x-search-bar
-    :action="route('pengumuman.index')"
-    placeholder="Cari judul atau isi pengumuman..."
-    :value="request('search')"
-/>
 
 <div class="dashboard-card">
     <div class="table-responsive">
@@ -86,7 +86,7 @@
     </div>
 
     @if($pengumuman->hasPages())
-        <div class="mt-3">{{ $pengumuman->links() }}</div>
+        <div class="mt-3">{{ $pengumuman->links('pagination::bootstrap-5') }}</div>
     @endif
 </div>
 @endsection

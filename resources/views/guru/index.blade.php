@@ -12,12 +12,18 @@
         <h3 class="mb-1 fw-bold">Data Guru</h3>
         <p class="text-muted mb-0">Kelola data guru sekolah</p>
     </div>
+    <div class="d-flex align-items-center gap-3">
+        <x-search-bar
+        :action="route('guru.index')"
+        placeholder="Cari ..."
+        :value="request('search')"/>
 
     @if(Auth::user()->role === 'admin')
         <a href="{{ route('guru.create') }}" class="btn btn-danger">
             <i class="bi bi-plus-circle me-2"></i>Tambah Guru
         </a>
     @endif
+    </div>
 </div>
 
 @if(session('success'))
@@ -26,13 +32,6 @@
         <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
     </div>
 @endif
-
-<x-search-bar
-    :action="route('guru.index')"
-    placeholder="Cari nama, NIP, jabatan, atau mapel..."
-    :value="request('search')"
-/>
-
 <div class="dashboard-card">
     <div class="table-responsive">
         <table class="table table-hover align-middle mb-0">
@@ -103,9 +102,6 @@
             </tbody>
         </table>
     </div>
-
-    @if($guru->hasPages())
-        <div class="mt-3">{{ $guru->links() }}</div>
-    @endif
+ <div class="mt-3">{{ $guru->links('pagination::bootstrap-5') }}</div>
 </div>
 @endsection

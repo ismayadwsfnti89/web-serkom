@@ -8,12 +8,18 @@
         <h1 class="h3 fw-bold">Manajemen User</h1>
         <p class="text-muted mb-0">Kelola akun pengguna sistem</p>
     </div>
+    <div class="d-flex align-items-center gap-3">
+        <x-search-bar
+        :action="route('user.index')"
+        placeholder="Cari ..."
+        :value="request('search')"/>
 
     @if(Auth::user()->isAdmin())
         <a href="{{ route('user.create') }}" class="btn btn-danger">
             <i class="bi bi-plus-circle me-2"></i>Tambah User
         </a>
     @endif
+    </div>
 </div>
 
 @if(session('success'))
@@ -29,12 +35,6 @@
         <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
     </div>
 @endif
-
-<x-search-bar
-    :action="route('user.index')"
-    placeholder="Cari nama, username, atau role..."
-    :value="request('search')"
-/>
 
 <div class="dashboard-card">
     <div class="table-responsive">

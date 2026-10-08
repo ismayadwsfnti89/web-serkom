@@ -5,7 +5,7 @@
                 <h2 class="fw-bold mb-1">Berita Terbaru</h2>
                 <p class="text-muted mb-0">Kegiatan & kabar terbaru dari sekolah</p>
             </div>
-            <a href="#" class="btn btn-outline-danger btn-sm">
+            <a href="{{ route('tampil.berita') }}" class="btn btn-outline-danger btn-sm">
                 Lihat Semua <i class="bi bi-arrow-right"></i>
             </a>
         </div>

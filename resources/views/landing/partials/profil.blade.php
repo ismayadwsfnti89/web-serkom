@@ -5,12 +5,14 @@
             <p class="text-muted">Mengenal lebih dekat sekolah kami</p>
         </div>
 
-        <div class="row align-items-center g-4">
-            <div class="col-lg-6">
+        <div class="row g-4 justify-content-center">
+            {{-- Kolom kiri: foto profil sekolah --}}
+            <div class="col-lg-5">
                 @if($profil?->foto)
                     <img src="{{ asset('uploads/profil/' . $profil->foto) }}"
                          alt="{{ $profil->nama_sekolah }}"
-                         class="img-fluid rounded-3 shadow-sm">
+                         class="img-fluid rounded-3 shadow-sm w-100"
+                         style="height: 400px; object-fit: cover;">
                 @else
                     <div class="bg-secondary bg-opacity-10 rounded-3 d-flex align-items-center justify-content-center"
                          style="height: 400px;">
@@ -19,17 +21,31 @@
                 @endif
             </div>
 
-            <div class="col-lg-6">
+            {{-- Kolom kanan: info --}}
+            <div class="col-lg-7">
                 <h3 class="fw-bold mb-3">{{ $profil?->nama_sekolah ?? 'Sekolah Kami' }}</h3>
 
                 @if($profil?->deskripsi)
                     <p class="text-muted mb-4">{{ $profil->deskripsi }}</p>
                 @endif
 
+                {{-- Card Kepala Sekolah (dari tabel guru) --}}
+                @if($kepalaSekolah)
+                    <div class="card border-0 shadow-sm mb-4">
+                        <div class="card-body d-flex align-items-center gap-3">
+                            <div>
+                                <small class="text-muted d-block">Kepala Sekolah</small>
+                                <strong class="fs-6">{{ $kepalaSekolah->nama_guru }}</strong>
+                            </div>
+                        </div>
+                    </div>
+                @endif
+
+                {{-- Card NPSN & Tahun Berdiri --}}
                 <div class="row g-3 mb-4">
                     @if($profil?->npsn)
                         <div class="col-6">
-                            <div class="card border-0 shadow-sm">
+                            <div class="card border-0 shadow-sm h-100">
                                 <div class="card-body d-flex align-items-center gap-2">
                                     <i class="bi bi-hash text-danger fs-4"></i>
                                     <div>
@@ -43,26 +59,12 @@
 
                     @if($profil?->tahun_berdiri)
                         <div class="col-6">
-                            <div class="card border-0 shadow-sm">
+                            <div class="card border-0 shadow-sm h-100">
                                 <div class="card-body d-flex align-items-center gap-2">
                                     <i class="bi bi-calendar-check text-danger fs-4"></i>
                                     <div>
                                         <small class="text-muted d-block">Tahun Berdiri</small>
                                         <strong>{{ $profil->tahun_berdiri }}</strong>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    @endif
-
-                    @if($profil?->kepala_sekolah)
-                        <div class="col-12">
-                            <div class="card border-0 shadow-sm">
-                                <div class="card-body d-flex align-items-center gap-2">
-                                    <i class="bi bi-person-badge text-danger fs-4"></i>
-                                    <div>
-                                        <small class="text-muted d-block">Kepala Sekolah</small>
-                                        <strong>{{ $profil->kepala_sekolah }}</strong>
                                     </div>
                                 </div>
                             </div>

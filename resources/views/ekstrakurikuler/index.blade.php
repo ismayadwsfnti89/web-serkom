@@ -8,9 +8,15 @@
         <h1 class="h3 fw-bold">Daftar Ekstrakurikuler</h1>
         <p class="text-muted mb-0">Kelola kegiatan ekstrakurikuler sekolah</p>
     </div>
-    <a href="{{ route('ekskul.create') }}" class="btn btn-danger">
-        <i class="bi bi-plus-circle me-2"></i>Tambah Ekstrakurikuler
-    </a>
+    <div class="d-flex justify-items-center gap-2">
+            <x-search-bar
+            :action="route('ekskul.index')"
+            placeholder="Cari disini"
+            :value="request('search')"/>
+        <a href="{{ route('ekskul.create') }}" class="btn btn-danger">
+            <i class="bi bi-plus-circle me-2"></i>Tambah Ekstrakurikuler
+        </a>
+    </div>
 </div>
 
 @if(session('success'))
@@ -19,13 +25,6 @@
         <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
     </div>
 @endif
-
-<x-search-bar
-    :action="route('ekskul.index')"
-    placeholder="Cari nama ekskul, pembina, atau jadwal..."
-    :value="request('search')"
-/>
-
 <div class="dashboard-card">
     <div class="table-responsive">
         <table class="table table-hover align-middle mb-0">
@@ -91,9 +90,8 @@
             </tbody>
         </table>
     </div>
-
     @if($ekskul->hasPages())
-        <div class="mt-3">{{ $ekskul->links() }}</div>
+    <div class="mt-3">{{ $ekskul->links('pagination::bootstrap-5') }}</div>
     @endif
 </div>
 @endsection

@@ -20,7 +20,7 @@ class GaleriController extends Controller
             });
         }
 
-        $galeri = $query->latest()->paginate(12)->withQueryString();
+        $galeri = $query->latest()->paginate(10)->withQueryString();
 
         return view('galeri.index', compact('galeri'));
     }

@@ -6,7 +6,7 @@
                 <p class="text-muted mb-0">Tenaga pendidik profesional kami</p>
             </div>
             @if($totalGuru > 8)
-                <a href="{{ route('guru.index') }}" class="btn btn-outline-danger btn-sm">
+                <a href="{{ route('tampil.guru') }}" class="btn btn-outline-danger btn-sm">
                     Lihat Semua <i class="bi bi-arrow-right"></i>
                 </a>
             @endif

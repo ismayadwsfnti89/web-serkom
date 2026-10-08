@@ -8,9 +8,16 @@
         <h1 class="h3 fw-bold">Daftar Berita</h1>
         <p class="text-muted mb-0">Kelola berita sekolah</p>
     </div>
-    <a href="{{ route('berita.create') }}" class="btn btn-danger">
-        <i class="bi bi-plus-circle me-2"></i>Tambah Berita
-    </a>
+    <div class="d-flex align-items-center gap-3">
+        <x-search-bar
+        :action="route('berita.index')"
+        placeholder="Cari disini..."
+        :value="request('search')"/>
+
+        <a href="{{ route('berita.create') }}" class="btn btn-danger">
+            <i class="bi bi-plus-circle me-2"></i>Tambah Berita
+        </a>
+    </div>
 </div>
 
 @if(session('success'))
@@ -19,12 +26,6 @@
         <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
     </div>
 @endif
-
-<x-search-bar
-    :action="route('berita.index')"
-    placeholder="Cari judul atau isi berita..."
-    :value="request('search')"
-/>
 
 <div class="dashboard-card">
     <div class="table-responsive">
@@ -101,7 +102,7 @@
     </div>
 
     @if($berita->hasPages())
-        <div class="mt-3">{{ $berita->links() }}</div>
+        <div class="mt-3">{{ $berita->links('pagination::bootstrap-5') }}</div>
     @endif
 </div>
 @endsection
