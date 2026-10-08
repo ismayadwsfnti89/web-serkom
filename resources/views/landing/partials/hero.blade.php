@@ -23,7 +23,6 @@
                     ">
                         <div class="hero-overlay"></div>
 
-                        {{-- Konten di dalam slide --}}
                         <div class="hero-content position-relative h-100 d-flex align-items-center">
                             <div class="container">
                                 <div class="row align-items-center">
@@ -35,7 +34,7 @@
                                             {{ $profil?->nama_sekolah ?? 'Sekolah Kami' }}
                                         </h1>
                                         <p class="lead mb-4">
-                                            {{ Str::limit($profil?->deskripsi ?? 'Membangun generasi berprestasi dan berkarakter melalui pendidikan berkualitas.', 193) }}
+                                            {{ Str::limit($profil?->deskripsi ?? 'Membangun generasi berprestasi dan berkarakter melalui pendidikan berkualitas.', 2000) }}
                                         </p>
                                     </div>
 
@@ -52,10 +51,9 @@
                     </div>
                 </div>
             @empty
-                {{-- Fallback kalau galeri kosong --}}
                 <div class="carousel-item active">
                     <div class="hero-slide" style="
-                        background: linear-gradient(135deg, #dc3545 0%, #a71d2a 100%);
+                        background: linear-gradient(135deg, #a16207 0%, #713f12 100%);
                         height: 520px;
                         position: relative;
                     ">

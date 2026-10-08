@@ -14,15 +14,15 @@
     </div>
     <div class="d-flex align-items-center gap-3">
         <x-search-bar
-        :action="route('guru.index')"
-        placeholder="Cari ..."
-        :value="request('search')"/>
+            :action="route('guru.index')"
+            placeholder="Cari ..."
+            :value="request('search')"/>
 
-    @if(Auth::user()->role === 'admin')
-        <a href="{{ route('guru.create') }}" class="btn btn-danger">
-            <i class="bi bi-plus-circle me-2"></i>Tambah Guru
-        </a>
-    @endif
+        @if(Auth::user()->role === 'admin')
+            <a href="{{ route('guru.create') }}" class="btn btn-danger">
+                <i class="bi bi-plus-circle me-2"></i>Tambah Guru
+            </a>
+        @endif
     </div>
 </div>
 
@@ -32,6 +32,7 @@
         <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
     </div>
 @endif
+
 <div class="dashboard-card">
     <div class="table-responsive">
         <table class="table table-hover align-middle mb-0">
@@ -69,16 +70,22 @@
                         <td>{{ $item->jabatan ?? '-' }}</td>
                         <td>{{ $item->mapel ?? '-' }}</td>
                         <td class="text-center">
+                            {{-- Lihat — semua role --}}
                             <a href="{{ route('guru.show', encrypt_id($item->id_guru)) }}"
                                class="btn btn-sm btn-outline-info">
                                 <i class="bi bi-eye"></i>
                             </a>
 
-                            @if(Auth::user()->role === 'admin')
+                            {{-- Edit — admin & operator --}}
+                            @if(in_array(Auth::user()->role, ['admin', 'operator']))
                                 <a href="{{ route('guru.edit', encrypt_id($item->id_guru)) }}"
                                    class="btn btn-sm btn-outline-warning">
                                     <i class="bi bi-pencil"></i>
                                 </a>
+                            @endif
+
+                            {{-- Hapus — cuma admin --}}
+                            @if(Auth::user()->role === 'admin')
                                 <form action="{{ route('guru.destroy', encrypt_id($item->id_guru)) }}"
                                       method="POST" class="d-inline"
                                       onsubmit="return confirm('Hapus guru ini?')">
@@ -102,6 +109,9 @@
             </tbody>
         </table>
     </div>
- <div class="mt-3">{{ $guru->links('pagination::bootstrap-5') }}</div>
+
+    @if($guru->hasPages())
+        <div class="mt-3">{{ $guru->links('pagination::bootstrap-5') }}</div>
+    @endif
 </div>
 @endsection

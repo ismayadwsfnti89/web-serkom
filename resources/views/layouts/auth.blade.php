@@ -8,6 +8,7 @@
     <link rel="icon" type="image/x-icon" href="{{ asset('favicon.ico') }}">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.13.1/font/bootstrap-icons.css" rel="stylesheet">
+    <link href="{{ asset('css/warna-sekolah.css') }}" rel="stylesheet">
 
     <style>
         body {
@@ -17,7 +18,7 @@
             align-items: center;
             justify-content: center;
             padding: 20px;
-            background: #dc3545;
+            background: linear-gradient(135deg, #047857 0%, #065f46 100%);
         }
         .auth-card {
             background: #fff;
@@ -33,7 +34,7 @@
             justify-content: center;
             width: 72px;
             height: 72px;
-            background: #dc3545;
+            background: linear-gradient(135deg, #047857 0%, #065f46 100%);
             border-radius: 12px;
             margin-bottom: 20px;
         }

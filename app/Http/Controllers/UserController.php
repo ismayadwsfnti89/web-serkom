@@ -95,6 +95,32 @@ class UserController extends Controller
         return redirect()->route('user.index')
                         ->with('success', 'User berhasil diperbarui.');
     }
+    public function profilSaya()
+{
+    $user = Auth::user();
+    return view('user.profil-saya', compact('user'));
+}
+
+public function updateProfilSaya(Request $request)
+{
+    $user = Auth::user();
+
+    $request->validate([
+        'nama'     => 'required|string|max:255',
+        'password' => 'nullable|string|min:6|confirmed',
+    ]);
+
+    $user->nama = $request->nama;
+
+    if ($request->filled('password')) {
+        $user->password = Hash::make($request->password);
+    }
+
+    $user->save();
+
+    return redirect()->route('profil.saya')
+                     ->with('success', 'Profil berhasil diperbarui.');
+}
 
     public function destroy(string $encryptedId)
     {

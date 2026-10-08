@@ -6,7 +6,6 @@
         </div>
 
         <div class="row g-4 justify-content-center">
-            {{-- Kolom kiri: foto profil sekolah --}}
             <div class="col-lg-5">
                 @if($profil?->foto)
                     <img src="{{ asset('uploads/profil/' . $profil->foto) }}"
@@ -21,7 +20,6 @@
                 @endif
             </div>
 
-            {{-- Kolom kanan: info --}}
             <div class="col-lg-7">
                 <h3 class="fw-bold mb-3">{{ $profil?->nama_sekolah ?? 'Sekolah Kami' }}</h3>
 
@@ -29,10 +27,21 @@
                     <p class="text-muted mb-4">{{ $profil->deskripsi }}</p>
                 @endif
 
-                {{-- Card Kepala Sekolah (dari tabel guru) --}}
                 @if($kepalaSekolah)
                     <div class="card border-0 shadow-sm mb-4">
                         <div class="card-body d-flex align-items-center gap-3">
+                            @if($kepalaSekolah->foto)
+                                <img src="{{ asset('uploads/guru/' . $kepalaSekolah->foto) }}"
+                                     alt="{{ $kepalaSekolah->nama_guru }}"
+                                     class="rounded-circle"
+                                     width="70" height="70"
+                                     style="object-fit: cover;">
+                            @else
+                                <img src="https://ui-avatars.com/api/?name={{ urlencode($kepalaSekolah->nama_guru) }}&background=a16207&color=fff&size=70"
+                                     alt="{{ $kepalaSekolah->nama_guru }}"
+                                     class="rounded-circle"
+                                     width="70" height="70">
+                            @endif
                             <div>
                                 <small class="text-muted d-block">Kepala Sekolah</small>
                                 <strong class="fs-6">{{ $kepalaSekolah->nama_guru }}</strong>
@@ -41,7 +50,6 @@
                     </div>
                 @endif
 
-                {{-- Card NPSN & Tahun Berdiri --}}
                 <div class="row g-3 mb-4">
                     @if($profil?->npsn)
                         <div class="col-6">

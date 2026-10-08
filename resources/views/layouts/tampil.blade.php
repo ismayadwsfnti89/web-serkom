@@ -7,6 +7,7 @@
     <link rel="icon" type="image/x-icon" href="{{ asset('favicon.ico') }}">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.13.1/font/bootstrap-icons.css" rel="stylesheet">
+    <link href="{{ asset('css/warna-sekolah.css') }}" rel="stylesheet">
 </head>
 <body class="bg-white">
 
@@ -24,10 +25,10 @@
     </div>
 </nav>
 
-<div class="bg-light py-4 border-bottom">
+<div class="py-4 border-bottom" style="background: linear-gradient(135deg, #047857 0%, #065f46 100%);">
     <div class="container">
-        <h1 class="h3 fw-bold mb-1">@yield('title')</h1>
-        <p class="text-muted mb-0">@yield('subtitle')</p>
+        <h1 class="h3 fw-bold mb-1 text-white">@yield('title')</h1>
+        <p class="mb-0" style="color: #a7f3d0;">@yield('subtitle')</p>
     </div>
 </div>
 

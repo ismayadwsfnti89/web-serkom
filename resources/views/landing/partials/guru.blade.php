@@ -22,7 +22,7 @@
                                      alt="{{ $item->nama_guru }}"
                                      class="object-fit-cover">
                             @else
-                                <img src="https://ui-avatars.com/api/?name={{ urlencode($item->nama_guru) }}&background=dc3545&color=fff&size=200"
+                                <img src="https://ui-avatars.com/api/?name={{ urlencode($item->nama_guru) }}&background=a16207&color=fff&size=200"
                                      alt="{{ $item->nama_guru }}">
                             @endif
                         </div>

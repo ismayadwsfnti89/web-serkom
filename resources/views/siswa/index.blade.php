@@ -14,15 +14,15 @@
     </div>
     <div class="d-flex align-items-center gap-3">
         <x-search-bar
-        :action="route('siswa.index')"
-        placeholder="Cari ..."
-        :value="request('search')"/>
+            :action="route('siswa.index')"
+            placeholder="Cari ..."
+            :value="request('search')"/>
 
-    @if(Auth::user()->role === 'admin')
-        <a href="{{ route('siswa.create') }}" class="btn btn-danger">
-            <i class="bi bi-plus-circle me-2"></i>Tambah Siswa
-        </a>
-    @endif
+        @if(Auth::user()->role === 'admin')
+            <a href="{{ route('siswa.create') }}" class="btn btn-danger">
+                <i class="bi bi-plus-circle me-2"></i>Tambah Siswa
+            </a>
+        @endif
     </div>
 </div>
 
@@ -61,16 +61,22 @@
                         </td>
                         <td>{{ $item->tahun_masuk ?? '-' }}</td>
                         <td class="text-center">
+                            {{-- Lihat — semua role --}}
                             <a href="{{ route('siswa.show', encrypt_id($item->id_siswa)) }}"
                                class="btn btn-sm btn-outline-info">
                                 <i class="bi bi-eye"></i>
                             </a>
 
-                            @if(Auth::user()->role === 'admin')
+                            {{-- Edit — admin & operator --}}
+                            @if(in_array(Auth::user()->role, ['admin', 'operator']))
                                 <a href="{{ route('siswa.edit', encrypt_id($item->id_siswa)) }}"
                                    class="btn btn-sm btn-outline-warning">
                                     <i class="bi bi-pencil"></i>
                                 </a>
+                            @endif
+
+                            {{-- Hapus — cuma admin --}}
+                            @if(Auth::user()->role === 'admin')
                                 <form action="{{ route('siswa.destroy', encrypt_id($item->id_siswa)) }}"
                                       method="POST" class="d-inline"
                                       onsubmit="return confirm('Hapus siswa ini?')">

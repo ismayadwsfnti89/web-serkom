@@ -1,0 +1,89 @@
+/* ============================================
+   WARNA SEKOLAH - HIJAU EMERALD + CREAM
+   ============================================ */
+:root {
+    --warna-utama: #047857;       /* hijau emerald */
+    --warna-utama-tua: #065f46;   /* hijau tua */
+    --warna-utama-muda: #fbbf24;  /* emas muda (aksen) */
+}
+
+/* ===== TOMBOL ===== */
+.btn-danger {
+    background-color: var(--warna-utama) !important;
+    border-color: var(--warna-utama) !important;
+    color: #fff !important;
+}
+.btn-danger:hover,
+.btn-danger:focus {
+    background-color: var(--warna-utama-tua) !important;
+    border-color: var(--warna-utama-tua) !important;
+    color: #fff !important;
+}
+
+.btn-outline-danger {
+    color: var(--warna-utama) !important;
+    border-color: var(--warna-utama) !important;
+}
+.btn-outline-danger:hover {
+    background-color: var(--warna-utama) !important;
+    color: #fff !important;
+    border-color: var(--warna-utama) !important;
+}
+
+.btn-warning {
+    background-color: var(--warna-utama-muda) !important;
+    border-color: var(--warna-utama-muda) !important;
+    color: #212529 !important;
+}
+
+/* ===== TEKS ===== */
+.text-danger {
+    color: var(--warna-utama) !important;
+}
+a.text-danger {
+    color: var(--warna-utama) !important;
+}
+a.text-danger:hover {
+    color: var(--warna-utama-tua) !important;
+}
+
+/* ===== BACKGROUND ===== */
+.bg-danger {
+    background-color: var(--warna-utama) !important;
+}
+.badge.bg-danger {
+    background-color: var(--warna-utama) !important;
+}
+
+/* ===== ALERT ===== */
+.alert-danger {
+    background-color: #d1fae5;
+    border-color: #a7f3d0;
+    color: var(--warna-utama-tua);
+}
+
+/* ===== PAGINATION ===== */
+.pagination .page-item.active .page-link {
+    background-color: var(--warna-utama);
+    border-color: var(--warna-utama);
+    color: #fff;
+}
+.pagination .page-link {
+    color: var(--warna-utama);
+}
+.pagination .page-link:hover {
+    background-color: #d1fae5;
+    color: var(--warna-utama-tua);
+}
+
+/* ===== FORM FOCUS ===== */
+.form-control:focus,
+.form-select:focus {
+    border-color: var(--warna-utama);
+    box-shadow: 0 0 0 0.25rem rgba(4, 120, 87, 0.25);
+}
+
+/* ===== LINK UMUM ===== */
+.text-warning {
+    color: var(--warna-utama-muda) !important;
+}

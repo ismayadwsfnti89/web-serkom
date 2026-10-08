@@ -10,6 +10,7 @@
 
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.13.1/font/bootstrap-icons.css" rel="stylesheet">
+    <link href="{{ asset('css/warna-sekolah.css') }}" rel="stylesheet">
 
     <style>
         body {
@@ -21,7 +22,7 @@
             object-fit: contain;
         }
         .hero-section {
-            background: linear-gradient(135deg, #dc3545 0%, #a71d2a 100%);
+            background: linear-gradient(135deg, #047857 0%, #065f46 100%);
             color: #fff;
         }
         html {
@@ -33,14 +34,23 @@
         .hero-overlay {
             position: absolute;
             inset: 0;
-            background: linear-gradient(135deg, rgba(220, 53, 69, 0.45) 0%, rgba(167, 29, 42, 0.55) 100%);
+            background: linear-gradient(135deg, rgba(4, 120, 87, 0.55) 0%, rgba(6, 95, 70, 0.70) 100%);
             z-index: 1;
         }
         .hero-content {
             position: relative;
             z-index: 2;
         }
-
+        .btn-hero {
+            background: #fbbf24;
+            color: #065f46;
+            border: none;
+            font-weight: 600;
+        }
+        .btn-hero:hover {
+            background: #f59e0b;
+            color: #065f46;
+        }
     </style>
 </head>
 <body>
@@ -142,7 +152,6 @@
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"></script>
 <script>
-    // Back to top
     const backToTop = document.getElementById('backToTop');
     window.addEventListener('scroll', () => {
         if (window.scrollY > 400) {

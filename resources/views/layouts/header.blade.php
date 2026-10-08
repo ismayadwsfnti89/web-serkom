@@ -33,7 +33,7 @@
 
         <div class="d-flex align-items-center gap-2">
 
-            <a href="{{ route('landing.index') }}" 
+            <a href="{{ route('landing.index') }}"
                class="btn btn-light btn-sm d-none d-md-inline-flex align-items-center">
                 <i class="bi bi-globe2 me-1"></i>
                 <span class="d-none d-lg-inline">Lihat Website</span>
@@ -55,7 +55,7 @@
 
             <div class="dropdown">
                 <button class="btn btn-light btn-sm d-flex align-items-center" data-bs-toggle="dropdown">
-                    <img src="https://ui-avatars.com/api/?name={{ Auth::user()->nama ?? 'Admin' }}&background=dc3545&color=fff&size=32"
+                    <img src="https://ui-avatars.com/api/?name={{ Auth::user()->nama ?? 'Admin' }}&background=047857&color=fff&size=32"
                          alt="User"
                          class="rounded-circle me-2"
                          width="32" height="32">
@@ -66,6 +66,11 @@
                     <li class="px-3 py-2 border-bottom">
                         <div class="fw-semibold">{{ Auth::user()->nama ?? 'Admin' }}</div>
                         <small class="text-muted text-capitalize">{{ Auth::user()->role ?? 'Admin' }}</small>
+                    </li>
+                    <li>
+                        <a class="dropdown-item" href="{{ route('profil.saya') }}">
+                            <i class="bi bi-person-circle me-2"></i>Profil Saya
+                        </a>
                     </li>
                     <li>
                         <a class="dropdown-item" href="{{ route('profil.edit') }}">

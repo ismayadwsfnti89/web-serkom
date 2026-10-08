@@ -34,7 +34,7 @@
                             <p class="text-muted small mb-3">
                                 {{ Str::limit(strip_tags($item->isi), 90) }}
                             </p>
-                            <a href="#" class="text-danger small text-decoration-none">
+                            <a href="{{ route('tampil.berita.detail', $item->id_berita) }}" class="text-danger small text-decoration-none">
                                 Baca <i class="bi bi-arrow-right"></i>
                             </a>
                         </div>

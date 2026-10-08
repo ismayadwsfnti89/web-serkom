@@ -8,11 +8,12 @@
 <link rel="icon" type="image/x-icon" href="{{ asset('favicon.ico') }}">
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet">
 <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.13.1/font/bootstrap-icons.css" rel="stylesheet">
+<link href="{{ asset('css/warna-sekolah.css') }}" rel="stylesheet">
 
 <style>
     body {
         font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
-        background: #f5f7fa;
+        background: #f0fdf4;
     }
 
     /* Sidebar */
@@ -22,7 +23,7 @@
         top: 0;
         width: 260px;
         height: 100vh;
-        background: #212529;
+        background: linear-gradient(180deg, #065f46 0%, #064e3b 100%);
         color: #fff;
         z-index: 1040;
         overflow-y: auto;
@@ -50,7 +51,7 @@
         line-height: 1.2;
     }
     .sidebar-brand small {
-        color: #adb5bd;
+        color: #a7f3d0;
         font-size: 0.7rem;
     }
     .menu-section {
@@ -60,12 +61,12 @@
         padding: 8px 24px;
         font-size: 0.7rem;
         text-transform: uppercase;
-        color: #adb5bd;
+        color: #a7f3d0;
         font-weight: 700;
         letter-spacing: 1px;
     }
     .sidebar .nav-link {
-        color: #dee2e6;
+        color: #d1fae5;
         padding: 10px 24px;
         display: flex;
         align-items: center;
@@ -74,12 +75,13 @@
     }
     .sidebar .nav-link:hover {
         color: #fff;
-        background: rgba(255,255,255,0.05);
+        background: rgba(255,255,255,0.08);
     }
     .sidebar .nav-link.active {
         color: #fff;
-        background: #dc3545;
+        background: #047857;
         font-weight: 600;
+        border-left: 4px solid #fbbf24;
     }
     .sidebar .nav-link i {
         width: 20px;
