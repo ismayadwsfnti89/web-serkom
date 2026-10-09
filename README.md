@@ -1,59 +1,193 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+# Website Sekolah SDN 4 Manonjaya
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+Sistem informasi sekolah berbasis web yang dibangun dengan **Laravel 12**.
+Project ini punya 2 bagian utama: **Landing Page** (publik) dan **Dashboard Admin** (internal).
 
-## About Laravel
+---
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+## Fitur
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+### Landing Page (Publik — Tanpa Login)
+- Hero carousel (gambar dari galeri)
+- Statistik sekolah (jumlah siswa, guru, ekskul, prestasi)
+- Profil sekolah (visi misi, NPSN, tahun berdiri, kepala sekolah)
+- Preview guru & staf
+- Berita terbaru
+- Prestasi terbaru
+- Galeri foto & video
+- Ekstrakurikuler
+- Pengumuman
+- Halaman detail untuk setiap section
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+### Dashboard Admin & Operator
+- Dashboard statistik
+- Manajemen data siswa
+- Manajemen data guru & staf (dengan upload foto)
+- Manajemen user (khusus admin)
+- Manajemen ekstrakurikuler
+- Manajemen prestasi
+- Manajemen galeri (foto & video YouTube)
+- Manajemen berita
+- Manajemen pengumuman
+- Edit profil sekolah
+- Edit profil sendiri (nama & password)
 
-## Learning Laravel
+### Hak Akses (Role)
+| Fitur | Admin | Operator |
+|---|---|---|
+| Dashboard | ✅ | ✅ |
+| Profil Saya | ✅ | ✅ |
+| Siswa (lihat & edit) | ✅ | ✅ |
+| Siswa (tambah & hapus) | ✅ | ❌ |
+| Guru (lihat & edit) | ✅ | ✅ |
+| Guru (tambah & hapus) | ✅ | ❌ |
+| Manajemen User | ✅ | ❌ |
+| Ekstrakurikuler, Prestasi, Galeri, Berita, Pengumuman | ✅ | ✅ |
+| Profil Sekolah | ✅ | ✅ |
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework. You can also check out [Laravel Learn](https://laravel.com/learn), where you will be guided through building a modern Laravel application.
+---
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains thousands of video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+## Teknologi
 
-## Laravel Sponsors
+| Teknologi | Versi | Fungsi |
+|---|---|---|
+| Laravel | 12 | Framework PHP |
+| PHP | 8.2 | Bahasa pemrograman |
+| MySQL | - | Database |
+| Bootstrap | 5.3 | Framework CSS |
+| Bootstrap Icons | 1.13 | Icon |
+| AOS | 2.3 | Animasi scroll |
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the [Laravel Partners program](https://partners.laravel.com).
+---
 
-### Premium Partners
+## Struktur Folder
+web-serkom/
+├── app/
+│ ├── Helpers/ # Fungsi bantuan (encrypt_id, dll)
+│ ├── Http/
+│ │ ├── Controllers/ # Logika aplikasi
+│ │ └── Middleware/ # Satpam route (admin, operator)
+│ └── Models/ # Model database
+├── database/
+│ ├── migrations/ # Struktur tabel
+│ └── seeders/ # Data awal
+├── public/
+│ ├── css/ # Stylesheet custom
+│ └── uploads/ # File yang diupload
+├── resources/
+│ └── views/ # Tampilan (blade)
+│ ├── layouts/ # Kerangka halaman
+│ ├── components/ # Komponen reusable
+│ ├── landing/ # Halaman publik
+│ ├── tampil/ # Halaman detail publik
+│ ├── auth/ # Halaman login
+│ └── [fitur]/ # CRUD tiap fitur
+├── routes/
+│ └── web.php # Daftar route
+└── README.md
 
-- **[Vehikl](https://vehikl.com)**
-- **[Tighten Co.](https://tighten.co)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel)**
-- **[DevSquad](https://devsquad.com/hire-laravel-developers)**
-- **[Redberry](https://redberry.international/laravel-development)**
-- **[Active Logic](https://activelogic.com)**
+---
+## Cara Install
 
-## Contributing
+### 1. Clone / Copy Project
+Letakkan folder project di direktori lokal (misal `C:\web-serkom`).
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+### 2. Install Dependency
+```bash
+composer install
+3. Setup Environment
+Copy file .env.example menjadi .env:
 
-## Code of Conduct
+bash
+copy .env.example .env
+Buka .env, atur koneksi database:
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+text
+DB_CONNECTION=mysql
+DB_HOST=127.0.0.1
+DB_PORT=3306
+DB_DATABASE=web-serkom
+DB_USERNAME=root
+DB_PASSWORD=
+4. Generate Application Key
+bash
+php artisan key:generate
+5. Buat Database
+Buat database baru di MySQL dengan nama web-serkom.
 
-## Security Vulnerabilities
+6. Jalankan Migration & Seeder
+bash
+php artisan migrate
+php artisan db:seed
+7. Buat Folder Upload
+Pastikan folder berikut ada di dalam public/uploads/:
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+text
+uploads/
+├── guru/
+├── berita/
+├── prestasi/
+├── ekskul/
+├── galeri/
+└── profil/
+Kalau belum ada, bikin manual.
 
-## License
+8. Jalankan Server
+bash
+php artisan serve
+Buka browser: http://127.0.0.1:8000
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+Akun Default
+Dari file DatabaseSeeder.php:
+
+Username	Password	Role
+admin	password	Admin
+operator	password	Operator
+Catatan: Ganti password setelah login pertama.
+
+Cara Pakai
+Pengunjung (Tanpa Login)
+Buka http://127.0.0.1:8000 → Landing page
+
+Klik "Lihat Semua" di tiap section → halaman detail
+
+Klik card galeri → lihat foto/video detail
+
+Admin / Operator
+Buka /login → masukkan username & password
+
+Setelah login → masuk dashboard
+
+Pilih menu di sidebar untuk kelola data
+
+Klik ikon Logout di kanan atas untuk keluar
+
+Library Pihak Ketiga
+Semua library di bawah ini berlisensi MIT License:
+
+Library	Lisensi
+Laravel Framework	MIT License
+Bootstrap 5	MIT License
+Bootstrap Icons	MIT License
+AOS (Animate on Scroll)	MIT License
+Catatan lisensi: MIT License mengizinkan penggunaan gratis untuk keperluan pribadi maupun komersil, dengan syarat mencantumkan atribusi.
+
+Keamanan
+Password Hashing — password di-hash pakai bcrypt (Laravel default)
+
+CSRF Protection — setiap form pakai @csrf token
+
+Enkripsi ID di URL — ID di URL dienkripsi biar gak bisa ditebak
+
+Middleware Role — cek role user sebelum akses fitur
+
+Validasi Input — semua input dari user divalidasi
+
+Kontributor
+[Nama Kamu] — Pengembang utama
+
+SDN 4 Manonjaya — Pemilik project
+
+Lisensi
+Project ini dibuat untuk keperluan internal sekolah.
+© 2026 SDN 4 Manonjaya. All rights reserved.
