@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Galeri;
 use Illuminate\Http\Request;
+use Illuminate\Support\Str;
 
 class GaleriController extends Controller
 {
@@ -32,29 +33,51 @@ class GaleriController extends Controller
 
     public function store(Request $request)
     {
-        $request->validate([
-            'judul'      => 'required|string|max:50',
-            'keterangan' => 'nullable|string',
-            'file'       => 'required|file|mimes:jpg,jpeg,png,gif,mp4,avi,mov|max:10240',
-            'kategori'   => 'required|in:Foto,Video',
-            'tanggal'    => 'nullable|date',
-        ]);
+        $kategori = $request->kategori;
 
-        $data = $request->except('file');
+        // Validasi beda sesuai kategori
+        if ($kategori === 'Foto') {
+            $request->validate([
+                'judul'     => 'required|string|max:50',
+                'kategori'  => 'required|in:Foto,Video',
+                'file_foto' => 'required|image|mimes:jpg,jpeg,png,gif|max:2048',
+                'tanggal'   => 'nullable|date',
+            ]);
+        } else {
+            $request->validate([
+                'judul'      => 'required|string|max:50',
+                'kategori'   => 'required|in:Foto,Video',
+                'link_video' => 'required|url',
+                'tanggal'    => 'nullable|date',
+            ]);
+        }
 
-        if ($request->hasFile('file')) {
-            $file = $request->file('file');
+        $data = [
+            'id_galeri'  => Str::uuid(),
+            'judul'      => $request->judul,
+            'kategori'   => $kategori,
+            'tanggal'    => $request->tanggal,
+            'keterangan' => $request->keterangan,
+        ];
+
+        // Kalau Foto → upload file
+        if ($kategori === 'Foto' && $request->hasFile('file_foto')) {
+            $file = $request->file('file_foto');
             $filename = time() . '_' . $file->getClientOriginalName();
             $file->move(public_path('uploads/galeri'), $filename);
             $data['file'] = $filename;
         }
 
+        // Kalau Video → simpan link YouTube
+        if ($kategori === 'Video') {
+            $data['file'] = $request->link_video;
+        }
+
         Galeri::create($data);
 
         return redirect()->route('galeri.index')
-                         ->with('success', 'Galeri berhasil ditambahkan.');
+                        ->with('success', 'Galeri berhasil ditambahkan.');
     }
-
     public function show(string $encryptedId)
     {
         $id = decrypt_id($encryptedId);
@@ -74,25 +97,46 @@ class GaleriController extends Controller
         $id = decrypt_id($encryptedId);
         $galeri = Galeri::findOrFail($id);
 
-        $request->validate([
-            'judul'      => 'required|string|max:50',
-            'keterangan' => 'nullable|string',
-            'file'       => 'nullable|file|mimes:jpg,jpeg,png,gif,mp4,avi,mov|max:10240',
-            'kategori'   => 'required|in:Foto,Video',
-            'tanggal'    => 'nullable|date',
-        ]);
+        $kategori = $request->kategori;
 
-        $data = $request->except('file');
+        if ($kategori === 'Foto') {
+            $request->validate([
+                'judul'     => 'required|string|max:50',
+                'kategori'  => 'required|in:Foto,Video',
+                'file_foto' => 'nullable|image|mimes:jpg,jpeg,png,gif|max:2048',
+                'tanggal'   => 'nullable|date',
+            ]);
+        } else {
+            $request->validate([
+                'judul'      => 'required|string|max:50',
+                'kategori'   => 'required|in:Foto,Video',
+                'link_video' => 'required|url',
+                'tanggal'    => 'nullable|date',
+            ]);
+        }
 
-        if ($request->hasFile('file')) {
+        $data = [
+            'judul'      => $request->judul,
+            'kategori'   => $kategori,
+            'tanggal'    => $request->tanggal,
+            'keterangan' => $request->keterangan,
+        ];
+
+        // Kalau Foto → upload file baru kalau ada
+        if ($kategori === 'Foto' && $request->hasFile('file_foto')) {
             if ($galeri->file && file_exists(public_path('uploads/galeri/' . $galeri->file))) {
                 unlink(public_path('uploads/galeri/' . $galeri->file));
             }
 
-            $file = $request->file('file');
+            $file = $request->file('file_foto');
             $filename = time() . '_' . $file->getClientOriginalName();
             $file->move(public_path('uploads/galeri'), $filename);
             $data['file'] = $filename;
+        }
+
+        // Kalau Video → simpan link YouTube
+        if ($kategori === 'Video') {
+            $data['file'] = $request->link_video;
         }
 
         $galeri->update($data);

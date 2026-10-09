@@ -22,15 +22,17 @@
     <div class="row">
         <div class="col-md-8 text-center">
             @if($galeri->kategori === 'Foto')
-                <img src="{{ asset('uploads/galeri/' . $galeri->file) }}"
-                     alt="{{ $galeri->judul }}"
-                     class="img-fluid rounded"
-                     style="max-height: 500px;">
+                <img src="{{ $galeri->thumbnail }}"
+                    alt="{{ $galeri->judul }}"
+                    class="img-fluid rounded"
+                    style="max-height: 500px;">
+            @elseif($galeri->video_id)
+                <div class="ratio ratio-16x9">
+                    <iframe src="https://www.youtube.com/embed/{{ $galeri->video_id }}"
+                            frameborder="0" allowfullscreen></iframe>
+                </div>
             @else
-                <video controls class="img-fluid rounded" style="max-height: 500px;">
-                    <source src="{{ asset('uploads/galeri/' . $galeri->file) }}">
-                    Browser Anda tidak mendukung tag video.
-                </video>
+                <div class="alert alert-warning">Link YouTube tidak valid.</div>
             @endif
         </div>
         <div class="col-md-4">

@@ -1,10 +1,10 @@
 /* ============================================
-   WARNA SEKOLAH - HIJAU EMERALD + CREAM
+   WARNA SEKOLAH - BIRU LANGIT
    ============================================ */
 :root {
-    --warna-utama: #047857;       /* hijau emerald */
-    --warna-utama-tua: #065f46;   /* hijau tua */
-    --warna-utama-muda: #fbbf24;  /* emas muda (aksen) */
+    --warna-utama: #0284c7;       /* biru langit */
+    --warna-utama-tua: #075985;   /* biru laut */
+    --warna-utama-muda: #38bdf8;  /* biru muda */
 }
 
 /* ===== TOMBOL ===== */
@@ -33,7 +33,7 @@
 .btn-warning {
     background-color: var(--warna-utama-muda) !important;
     border-color: var(--warna-utama-muda) !important;
-    color: #212529 !important;
+    color: #fff !important;
 }
 
 /* ===== TEKS ===== */
@@ -57,8 +57,8 @@ a.text-danger:hover {
 
 /* ===== ALERT ===== */
 .alert-danger {
-    background-color: #d1fae5;
-    border-color: #a7f3d0;
+    background-color: #e0f2fe;
+    border-color: #bae6fd;
     color: var(--warna-utama-tua);
 }
 
@@ -72,7 +72,7 @@ a.text-danger:hover {
     color: var(--warna-utama);
 }
 .pagination .page-link:hover {
-    background-color: #d1fae5;
+    background-color: #e0f2fe;
     color: var(--warna-utama-tua);
 }
 
@@ -80,7 +80,7 @@ a.text-danger:hover {
 .form-control:focus,
 .form-select:focus {
     border-color: var(--warna-utama);
-    box-shadow: 0 0 0 0.25rem rgba(4, 120, 87, 0.25);
+    box-shadow: 0 0 0 0.25rem rgba(2, 132, 199, 0.25);
 }
 
 /* ===== LINK UMUM ===== */

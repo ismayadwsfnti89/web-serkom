@@ -25,10 +25,10 @@
     </div>
 </nav>
 
-<div class="py-4 border-bottom" style="background: linear-gradient(135deg, #047857 0%, #065f46 100%);">
+<div class="py-4 border-bottom" style="background: linear-gradient(135deg, #0284c7 0%, #075985 100%);">
     <div class="container">
         <h1 class="h3 fw-bold mb-1 text-white">@yield('title')</h1>
-        <p class="mb-0" style="color: #a7f3d0;">@yield('subtitle')</p>
+        <p class="mb-0" style="color: #bae6fd;">@yield('subtitle')</p>
     </div>
 </div>
 

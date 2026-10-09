@@ -1,9 +1,17 @@
-<section class="py-5" id="prestasi">
+<section class="py-5" id="prestasi" data-aos="fade-up">
     <div class="container">
         <div class="mb-4">
-            <h2 class="fw-bold mb-1">Prestasi Terbaru</h2>
-            <p class="text-muted mb-0">Kebanggaan sekolah kami</p>
+            <div class="d-flex justify-content-between align-items-end flex-wrap gap-3 mb-4">
+                <div>
+                    <h2 class="fw-bold mb-1">Prestasi Terbaru</h2>
+                    <p class="text-muted mb-0">Kebanggaan sekolah kami</p>
+                </div>
+                <a href="{{ route('tampil.prestasi') }}" class="btn btn-outline-danger btn-sm">
+                    Lihat Semua <i class="bi bi-arrow-right"></i>
+                </a>
+            </div>
         </div>
+
 
         <div class="row g-4">
             @forelse($prestasi as $item)

@@ -10,12 +10,15 @@
     </div>
     <div class="d-flex align-items-center gap-3">
         <x-search-bar
-        :action="route('pengumuman.index')"
-        placeholder="Cari ..."
-        :value="request('search')"/>
-    <a href="{{ route('pengumuman.create') }}" class="btn btn-danger">
-        <i class="bi bi-plus-circle me-2"></i>Tambah Pengumuman
-    </a>
+            :action="route('pengumuman.index')"
+            placeholder="Cari ..."
+            :value="request('search')"/>
+
+        @if(in_array(Auth::user()->role, ['admin', 'operator']))
+            <a href="{{ route('pengumuman.create') }}" class="btn btn-danger">
+                <i class="bi bi-plus-circle me-2"></i>Tambah Pengumuman
+            </a>
+        @endif
     </div>
 </div>
 
@@ -54,23 +57,32 @@
                     </td>
                     <td><small class="text-muted">{{ $item->user->nama ?? '-' }}</small></td>
                     <td class="text-center">
+                        {{-- Lihat — semua role --}}
                         <a href="{{ route('pengumuman.show', encrypt_id($item->id_pengumuman)) }}"
                            class="btn btn-sm btn-outline-info">
                             <i class="bi bi-eye"></i>
                         </a>
-                        <a href="{{ route('pengumuman.edit', encrypt_id($item->id_pengumuman)) }}"
-                           class="btn btn-sm btn-outline-warning">
-                            <i class="bi bi-pencil"></i>
-                        </a>
-                        <form action="{{ route('pengumuman.destroy', encrypt_id($item->id_pengumuman)) }}"
-                              method="POST" class="d-inline"
-                              onsubmit="return confirm('Hapus pengumuman ini?')">
-                            @csrf
-                            @method('DELETE')
-                            <button type="submit" class="btn btn-sm btn-outline-danger">
-                                <i class="bi bi-trash"></i>
-                            </button>
-                        </form>
+
+                        {{-- Edit — admin & operator --}}
+                        @if(in_array(Auth::user()->role, ['admin', 'operator']))
+                            <a href="{{ route('pengumuman.edit', encrypt_id($item->id_pengumuman)) }}"
+                               class="btn btn-sm btn-outline-warning">
+                                <i class="bi bi-pencil"></i>
+                            </a>
+                        @endif
+
+                        {{-- Hapus — cuma admin --}}
+                        @if(Auth::user()->role === 'admin')
+                            <form action="{{ route('pengumuman.destroy', encrypt_id($item->id_pengumuman)) }}"
+                                  method="POST" class="d-inline"
+                                  onsubmit="return confirm('Hapus pengumuman ini?')">
+                                @csrf
+                                @method('DELETE')
+                                <button type="submit" class="btn btn-sm btn-outline-danger">
+                                    <i class="bi bi-trash"></i>
+                                </button>
+                            </form>
+                        @endif
                     </td>
                 </tr>
                 @empty

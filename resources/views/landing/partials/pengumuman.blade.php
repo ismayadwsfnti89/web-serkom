@@ -1,8 +1,15 @@
-<section class="py-5 bg-light" id="pengumuman">
+<section class="py-5 bg-light" id="pengumuman" data-aos="fade-up">
     <div class="container">
         <div class="mb-4">
-            <h2 class="fw-bold mb-1">Pengumuman</h2>
-            <p class="text-muted mb-0">Informasi penting dari sekolah</p>
+            <div class="d-flex justify-content-between align-items-end flex-wrap gap-3 mb-4">
+                <div>
+                    <h2 class="fw-bold mb-1">Pengumuman</h2>
+                    <p class="text-muted mb-0">Informasi penting dari sekolah</p>
+                </div>
+                <a href="{{ route('tampil.pengumuman') }}" class="btn btn-outline-danger btn-sm">
+                    Lihat Semua <i class="bi bi-arrow-right"></i>
+                </a>
+            </div>
         </div>
 
         <div class="row g-3">

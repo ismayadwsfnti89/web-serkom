@@ -34,7 +34,7 @@
                                             {{ $profil?->nama_sekolah ?? 'Sekolah Kami' }}
                                         </h1>
                                         <p class="lead mb-4">
-                                            {{ Str::limit($profil?->deskripsi ?? 'Membangun generasi berprestasi dan berkarakter melalui pendidikan berkualitas.', 2000) }}
+                                            {{ Str::limit($profil?->deskripsi ?? 'Membangun generasi berprestasi dan berkarakter melalui pendidikan berkualitas.', 150) }}
                                         </p>
                                     </div>
 
@@ -53,7 +53,7 @@
             @empty
                 <div class="carousel-item active">
                     <div class="hero-slide" style="
-                        background: linear-gradient(135deg, #a16207 0%, #713f12 100%);
+                        background: linear-gradient(135deg, #0284c7 0%, #075985 100%);
                         height: 520px;
                         position: relative;
                     ">
@@ -68,7 +68,7 @@
                                             {{ $profil?->nama_sekolah ?? 'Sekolah Kami' }}
                                         </h1>
                                         <p class="lead mb-4">
-                                            {{ Str::limit($profil?->deskripsi ?? 'Membangun generasi berprestasi dan berkarakter melalui pendidikan berkualitas.', 2000) }}
+                                            {{ Str::limit($profil?->deskripsi ?? 'Membangun generasi berprestasi dan berkarakter melalui pendidikan berkualitas.', 193) }}
                                         </p>
                                     </div>
                                     @if($profil?->logo)

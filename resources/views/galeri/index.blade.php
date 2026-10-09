@@ -16,9 +16,11 @@
             :value="request('search')"
         />
 
-        <a href="{{ route('galeri.create') }}" class="btn btn-danger text-nowrap">
-            <i class="bi bi-plus-circle me-1"></i>Tambah
-        </a>
+        @if(in_array(Auth::user()->role, ['admin', 'operator']))
+            <a href="{{ route('galeri.create') }}" class="btn btn-danger text-nowrap">
+                <i class="bi bi-plus-circle me-1"></i>Tambah
+            </a>
+        @endif
     </div>
 </div>
 
@@ -56,14 +58,14 @@
                         @else
                             <div class="bg-dark rounded d-flex align-items-center justify-content-center"
                                  style="width: 60px; height: 60px;">
-                                <i class="bi bi-play-circle text-white"></i>
+                                <i class="bi bi-youtube text-white" style="font-size: 1.5rem;"></i>
                             </div>
                         @endif
                     </td>
                     <td class="fw-semibold">{{ $item->judul }}</td>
                     <td>
                         @if($item->kategori === 'Foto')
-                            <span class="badge bg-primary">Foto</span>
+                            <span class="badge bg-success">Foto</span>
                         @else
                             <span class="badge bg-danger">Video</span>
                         @endif
@@ -76,19 +78,25 @@
                            class="btn btn-sm btn-outline-info">
                             <i class="bi bi-eye"></i>
                         </a>
-                        <a href="{{ route('galeri.edit', encrypt_id($item->id_galeri)) }}"
-                           class="btn btn-sm btn-outline-warning">
-                            <i class="bi bi-pencil"></i>
-                        </a>
-                        <form action="{{ route('galeri.destroy', encrypt_id($item->id_galeri)) }}"
-                              method="POST" class="d-inline"
-                              onsubmit="return confirm('Hapus galeri ini?')">
-                            @csrf
-                            @method('DELETE')
-                            <button type="submit" class="btn btn-sm btn-outline-danger">
-                                <i class="bi bi-trash"></i>
-                            </button>
-                        </form>
+
+                        @if(in_array(Auth::user()->role, ['admin', 'operator']))
+                            <a href="{{ route('galeri.edit', encrypt_id($item->id_galeri)) }}"
+                               class="btn btn-sm btn-outline-warning">
+                                <i class="bi bi-pencil"></i>
+                            </a>
+                        @endif
+
+                        @if(Auth::user()->role === 'admin')
+                            <form action="{{ route('galeri.destroy', encrypt_id($item->id_galeri)) }}"
+                                  method="POST" class="d-inline"
+                                  onsubmit="return confirm('Hapus galeri ini?')">
+                                @csrf
+                                @method('DELETE')
+                                <button type="submit" class="btn btn-sm btn-outline-danger">
+                                    <i class="bi bi-trash"></i>
+                                </button>
+                            </form>
+                        @endif
                     </td>
                 </tr>
                 @empty

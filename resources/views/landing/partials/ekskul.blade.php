@@ -1,8 +1,15 @@
-<section class="py-5 bg-light" id="ekskul">
+<section class="py-5 bg-light" id="ekskul" data-aos="fade-up">
     <div class="container">
         <div class="mb-4">
-            <h2 class="fw-bold mb-1">Ekstrakurikuler</h2>
-            <p class="text-muted mb-0">Wadah pengembangan bakat & minat siswa</p>
+            <div class="d-flex justify-content-between align-items-end flex-wrap gap-3 mb-4">
+                <div>
+                    <h2 class="fw-bold mb-1">Ekstrakurikuler</h2>
+                    <p class="text-muted mb-0">Wadah pengembangan bakat & minat siswa</p>
+                </div>
+                <a href="{{ route('tampil.ekskul') }}" class="btn btn-outline-danger btn-sm">
+                    Lihat Semua <i class="bi bi-arrow-right"></i>
+                </a>
+            </div>
         </div>
 
         <div class="row g-4">

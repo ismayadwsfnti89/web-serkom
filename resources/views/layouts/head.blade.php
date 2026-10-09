@@ -13,7 +13,7 @@
 <style>
     body {
         font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
-        background: #f0fdf4;
+        background: #f0f9ff;
     }
 
     /* Sidebar */
@@ -23,7 +23,7 @@
         top: 0;
         width: 260px;
         height: 100vh;
-        background: linear-gradient(180deg, #065f46 0%, #064e3b 100%);
+        background: linear-gradient(180deg, #075985 0%, #0c4a6e 100%);
         color: #fff;
         z-index: 1040;
         overflow-y: auto;
@@ -51,7 +51,7 @@
         line-height: 1.2;
     }
     .sidebar-brand small {
-        color: #a7f3d0;
+        color: #bae6fd;
         font-size: 0.7rem;
     }
     .menu-section {
@@ -61,12 +61,12 @@
         padding: 8px 24px;
         font-size: 0.7rem;
         text-transform: uppercase;
-        color: #a7f3d0;
+        color: #bae6fd;
         font-weight: 700;
         letter-spacing: 1px;
     }
     .sidebar .nav-link {
-        color: #d1fae5;
+        color: #e0f2fe;
         padding: 10px 24px;
         display: flex;
         align-items: center;
@@ -79,9 +79,9 @@
     }
     .sidebar .nav-link.active {
         color: #fff;
-        background: #047857;
+        background: #0284c7;
         font-weight: 600;
-        border-left: 4px solid #fbbf24;
+        border-left: 4px solid #38bdf8;
     }
     .sidebar .nav-link i {
         width: 20px;

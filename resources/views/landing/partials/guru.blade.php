@@ -1,4 +1,4 @@
-<section class="py-5" id="guru">
+<section class="py-5" id="guru" data-aos="fade-up">
     <div class="container">
         <div class="d-flex justify-content-between align-items-end flex-wrap gap-3 mb-4">
             <div>
@@ -22,7 +22,7 @@
                                      alt="{{ $item->nama_guru }}"
                                      class="object-fit-cover">
                             @else
-                                <img src="https://ui-avatars.com/api/?name={{ urlencode($item->nama_guru) }}&background=a16207&color=fff&size=200"
+                                <img src="https://ui-avatars.com/api/?name={{ urlencode($item->nama_guru) }}&background=0284c7&color=fff&size=200"
                                      alt="{{ $item->nama_guru }}">
                             @endif
                         </div>

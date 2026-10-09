@@ -37,10 +37,13 @@
 
             <div class="col-md-6">
                 <label class="form-label">Status <span class="text-danger">*</span></label>
-                <select name="status" class="form-select" required>
+                <select name="status" class="form-select @error('status') is-invalid @enderror" required>
                     <option value="Publish" {{ old('status', $pengumuman->status) === 'Publish' ? 'selected' : '' }}>Publish</option>
                     <option value="Draft" {{ old('status', $pengumuman->status) === 'Draft' ? 'selected' : '' }}>Draft</option>
                 </select>
+                @error('status')
+                    <div class="invalid-feedback">{{ $message }}</div>
+                @enderror
             </div>
 
             <div class="col-12">

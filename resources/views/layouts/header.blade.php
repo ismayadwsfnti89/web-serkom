@@ -55,7 +55,7 @@
 
             <div class="dropdown">
                 <button class="btn btn-light btn-sm d-flex align-items-center" data-bs-toggle="dropdown">
-                    <img src="https://ui-avatars.com/api/?name={{ Auth::user()->nama ?? 'Admin' }}&background=047857&color=fff&size=32"
+                    <img src="https://ui-avatars.com/api/?name={{ Auth::user()->nama ?? 'Admin' }}&background=0284c7&color=fff&size=32"
                          alt="User"
                          class="rounded-circle me-2"
                          width="32" height="32">

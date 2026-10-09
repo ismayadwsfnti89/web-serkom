@@ -1,4 +1,4 @@
-<section class="py-4 border-bottom">
+<section class="py-4 border-bottom" data-aos="fade-up">
     <div class="container">
         <div class="row g-4 text-center">
 

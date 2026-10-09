@@ -18,13 +18,32 @@
             align-items: center;
             justify-content: center;
             padding: 20px;
-            background: linear-gradient(135deg, #047857 0%, #065f46 100%);
+
+            @if(isset($galeriLogin) && $galeriLogin)
+                background-image: url('{{ asset('uploads/galeri/' . $galeriLogin->file) }}');
+                background-size: cover;
+                background-position: center;
+            @else
+                background: linear-gradient(135deg, #0284c7 0%, #075985 100%);
+            @endif
         }
+
+        /* Overlay biar form tetap kebaca */
+        body::before {
+            content: '';
+            position: fixed;
+            inset: 0;
+            background: linear-gradient(135deg, rgba(2, 132, 199, 0.75) 0%, rgba(7, 89, 133, 0.85) 100%);
+            z-index: 0;
+        }
+
         .auth-card {
+            position: relative;
+            z-index: 1;
             background: #fff;
             border-radius: 12px;
             padding: 40px;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
             width: 100%;
             max-width: 420px;
         }
@@ -34,7 +53,7 @@
             justify-content: center;
             width: 72px;
             height: 72px;
-            background: linear-gradient(135deg, #047857 0%, #065f46 100%);
+            background: linear-gradient(135deg, #0284c7 0%, #075985 100%);
             border-radius: 12px;
             margin-bottom: 20px;
         }

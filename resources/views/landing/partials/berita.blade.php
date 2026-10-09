@@ -1,4 +1,4 @@
-<section class="py-5 bg-light" id="berita">
+<section class="py-5 bg-light" id="berita" data-aos="fade-up">
     <div class="container">
         <div class="d-flex justify-content-between align-items-end flex-wrap gap-3 mb-4">
             <div>

@@ -11,6 +11,7 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.13.1/font/bootstrap-icons.css" rel="stylesheet">
     <link href="{{ asset('css/warna-sekolah.css') }}" rel="stylesheet">
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
 
     <style>
         body {
@@ -22,7 +23,7 @@
             object-fit: contain;
         }
         .hero-section {
-            background: linear-gradient(135deg, #047857 0%, #065f46 100%);
+            background: linear-gradient(135deg, #0284c7 0%, #075985 100%);
             color: #fff;
         }
         html {
@@ -34,22 +35,76 @@
         .hero-overlay {
             position: absolute;
             inset: 0;
-            background: linear-gradient(135deg, rgba(4, 120, 87, 0.55) 0%, rgba(6, 95, 70, 0.70) 100%);
+            background: linear-gradient(135deg, rgba(2, 132, 199, 0.55) 0%, rgba(7, 89, 133, 0.70) 100%);
             z-index: 1;
         }
         .hero-content {
             position: relative;
             z-index: 2;
         }
-        .btn-hero {
-            background: #fbbf24;
-            color: #065f46;
-            border: none;
+
+        /* ===== Navbar aktif saat scroll ===== */
+        .navbar-nav .nav-link {
+            position: relative;
+            transition: color 0.2s;
+            padding-bottom: 6px;
+        }
+        .navbar-nav .nav-link:hover {
+            color: #0284c7;
+        }
+        .navbar-nav .nav-link.active {
+            color: #0284c7 !important;
             font-weight: 600;
         }
-        .btn-hero:hover {
-            background: #f59e0b;
-            color: #065f46;
+        .navbar-nav .nav-link.active::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 8px;
+            right: 8px;
+            height: 3px;
+            background: #0284c7;
+            border-radius: 3px;
+        }
+        .visi-misi-card
+        {
+            background: linear-gradient(135deg, #f0f9ff 0%, #e0f2fe 100%);
+            border-left: 5px solid #0284c7 !important;
+        }
+        .visi-misi-card .card-body {
+            padding: 24px;
+        }
+        /* ===== Hover Card ===== */
+        .card {
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        .card:hover {
+            transform: translateY(-6px);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1) !important;
+        }
+
+        /* Hover gambar di dalam card */
+        .card img {
+            transition: transform 0.5s ease;
+        }
+        .card:hover img {
+            transform: scale(1.05);
+        }
+
+        /* Hover badge */
+        .badge {
+            transition: transform 0.2s;
+        }
+        .badge:hover {
+            transform: scale(1.05);
+        }
+
+        /* Hover tombol */
+        .btn {
+            transition: all 0.3s ease;
+        }
+        .btn:hover {
+            transform: translateY(-2px);
         }
     </style>
 </head>
@@ -74,20 +129,14 @@
 
         <div class="collapse navbar-collapse" id="navLanding">
             <ul class="navbar-nav ms-auto align-items-lg-center">
-                <li class="nav-item"><a class="nav-link" href="#beranda">Beranda</a></li>
-                <li class="nav-item"><a class="nav-link" href="#profil">Profil</a></li>
-                <li class="nav-item"><a class="nav-link" href="#guru">Guru</a></li>
-                <li class="nav-item"><a class="nav-link" href="#berita">Berita</a></li>
-                <li class="nav-item"><a class="nav-link" href="#galeri">Galeri</a></li>
-                <li class="nav-item"><a class="nav-link" href="#prestasi">Prestasi</a></li>
-                <li class="nav-item"><a class="nav-link" href="#kontak">Kontak</a></li>
-                @auth
-                    <li class="nav-item ms-lg-2 mt-2 mt-lg-0">
-                        <a href="{{ route('dashboard') }}" class="btn btn-danger btn-sm px-3">
-                            <i class="bi bi-speedometer2 me-1"></i> Dashboard
-                        </a>
-                    </li>
-                @endauth
+                <li class="nav-item"><a class="nav-link nav-scroll" href="#beranda">Beranda</a></li>
+                <li class="nav-item"><a class="nav-link nav-scroll" href="#profil">Profil</a></li>
+                <li class="nav-item"><a class="nav-link nav-scroll" href="#guru">Guru</a></li>
+                <li class="nav-item"><a class="nav-link nav-scroll" href="#berita">Berita</a></li>
+                <li class="nav-item"><a class="nav-link nav-scroll" href="#prestasi">Prestasi</a></li>
+                <li class="nav-item"><a class="nav-link nav-scroll" href="#galeri">Galeri</a></li>
+                <li class="nav-item"><a class="nav-link nav-scroll" href="#ekskul">Ekskul</a></li>
+                <li class="nav-item"><a class="nav-link nav-scroll" href="#pengumuman">Pengumuman</a></li>
             </ul>
         </div>
     </div>
@@ -101,7 +150,6 @@
     <div class="container">
         <div class="row g-4">
 
-            {{-- Brand --}}
             <div class="col-lg-6 col-md-6">
                 <div class="d-flex align-items-center gap-2 mb-3">
                     @if($profil?->logo)
@@ -119,7 +167,6 @@
                 @endif
             </div>
 
-            {{-- Kontak --}}
             <div class="col-lg-6 col-md-6">
                 <h5 class="text-white mb-3">Kontak</h5>
                 <ul class="list-unstyled small">
@@ -152,6 +199,7 @@
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"></script>
 <script>
+    // ===== Back to top =====
     const backToTop = document.getElementById('backToTop');
     window.addEventListener('scroll', () => {
         if (window.scrollY > 400) {
@@ -162,6 +210,42 @@
     });
     backToTop.addEventListener('click', () => {
         window.scrollTo({ top: 0, behavior: 'smooth' });
+    });
+
+    // ===== Navbar aktif saat scroll =====
+    document.addEventListener('DOMContentLoaded', function () {
+        const sections = document.querySelectorAll('section[id], footer[id]');
+        const navLinks = document.querySelectorAll('.nav-scroll');
+
+        function setActiveLink() {
+            let currentSection = '';
+
+            sections.forEach(section => {
+                const sectionTop = section.offsetTop;
+                if (window.scrollY >= (sectionTop - 150)) {
+                    currentSection = section.getAttribute('id');
+                }
+            });
+
+            navLinks.forEach(link => {
+                link.classList.remove('active');
+                if (link.getAttribute('href') === '#' + currentSection) {
+                    link.classList.add('active');
+                }
+            });
+        }
+
+        window.addEventListener('scroll', setActiveLink);
+        setActiveLink();
+    });
+
+</script>
+<script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+<script>
+    AOS.init({
+        duration: 700,
+        once: true,
+        offset: 100,
     });
 </script>
 

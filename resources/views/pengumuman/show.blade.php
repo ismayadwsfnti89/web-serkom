@@ -9,9 +9,11 @@
         <p class="text-muted mb-0">Informasi lengkap pengumuman</p>
     </div>
     <div class="d-flex gap-2">
-        <a href="{{ route('pengumuman.edit', encrypt_id($pengumuman->id_pengumuman)) }}" class="btn btn-warning">
-            <i class="bi bi-pencil me-2"></i>Edit
-        </a>
+        @if(in_array(Auth::user()->role, ['admin', 'operator']))
+            <a href="{{ route('pengumuman.edit', encrypt_id($pengumuman->id_pengumuman)) }}" class="btn btn-warning">
+                <i class="bi bi-pencil me-2"></i>Edit
+            </a>
+        @endif
         <a href="{{ route('pengumuman.index') }}" class="btn btn-outline-secondary">
             <i class="bi bi-arrow-left me-2"></i>Kembali
         </a>
@@ -19,7 +21,7 @@
 </div>
 
 <div class="dashboard-card">
-    <div class="d-flex gap-2 mb-3">
+    <div class="d-flex gap-2 mb-3 flex-wrap">
         @if($pengumuman->status === 'Publish')
             <span class="badge bg-success">Publish</span>
         @else

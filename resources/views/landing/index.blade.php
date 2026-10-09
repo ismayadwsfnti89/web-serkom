@@ -9,9 +9,9 @@
 @include('landing.partials.profil')
 @include('landing.partials.guru')
 @include('landing.partials.berita')
-@include('landing.partials.galeri')
-@include('landing.partials.pengumuman')
-@include('landing.partials.ekskul')
 @include('landing.partials.prestasi')
+@include('landing.partials.galeri')
+@include('landing.partials.ekskul')
+@include('landing.partials.pengumuman')
 
 @endsection
