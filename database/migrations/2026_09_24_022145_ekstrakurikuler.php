@@ -11,9 +11,10 @@ return new class extends Migration
      */
     public function up(): void
     {
-      Schema::create('ekstrakurikuler', function (Blueprint $table) {
+        Schema::create('ekstrakurikuler', function (Blueprint $table) {
             $table->uuid('id_ekskul')->primary();
             $table->string('nama_ekskul', 40);
+            $table->string('slug')->unique();
             $table->string('pembina', 40)->nullable();
             $table->string('jadwal_latihan', 40)->nullable();
             $table->text('deskripsi')->nullable();

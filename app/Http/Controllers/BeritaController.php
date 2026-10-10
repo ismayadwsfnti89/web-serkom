@@ -34,10 +34,11 @@ class BeritaController extends Controller
 
     public function store(Request $request)
     {
-        $slug = Str::slug($request -> judul);
-        $request -> merge(['slug'=> $slug]);
+        // Bikin slug otomatis dari judul
+        $slug = Str::slug($request->judul);
+        $request->merge(['slug' => $slug]);
 
-            $request->validate([
+        $request->validate([
             'judul'   => 'required|string|max:255',
             'slug'    => 'required|unique:berita,slug',
             'isi'     => 'required|string',
@@ -89,7 +90,8 @@ class BeritaController extends Controller
             'status'  => 'required|in:Publish,Draft',
         ]);
 
-        $data = $request->except('gambar');
+        // Slug gak diubah saat update
+        $data = $request->except(['gambar', 'slug']);
 
         if ($request->hasFile('gambar')) {
             if ($berita->gambar && file_exists(public_path('uploads/berita/' . $berita->gambar))) {

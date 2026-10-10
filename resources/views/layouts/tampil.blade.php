@@ -11,6 +11,20 @@
 </head>
 <body class="bg-white">
 
+@php
+    // Tentukan anchor sesuai route yang sedang dibuka
+    $currentRoute = request()->route()->getName();
+    $anchor = match($currentRoute) {
+        'tampil.berita', 'tampil.berita.detail'       => '#berita',
+        'tampil.ekskul', 'tampil.ekskul.detail'       => '#ekskul',
+        'tampil.galeri', 'tampil.galeri.detail'       => '#galeri',
+        'tampil.prestasi', 'tampil.prestasi.detail'   => '#prestasi',
+        'tampil.pengumuman', 'tampil.pengumuman.detail' => '#pengumuman',
+        'tampil.guru' => '#guru',
+        default => '',
+    };
+@endphp
+
 <nav class="navbar navbar-expand-lg navbar-light bg-white border-bottom sticky-top">
     <div class="container">
         <a class="navbar-brand d-flex align-items-center gap-2 fw-bold" href="{{ route('landing.index') }}">
@@ -19,8 +33,8 @@
             @endif
             <span>{{ $profil?->nama_sekolah ?? 'Web Sekolah' }}</span>
         </a>
-        <a href="{{ route('landing.index') }}" class="btn btn-outline-danger btn-sm">
-            <i class="bi bi-house-door me-1"></i>Beranda
+        <a href="{{ route('landing.index') }}{{ $anchor }}" class="btn btn-outline-danger btn-sm">
+            <i class="bi bi-arrow-left me-1"></i>Kembali
         </a>
     </div>
 </nav>

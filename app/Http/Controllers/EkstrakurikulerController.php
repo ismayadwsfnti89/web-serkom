@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Ekstrakurikuler;
 use Illuminate\Http\Request;
+use Illuminate\Support\Str;
 
 class EkstrakurikulerController extends Controller
 {
@@ -32,8 +33,13 @@ class EkstrakurikulerController extends Controller
 
     public function store(Request $request)
     {
+        // Bikin slug otomatis dari nama ekskul
+        $slug = Str::slug($request->nama_ekskul);
+        $request->merge(['slug' => $slug]);
+
         $request->validate([
             'nama_ekskul'    => 'required|string|max:40',
+            'slug'           => 'required|unique:ekstrakurikuler,slug',
             'pembina'        => 'nullable|string|max:40',
             'jadwal_latihan' => 'nullable|string|max:40',
             'deskripsi'      => 'nullable|string',
@@ -82,7 +88,8 @@ class EkstrakurikulerController extends Controller
             'gambar'         => 'nullable|image|mimes:jpg,jpeg,png|max:2048',
         ]);
 
-        $data = $request->except('gambar');
+        // Slug gak diubah saat update
+        $data = $request->except(['gambar', 'slug']);
 
         if ($request->hasFile('gambar')) {
             if ($ekskul->gambar && file_exists(public_path('uploads/ekskul/' . $ekskul->gambar))) {

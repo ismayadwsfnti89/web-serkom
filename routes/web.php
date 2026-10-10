@@ -25,13 +25,13 @@ Route::get('/', [LandingController::class, 'index'])->name('landing.index');
 Route::prefix('public')->group(function () {
     Route::get('/guru', [TampilController::class, 'guru'])->name('tampil.guru');
     Route::get('/berita', [TampilController::class, 'berita'])->name('tampil.berita');
-    Route::get('/berita/{id}', [TampilController::class, 'beritaDetail'])->name('tampil.berita.detail');
+    Route::get('/berita/{slug}', [TampilController::class, 'beritaDetail'])->name('tampil.berita.detail');
     Route::get('/galeri', [TampilController::class, 'galeri'])->name('tampil.galeri');
     Route::get('/galeri/{id}', [TampilController::class, 'galeriDetail'])->name('tampil.galeri.detail');
     Route::get('/prestasi', [TampilController::class, 'prestasi'])->name('tampil.prestasi');
     Route::get('/prestasi/{id}', [TampilController::class, 'prestasiDetail'])->name('tampil.prestasi.detail');
     Route::get('/ekskul', [TampilController::class, 'ekskul'])->name('tampil.ekskul');
-    Route::get('/ekskul/{id}', [TampilController::class, 'ekskulDetail'])->name('tampil.ekskul.detail');
+    Route::get('/ekskul/{slug}', [TampilController::class, 'ekskulDetail'])->name('tampil.ekskul.detail');
     Route::get('/pengumuman', [TampilController::class, 'pengumuman'])->name('tampil.pengumuman');
     Route::get('/pengumuman/{id}', [TampilController::class, 'pengumumanDetail'])->name('tampil.pengumuman.detail');
 });

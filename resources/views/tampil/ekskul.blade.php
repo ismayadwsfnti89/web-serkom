@@ -6,22 +6,29 @@
 <div class="row g-4">
     @forelse($ekskul as $item)
         <div class="col-md-6 col-lg-4">
-            <a href="{{ route('tampil.ekskul.detail', $item->id_ekskul) }}" class="text-decoration-none">
+            <a href="{{ route('tampil.ekskul.detail', $item->slug) }}" class="text-decoration-none text-dark">
                 <div class="card border-0 shadow-sm h-100">
                     @if($item->gambar)
-                        <img src="{{ asset('uploads/ekskul/' . $item->gambar) }}" class="card-img-top" style="height: 200px; object-fit: cover;">
+                        <img src="{{ asset('uploads/ekskul/' . $item->gambar) }}"
+                             class="card-img-top" alt="{{ $item->nama_ekskul }}"
+                             style="height: 200px; object-fit: cover;">
                     @else
-                        <div class="bg-secondary bg-opacity-10 d-flex align-items-center justify-content-center" style="height: 200px;">
+                        <div class="bg-secondary bg-opacity-10 d-flex align-items-center justify-content-center"
+                             style="height: 200px;">
                             <i class="bi bi-trophy text-secondary" style="font-size: 3rem;"></i>
                         </div>
                     @endif
                     <div class="card-body">
-                        <h5 class="fw-bold mb-2 text-dark">{{ $item->nama_ekskul }}</h5>
+                        <h5 class="fw-bold mb-2">{{ $item->nama_ekskul }}</h5>
                         @if($item->pembina)
-                            <small class="text-muted d-block mb-1"><i class="bi bi-person-fill me-1"></i>{{ $item->pembina }}</small>
+                            <small class="text-muted d-block mb-1">
+                                <i class="bi bi-person-fill me-1"></i>{{ $item->pembina }}
+                            </small>
                         @endif
                         @if($item->jadwal_latihan)
-                            <small class="text-muted d-block"><i class="bi bi-clock-fill me-1"></i>{{ $item->jadwal_latihan }}</small>
+                            <small class="text-muted d-block">
+                                <i class="bi bi-clock-fill me-1"></i>{{ $item->jadwal_latihan }}
+                            </small>
                         @endif
                     </div>
                 </div>

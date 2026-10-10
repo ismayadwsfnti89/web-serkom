@@ -68,7 +68,7 @@
                                             {{ $profil?->nama_sekolah ?? 'Sekolah Kami' }}
                                         </h1>
                                         <p class="lead mb-4">
-                                            {{ Str::limit($profil?->deskripsi ?? 'Membangun generasi berprestasi dan berkarakter melalui pendidikan berkualitas.', 193) }}
+                                            {{ Str::limit($profil?->deskripsi ?? 'Membangun generasi berprestasi dan berkarakter melalui pendidikan berkualitas.', 200) }}
                                         </p>
                                     </div>
                                     @if($profil?->logo)

@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class Ekstrakurikuler extends Model
 {
-    use HasUuids;   
+    use HasUuids;
 
     protected $table = 'ekstrakurikuler';
     protected $primaryKey = 'id_ekskul';
@@ -17,6 +17,7 @@ class Ekstrakurikuler extends Model
 
     protected $fillable = [
         'nama_ekskul',
+        'slug',
         'pembina',
         'jadwal_latihan',
         'deskripsi',
