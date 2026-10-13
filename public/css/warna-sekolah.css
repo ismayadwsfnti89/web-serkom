@@ -1,0 +1,157 @@
+/* ============================================
+   WARNA SEKOLAH - BIRU LANGIT (FULL VERSION)
+   ============================================ */
+:root {
+    --warna-utama: #0284c7;       /* biru langit */
+    --warna-utama-tua: #075985;   /* biru laut */
+    --warna-utama-muda: #38bdf8;  /* biru muda */
+    --warna-bg: #e0f2fe;          /* background biru sangat muda */
+}
+
+/* ===== BACKGROUND UTAMA (INI YANG BIKIN BIRU) ===== */
+body {
+    background-color: var(--warna-bg) !important;
+    color: #0f172a;
+}
+
+/* ===== NAVBAR ===== */
+#mainNav {
+    background-color: var(--warna-utama) !important;
+    box-shadow: 0 0.5rem 1rem rgba(2, 132, 199, 0.25) !important;
+}
+#mainNav .navbar-brand,
+#mainNav .navbar-nav .nav-item .nav-link {
+    color: #fff !important;
+}
+#mainNav .navbar-nav .nav-item .nav-link:hover,
+#mainNav .navbar-nav .nav-item .nav-link.active {
+    color: var(--warna-utama-muda) !important;
+}
+
+/* ===== CARD ===== */
+.card {
+    border: none;
+    border-radius: 0.75rem;
+    box-shadow: 0 4px 12px rgba(2, 132, 199, 0.15);
+    background-color: #fff;
+}
+.card-header {
+    background-color: var(--warna-utama) !important;
+    color: #fff !important;
+    border-bottom: none;
+    border-radius: 0.75rem 0.75rem 0 0 !important;
+}
+
+/* ===== TOMBOL ===== */
+.btn-danger {
+    background-color: var(--warna-utama) !important;
+    border-color: var(--warna-utama) !important;
+    color: #fff !important;
+}
+.btn-danger:hover,
+.btn-danger:focus {
+    background-color: var(--warna-utama-tua) !important;
+    border-color: var(--warna-utama-tua) !important;
+    color: #fff !important;
+}
+
+.btn-outline-danger {
+    color: var(--warna-utama) !important;
+    border-color: var(--warna-utama) !important;
+}
+.btn-outline-danger:hover {
+    background-color: var(--warna-utama) !important;
+    color: #fff !important;
+    border-color: var(--warna-utama) !important;
+}
+
+.btn-warning {
+    background-color: var(--warna-utama-muda) !important;
+    border-color: var(--warna-utama-muda) !important;
+    color: #fff !important;
+}
+
+.btn-primary {
+    background-color: var(--warna-utama) !important;
+    border-color: var(--warna-utama) !important;
+}
+.btn-primary:hover {
+    background-color: var(--warna-utama-tua) !important;
+    border-color: var(--warna-utama-tua) !important;
+}
+
+/* ===== TEKS ===== */
+.text-danger {
+    color: var(--warna-utama) !important;
+}
+a.text-danger {
+    color: var(--warna-utama) !important;
+}
+a.text-danger:hover {
+    color: var(--warna-utama-tua) !important;
+}
+.text-warning {
+    color: var(--warna-utama-muda) !important;
+}
+
+/* ===== BACKGROUND ===== */
+.bg-danger {
+    background-color: var(--warna-utama) !important;
+}
+.badge.bg-danger {
+    background-color: var(--warna-utama) !important;
+}
+.bg-primary {
+    background-color: var(--warna-utama) !important;
+}
+
+/* ===== ALERT ===== */
+.alert-danger {
+    background-color: #e0f2fe;
+    border-color: #bae6fd;
+    color: var(--warna-utama-tua);
+}
+
+/* ===== TABEL ===== */
+.table thead {
+    background-color: var(--warna-utama) !important;
+    color: #fff !important;
+}
+.table-hover tbody tr:hover {
+    background-color: #e0f2fe !important;
+}
+
+/* ===== PAGINATION ===== */
+.pagination .page-item.active .page-link {
+    background-color: var(--warna-utama);
+    border-color: var(--warna-utama);
+    color: #fff;
+}
+.pagination .page-link {
+    color: var(--warna-utama);
+}
+.pagination .page-link:hover {
+    background-color: #e0f2fe;
+    color: var(--warna-utama-tua);
+}
+
+/* ===== FORM FOCUS ===== */
+.form-control:focus,
+.form-select:focus {
+    border-color: var(--warna-utama);
+    box-shadow: 0 0 0 0.25rem rgba(2, 132, 199, 0.25);
+}
+
+/* ===== LINK UMUM ===== */
+a {
+    color: var(--warna-utama);
+}
+a:hover {
+    color: var(--warna-utama-tua);
+}
+
+/* ===== FOOTER ===== */
+footer {
+    background-color: var(--warna-utama-tua) !important;
+    color: #fff !important;
+}

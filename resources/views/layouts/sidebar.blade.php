@@ -1,0 +1,134 @@
+<aside class="sidebar" id="sidebar">
+
+    <div class="sidebar-brand">
+        @if($profil?->logo)
+            <img src="{{ asset('uploads/profil/' . $profil->logo) }}" alt="Logo">
+        @else
+            <i class="bi bi-mortarboard-fill fs-3"></i>
+        @endif
+        <div>
+            <h5>{{ $profil?->nama_sekolah ?? 'Web Sekolah' }}</h5>
+            <small>Panel Admin</small>
+        </div>
+    </div>
+
+    <nav>
+        {{-- MENU UTAMA --}}
+        <div class="menu-section">
+            <div class="menu-section-title">Menu Utama</div>
+            <ul class="nav flex-column">
+                <li class="nav-item">
+                    <a class="nav-link {{ request()->routeIs('dashboard') ? 'active' : '' }}"
+                       href="{{ route('dashboard') }}">
+                        <i class="bi bi-speedometer2"></i>
+                        <span>Dashboard</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link {{ request()->routeIs('profil.saya') ? 'active' : '' }}"
+                       href="{{ route('profil.saya') }}">
+                        <i class="bi bi-person-circle"></i>
+                        <span>Profil Saya</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{{ url('/') }}" target="_blank">
+                        <i class="bi bi-globe2"></i>
+                        <span>Lihat Website</span>
+                    </a>
+                </li>
+            </ul>
+        </div>
+
+        @if(Auth::user()->role === 'admin')
+        <div class="menu-section">
+            <div class="menu-section-title">Data Master</div>
+            <ul class="nav flex-column">
+                <li class="nav-item">
+                    <a class="nav-link {{ request()->routeIs('siswa.*') ? 'active' : '' }}"
+                       href="{{ route('siswa.index') }}">
+                        <i class="bi bi-people"></i>
+                        <span>Data Siswa</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link {{ request()->routeIs('guru.*') ? 'active' : '' }}"
+                       href="{{ route('guru.index') }}">
+                        <i class="bi bi-person-badge"></i>
+                        <span>Data Guru</span>
+                    </a>
+                </li>
+            </ul>
+        </div>
+        @endif
+
+        <div class="menu-section">
+            <div class="menu-section-title">Kegiatan & Prestasi</div>
+            <ul class="nav flex-column">
+                <li class="nav-item">
+                    <a class="nav-link {{ request()->routeIs('ekskul.*') ? 'active' : '' }}"
+                       href="{{ route('ekskul.index') }}">
+                        <i class="bi bi-trophy"></i>
+                        <span>Ekstrakurikuler</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link {{ request()->routeIs('prestasi.*') ? 'active' : '' }}"
+                       href="{{ route('prestasi.index') }}">
+                        <i class="bi bi-award"></i>
+                        <span>Prestasi</span>
+                    </a>
+                </li>
+            </ul>
+        </div>
+
+        <div class="menu-section">
+            <div class="menu-section-title">Konten</div>
+            <ul class="nav flex-column">
+                <li class="nav-item">
+                    <a class="nav-link {{ request()->routeIs('berita.*') ? 'active' : '' }}"
+                       href="{{ route('berita.index') }}">
+                        <i class="bi bi-newspaper"></i>
+                        <span>Berita</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link {{ request()->routeIs('pengumuman.*') ? 'active' : '' }}"
+                       href="{{ route('pengumuman.index') }}">
+                        <i class="bi bi-megaphone"></i>
+                        <span>Pengumuman</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link {{ request()->routeIs('galeri.*') ? 'active' : '' }}"
+                       href="{{ route('galeri.index') }}">
+                        <i class="bi bi-images"></i>
+                        <span>Galeri</span>
+                    </a>
+                </li>
+            </ul>
+        </div>
+
+        @if(Auth::user()->role === 'admin')
+        <div class="menu-section">
+            <div class="menu-section-title">Pengaturan</div>
+            <ul class="nav flex-column">
+                <li class="nav-item">
+                    <a class="nav-link {{ request()->routeIs('user.*') ? 'active' : '' }}"
+                       href="{{ route('user.index') }}">
+                        <i class="bi bi-people"></i>
+                        <span>Manajemen User</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link {{ request()->routeIs('profil.edit') ? 'active' : '' }}"
+                       href="{{ route('profil.edit') }}">
+                        <i class="bi bi-building"></i>
+                        <span>Profil Sekolah</span>
+                    </a>
+                </li>
+            </ul>
+        </div>
+        @endif
+    </nav>
+</aside>
