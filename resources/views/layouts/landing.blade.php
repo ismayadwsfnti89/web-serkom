@@ -8,10 +8,10 @@
 
     <link rel="icon" type="image/x-icon" href="{{ asset('favicon.ico') }}">
 
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.13.1/font/bootstrap-icons.css" rel="stylesheet">
+    <link href="{{ asset('css/bootstrap.min.css') }}" rel="stylesheet">
+    <link href="{{ asset('css/bootstrap-icons.css') }}" rel="stylesheet">
     <link href="{{ asset('css/warna-sekolah.css') }}" rel="stylesheet">
-    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+    <link href="{{ asset('css/aos.css') }}" rel="stylesheet">
 
     <style>
         body {
@@ -42,8 +42,6 @@
             position: relative;
             z-index: 2;
         }
-
-        /* ===== Navbar aktif ===== */
         .navbar-nav .nav-link {
             position: relative;
             transition: color 0.2s;
@@ -91,7 +89,6 @@
         .visi-misi-card .card-body {
             padding: 24px;
         }
-        /* ===== Hover Card ===== */
         .card {
             transition: transform 0.3s ease, box-shadow 0.3s ease;
         }
@@ -99,21 +96,18 @@
             transform: translateY(-6px);
             box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1) !important;
         }
-
         .card img {
             transition: transform 0.5s ease;
         }
         .card:hover img {
             transform: scale(1.05);
         }
-
         .badge {
             transition: transform 0.2s;
         }
         .badge:hover {
             transform: scale(1.05);
         }
-
         .btn {
             transition: all 0.3s ease;
         }
@@ -124,7 +118,6 @@
 </head>
 <body>
 
-{{-- ============ NAVBAR ============ --}}
 <nav class="navbar navbar-expand-lg navbar-light bg-white border-bottom sticky-top">
     <div class="container">
         <a class="navbar-brand d-flex align-items-center gap-2 fw-bold" href="{{ route('landing.index') }}">
@@ -145,21 +138,18 @@
         <div class="collapse navbar-collapse" id="navLanding">
             <ul class="navbar-nav ms-auto align-items-lg-center">
 
-                {{-- Beranda --}}
                 <li class="nav-item">
                     <a class="nav-link {{ request()->routeIs('landing.index') ? 'active' : '' }}"
                        href="{{ route('landing.index') }}">Beranda</a>
                 </li>
 
-                {{-- Profil --}}
                 <li class="nav-item">
                     <a class="nav-link {{ request()->routeIs('tampil.profil') ? 'active' : '' }}"
                        href="{{ route('tampil.profil') }}">Profil</a>
                 </li>
 
-                {{-- Dropdown: Data --}}
                 <li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle {{ request()->routeIs('tampil.guru', 'tampil.ekskul*') ? 'active' : '' }}"
+                    <a class="nav-link dropdown-toggle {{ request()->routeIs('tampil.guru', 'tampil.siswa', 'tampil.ekskul*') ? 'active' : '' }}"
                        href="#" role="button"
                        data-bs-toggle="dropdown" aria-expanded="false">
                         Data
@@ -169,7 +159,10 @@
                             <a class="dropdown-item {{ request()->routeIs('tampil.guru') ? 'active' : '' }}"
                                href="{{ route('tampil.guru') }}">Guru</a>
                         </li>
-                            <a class="dropdown-item" href="{{ route('tampil.siswa') }}">Siswa</a>
+                        <li>
+                            <a class="dropdown-item {{ request()->routeIs('tampil.siswa') ? 'active' : '' }}"
+                               href="{{ route('tampil.siswa') }}">Siswa</a>
+                        </li>
                         <li>
                             <a class="dropdown-item {{ request()->routeIs('tampil.ekskul*') ? 'active' : '' }}"
                                href="{{ route('tampil.ekskul') }}">Ekstrakurikuler</a>
@@ -177,7 +170,6 @@
                     </ul>
                 </li>
 
-                {{-- Dropdown: Informasi --}}
                 <li class="nav-item dropdown">
                     <a class="nav-link dropdown-toggle {{ request()->routeIs('tampil.berita*', 'tampil.prestasi*', 'tampil.pengumuman*') ? 'active' : '' }}"
                        href="#" role="button"
@@ -200,10 +192,14 @@
                     </ul>
                 </li>
 
-                {{-- Galeri --}}
                 <li class="nav-item">
                     <a class="nav-link {{ request()->routeIs('tampil.galeri*') ? 'active' : '' }}"
                        href="{{ route('tampil.galeri') }}">Galeri</a>
+                </li>
+
+                <li class="nav-item">
+                    <a class="nav-link {{ request()->routeIs('tampil.pencipta') ? 'active' : '' }}"
+                       href="{{ route('tampil.pencipta') }}">Profil Saya</a>
                 </li>
 
             </ul>
@@ -211,33 +207,12 @@
     </div>
 </nav>
 
-{{-- ============ KONTEN ============ --}}
 @yield('content')
 
-{{-- ============ FOOTER ============ --}}
 @include('layouts.footer')
 
-{{-- ============ BACK TO TOP ============ --}}
-<button class="btn btn-danger position-fixed bottom-0 end-0 m-3 d-none" id="backToTop">
-    <i class="bi bi-arrow-up"></i>
-</button>
-
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"></script>
-<script>
-    // ===== Back to top =====
-    const backToTop = document.getElementById('backToTop');
-    window.addEventListener('scroll', () => {
-        if (window.scrollY > 400) {
-            backToTop.classList.remove('d-none');
-        } else {
-            backToTop.classList.add('d-none');
-        }
-    });
-    backToTop.addEventListener('click', () => {
-        window.scrollTo({ top: 0, behavior: 'smooth' });
-    });
-</script>
-<script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+<script src="{{ asset('js/bootstrap.bundle.min.js') }}"></script>
+<script src="{{ asset('js/aos.js') }}"></script>
 <script>
     AOS.init({
         duration: 700,

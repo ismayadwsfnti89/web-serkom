@@ -118,5 +118,11 @@ class TampilController extends Controller
             'kepalaSekolah' => \App\Models\Guru::where('jabatan', 'Kepala Sekolah')->first(),
         ]);
     }
+    public function pencipta()
+    {
+        return view('tampil.pencipta', [
+            'profil' => $this->profil()
+        ]);
+    }
 
 }

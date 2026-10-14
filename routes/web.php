@@ -26,6 +26,7 @@ Route::prefix('public')->group(function () {
     Route::get('/profil', [TampilController::class, 'profilSekolah'])->name('tampil.profil');
     Route::get('/guru', [TampilController::class, 'guru'])->name('tampil.guru');
     Route::get('/siswa', [TampilController::class, 'siswa'])->name('tampil.siswa');
+    Route::get('/pencipta', [TampilController::class, 'pencipta'])->name('tampil.pencipta');
     Route::get('/berita', [TampilController::class, 'berita'])->name('tampil.berita');
     Route::get('/berita/{slug}', [TampilController::class, 'beritaDetail'])->name('tampil.berita.detail');
     Route::get('/galeri', [TampilController::class, 'galeri'])->name('tampil.galeri');
